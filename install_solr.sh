@@ -59,6 +59,7 @@ unzip $DIR/downloads/jts-$JTS_VERSION.zip "lib/jts-*.jar" "lib/jtsio-*.jar" -d $
 # Set permissions
 echo "Updating permissions..."
 chown -R $SOLR_USER $DIR/vendor
+chown -R $SOLR_USER $DIR/vufind/logs
 
 # Copy libs
 echo "Copying ICU libraries..."
