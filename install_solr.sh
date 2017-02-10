@@ -2,6 +2,7 @@
 
 DIR=`dirname $0`
 
+SOLR_USER=solr
 JTS_URL="https://kent.dl.sourceforge.net/project/jts-topo-suite/jts/1.14/jts-1.14.zip"
 JTS_VERSION="1.14"
 
@@ -54,6 +55,10 @@ tar xzf $DIR/downloads/solr-$REQUIRED_VERSION.tgz --strip-components=1 -C vendor
 # Extract JTS
 echo "Extracting JTS..."
 unzip $DIR/downloads/jts-$JTS_VERSION.zip "lib/jts-*.jar" "lib/jtsio-*.jar" -d $DIR/vendor/server/solr-webapp/webapp/WEB-INF
+
+# Set permissions
+echo "Updating permissions..."
+chown -R $SOLR_USER $DIR/vendor
 
 # Copy libs
 echo "Copying ICU libraries..."
