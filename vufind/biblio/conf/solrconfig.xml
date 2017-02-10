@@ -1,0 +1,1058 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+ Licensed to the Apache Software Foundation (ASF) under one or more
+ contributor license agreements.  See the NOTICE file distributed with
+ this work for additional information regarding copyright ownership.
+ The ASF licenses this file to You under the Apache License, Version 2.0
+ (the "License"); you may not use this file except in compliance with
+ the License.  You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<config>
+  <!-- Set this to 'false' if you want solr to continue working after it has
+       encountered an severe configuration error.  In a production environment,
+       you may want solr to keep working even if one handler is mis-configured.
+
+       You may also set this to false using by setting the system property:
+         -Dsolr.abortOnConfigurationError=false
+     -->
+  <abortOnConfigurationError>${solr.abortOnConfigurationError:false}</abortOnConfigurationError>
+
+  <!-- Controls what version of Lucene various components of Solr
+       adhere to.  Generally, you want to use the latest version to
+       get all bug fixes and improvements. It is highly recommended
+       that you fully re-index after changing this setting as it can
+       affect both how text is indexed and queried.
+    -->
+  <luceneMatchVersion>6.4.0</luceneMatchVersion>
+
+  <!-- Use the classic schema factory -->
+  <schemaFactory class="ClassicIndexSchemaFactory"/>
+
+  <!-- Used to specify an alternate directory to hold all index data
+       other than the default ./data under the Solr home.
+       If replication is in use, this should match the replication configuration. -->
+  <!-- <dataDir>${solr.core.instanceDir}</dataDir> -->
+
+  <indexConfig>
+    <!-- maxFieldLength was removed in 4.0. To get similar behavior, include a
+         LimitTokenCountFilterFactory in your fieldType definition. E.g.
+     <filter class="solr.LimitTokenCountFilterFactory" maxTokenCount="10000"/>
+    -->
+    <!-- Maximum time to wait for a write lock (ms) for an IndexWriter. Default: 1000 -->
+    <!-- <writeLockTimeout>1000</writeLockTimeout>  -->
+
+    <!-- Expert: Enabling compound file will use less files for the index,
+         using fewer file descriptors on the expense of performance decrease.
+         Default in Lucene is "true". Default in Solr is "false" (since 3.6) -->
+    <!-- <useCompoundFile>false</useCompoundFile> -->
+
+    <!-- ramBufferSizeMB sets the amount of RAM that may be used by Lucene
+         indexing for buffering added documents and deletions before they are
+         flushed to the Directory.
+         maxBufferedDocs sets a limit on the number of documents buffered
+         before flushing.
+         If both ramBufferSizeMB and maxBufferedDocs is set, then
+         Lucene will flush based on whichever limit is hit first.  -->
+    <ramBufferSizeMB>256</ramBufferSizeMB>
+    <!-- <maxBufferedDocs>1000</maxBufferedDocs> -->
+
+    <!-- Expert: Merge Policy
+         The Merge Policy in Lucene controls how merging of segments is done.
+         The default since Solr/Lucene 3.3 is TieredMergePolicy.
+         The default since Lucene 2.3 was the LogByteSizeMergePolicy,
+         Even older versions of Lucene used LogDocMergePolicy.
+      -->
+    <!--
+        <mergePolicy class="org.apache.lucene.index.TieredMergePolicy">
+          <int name="maxMergeAtOnce">10</int>
+          <int name="segmentsPerTier">10</int>
+        </mergePolicy>
+      -->
+
+    <!-- Merge Factor
+         The merge factor controls how many segments will get merged at a time.
+         For TieredMergePolicy, mergeFactor is a convenience parameter which
+         will set both MaxMergeAtOnce and SegmentsPerTier at once.
+         For LogByteSizeMergePolicy, mergeFactor decides how many new segments
+         will be allowed before they are merged into one.
+         Default is 10 for both merge policies.
+      -->
+    <!--
+    <mergeFactor>10</mergeFactor>
+      -->
+
+    <!-- Expert: Merge Scheduler
+         The Merge Scheduler in Lucene controls how merges are
+         performed.  The ConcurrentMergeScheduler (Lucene 2.3 default)
+         can perform merges in the background using separate threads.
+         The SerialMergeScheduler (Lucene 2.2 default) does not.
+     -->
+    <!--
+       <mergeScheduler class="org.apache.lucene.index.ConcurrentMergeScheduler"/>
+       -->
+
+    <!-- LockFactory
+
+         This option specifies which Lucene LockFactory implementation
+         to use.
+
+         single = SingleInstanceLockFactory - suggested for a
+                  read-only index or when there is no possibility of
+                  another process trying to modify the index.
+         native = NativeFSLockFactory - uses OS native file locking.
+                  Do not use when multiple solr webapps in the same
+                  JVM are attempting to share a single index.
+         simple = SimpleFSLockFactory  - uses a plain file for locking
+
+         Defaults: 'native' is default for Solr3.6 and later, otherwise
+                   'simple' is the default
+
+         More details on the nuances of each LockFactory...
+         http://wiki.apache.org/lucene-java/AvailableLockFactories
+    -->
+    <lockType>single</lockType>
+
+    <!-- Unlock On Startup
+
+         If true, unlock any held write or commit locks on startup.
+         This defeats the locking mechanism that allows multiple
+         processes to safely access a lucene index, and should be used
+         with care. Default is "false".
+
+         This is not needed if lock type is 'none' or 'single'
+     -->
+    <!--
+    <unlockOnStartup>false</unlockOnStartup>
+      -->
+
+    <!-- Expert: Controls how often Lucene loads terms into memory
+         Default is 128 and is likely good for most everyone.
+      -->
+    <!-- <termIndexInterval>128</termIndexInterval> -->
+
+    <!-- If true, IndexReaders will be reopened (often more efficient)
+         instead of closed and then opened. Default: true
+      -->
+    <!--
+    <reopenReaders>true</reopenReaders>
+      -->
+
+    <!-- Commit Deletion Policy
+
+         Custom deletion policies can be specified here. The class must
+         implement org.apache.lucene.index.IndexDeletionPolicy.
+
+         http://lucene.apache.org/java/3_5_0/api/core/org/apache/lucene/index/IndexDeletionPolicy.html
+
+         The default Solr IndexDeletionPolicy implementation supports
+         deleting index commit points on number of commits, age of
+         commit point and optimized status.
+
+         The latest commit point should always be preserved regardless
+         of the criteria.
+    -->
+    <!--
+    <deletionPolicy class="solr.SolrDeletionPolicy">
+    -->
+      <!-- The number of commit points to be kept -->
+      <!-- <str name="maxCommitsToKeep">1</str> -->
+      <!-- The number of optimized commit points to be kept -->
+      <!-- <str name="maxOptimizedCommitsToKeep">0</str> -->
+      <!--
+          Delete all commit points once they have reached the given age.
+          Supports DateMathParser syntax e.g.
+        -->
+      <!--
+         <str name="maxCommitAge">30MINUTES</str>
+         <str name="maxCommitAge">1DAY</str>
+      -->
+    <!--
+    </deletionPolicy>
+    -->
+
+    <!-- Lucene Infostream
+
+         To aid in advanced debugging, Lucene provides an "InfoStream"
+         of detailed information when indexing.
+
+         Setting The value to true will instruct the underlying Lucene
+         IndexWriter to write its debugging info the specified file
+      -->
+     <!-- <infoStream file="INFOSTREAM.txt">false</infoStream> -->
+  </indexConfig>
+
+  <!--	Enables JMX if and only if an existing MBeanServer is found, use
+  		this if you want to configure JMX through JVM parameters. Remove
+  		this to disable exposing Solr configuration and statistics to JMX.
+
+		If you want to connect to a particular server, specify the agentId
+		e.g. <jmx agentId="myAgent" />
+
+		If you want to start a new MBeanServer, specify the serviceUrl
+		e.g <jmx serviceurl="service:jmx:rmi:///jndi/rmi://localhost:9999/solr" />
+
+		For more details see http://wiki.apache.org/solr/SolrJmx
+  -->
+  <jmx />
+
+  <!-- the default high-performance update handler -->
+  <updateHandler class="solr.DirectUpdateHandler2">
+
+    <!-- A prefix of "solr." for class names is an alias that
+         causes solr to search appropriate packages, including
+         org.apache.solr.(search|update|request|core|analysis)
+     -->
+
+    <!-- AutoCommit
+
+         Perform a hard commit automatically under certain conditions.
+         Instead of enabling autoCommit, consider using "commitWithin"
+         when adding documents.
+
+         http://wiki.apache.org/solr/UpdateXmlMessages
+
+         maxDocs - Maximum number of documents to add since the last
+                   commit before automatically triggering a new commit.
+
+         maxTime - Maximum amount of time in ms that is allowed to pass
+                   since a document was added before automatically
+                   triggering a new commit.
+         openSearcher - if false, the commit causes recent index changes
+           to be flushed to stable storage, but does not cause a new
+           searcher to be opened to make those changes visible.
+
+         If the updateLog is enabled, then it's highly recommended to
+         have some sort of hard autoCommit to limit the log size.
+      -->
+    <autoCommit>
+      <maxTime>180000</maxTime>
+      <openSearcher>false</openSearcher>
+    </autoCommit>
+
+    <!-- softAutoCommit is like autoCommit except it causes a
+         'soft' commit which only ensures that changes are visible
+         but does not ensure that data is synced to disk.  This is
+         faster and more near-realtime friendly than a hard commit.
+      -->
+    <!--
+      <autoSoftCommit>
+        <maxTime>1000</maxTime>
+      </autoSoftCommit>
+     -->
+
+    <!-- Enables a transaction log, currently used for real-time get.
+         "dir" - the target directory for transaction logs, defaults to the
+         solr data directory.  -->
+    <updateLog>
+      <!-- <str name="dir">${solr.core.instanceDir}</str> -->
+      <str name="syncLevel">flush</str>
+      <str name="maxNumLogsToKeep">${solr.ulog.maxNumLogsToKeep:10}</str>
+      <str name="numRecordsToKeep">${solr.ulog.numRecordsToKeep:1000}</str>
+    </updateLog>
+
+    <!-- The RunExecutableListener executes an external command.
+         exe - the name of the executable to run
+         dir - dir to use as the current working directory. default="."
+         wait - the calling thread waits until the executable returns. default="true"
+         args - the arguments to pass to the program.  default=nothing
+         env - environment variables to set.  default=nothing
+      -->
+    <!-- A postCommit event is fired after every commit or optimize command
+    <listener event="postCommit" class="solr.RunExecutableListener">
+      <str name="exe">solr/bin/snapshooter</str>
+      <str name="dir">.</str>
+      <bool name="wait">true</bool>
+      <arr name="args"> <str>arg1</str> <str>arg2</str> </arr>
+      <arr name="env"> <str>MYVAR=val1</str> </arr>
+    </listener>
+    -->
+    <!-- A postOptimize event is fired only after every optimize command, useful
+         in conjunction with index distribution to only distribute optimized indicies
+    <listener event="postOptimize" class="solr.RunExecutableListener">
+      <str name="exe">snapshooter</str>
+      <str name="dir">solr/bin</str>
+      <bool name="wait">true</bool>
+    </listener>
+    -->
+  </updateHandler>
+
+
+  <query>
+    <!-- Maximum number of clauses in a boolean query... can affect
+        range or prefix queries that expand to big boolean
+        queries.  An exception is thrown if exceeded.  -->
+    <maxBooleanClauses>1024</maxBooleanClauses>
+
+
+    <!-- Cache used by SolrIndexSearcher for filters (DocSets),
+         unordered sets of *all* documents that match a query.
+         When a new searcher is opened, its caches may be prepopulated
+         or "autowarmed" using data from caches in the old searcher.
+         autowarmCount is the number of items to prepopulate.  For LRUCache,
+         the autowarmed items will be the most recently accessed items.
+       Parameters:
+         class - the SolrCache implementation (currently only LRUCache)
+         size - the maximum number of entries in the cache
+         initialSize - the initial capacity (number of entries) of
+           the cache.  (seel java.util.HashMap)
+         autowarmCount - the number of entries to prepopulate from
+           and old cache.
+         -->
+    <filterCache
+      class="solr.FastLRUCache"
+      size="1024"
+      initialSize="512"
+      autowarmCount="512"/>
+
+   <!-- queryResultCache caches results of searches - ordered lists of
+         document ids (DocList) based on a query, a sort, and the range
+         of documents requested.  -->
+    <queryResultCache
+      class="solr.LRUCache"
+      size="16384"
+      initialSize="4096"
+      autowarmCount="1000"/>
+
+    <fieldValueCache
+      class="solr.LRUCache"
+      size="1000"
+      initialSize="0"
+      autowarmCount="0"/>
+
+  <!-- documentCache caches Lucene Document objects (the stored fields for each document).
+       Since Lucene internal document ids are transient, this cache will not be autowarmed.  -->
+    <documentCache
+      class="solr.LRUCache"
+      size="16384"
+      initialSize="16384"
+      autowarmCount="0"/>
+
+    <!-- If true, stored fields that are not requested will be loaded lazily.
+
+    This can result in a significant speed improvement if the usual case is to
+    not load all stored fields, especially if the skipped fields are large compressed
+    text fields.
+    -->
+    <enableLazyFieldLoading>true</enableLazyFieldLoading>
+
+    <!-- Example of a generic cache.  These caches may be accessed by name
+         through SolrIndexSearcher.getCache(),cacheLookup(), and cacheInsert().
+         The purpose is to enable easy caching of user/application level data.
+         The regenerator argument should be specified as an implementation
+         of solr.search.CacheRegenerator if autowarming is desired.  -->
+    <!--
+    <cache name="myUserCache"
+      class="solr.LRUCache"
+      size="4096"
+      initialSize="1024"
+      autowarmCount="1024"
+      regenerator="org.mycompany.mypackage.MyRegenerator"
+      />
+    -->
+
+   <!-- An optimization that attempts to use a filter to satisfy a search.
+         If the requested sort does not include score, then the filterCache
+         will be checked for a filter matching the query. If found, the filter
+         will be used as the source of document ids, and then the sort will be
+         applied to that.
+    <useFilterForSortedQuery>true</useFilterForSortedQuery>
+   -->
+
+   <!-- An optimization for use with the queryResultCache.  When a search
+         is requested, a superset of the requested number of document ids
+         are collected.  For example, if a search for a particular query
+         requests matching documents 10 through 19, and queryWindowSize is 50,
+         then documents 0 through 49 will be collected and cached.  Any further
+         requests in that range can be satisfied via the cache.  -->
+    <queryResultWindowSize>50</queryResultWindowSize>
+
+    <!-- Maximum number of documents to cache for any entry in the
+         queryResultCache. -->
+    <queryResultMaxDocsCached>200</queryResultMaxDocsCached>
+
+    <!-- This entry enables an int hash representation for filters (DocSets)
+         when the number of items in the set is less than maxSize.  For smaller
+         sets, this representation is more memory efficient, more efficient to
+         iterate over, and faster to take intersections.  -->
+    <HashDocSet maxSize="3000" loadFactor="0.75"/>
+
+    <!-- a newSearcher event is fired whenever a new searcher is being prepared
+         and there is a current searcher handling requests (aka registered). -->
+    <!-- QuerySenderListener takes an array of NamedList and executes a
+         local query request for each NamedList in sequence. -->
+    <listener event="newSearcher" class="solr.QuerySenderListener">
+      <arr name="queries">
+        <lst>
+          <str name="q">*:*</str>
+          <str name="fq">-merged_child_boolean:true</str>
+          <str name="fq">-hidden_component_boolean:true</str>
+          <str name="fq">source_str_mv:("jykdok"+OR+"jyx"+OR+"janet"+OR+"helka"+OR+"kyyti"+OR+"oiva"+OR+"helmet"+OR+"MMA"+OR+"TMA"+OR+"OMA"+OR+"HMA"+OR+"VMA"+OR+"JoMA"+OR+"JyMA"+OR+"lusto"+OR+"metsastysmuseo"+OR+"muusa"+OR+"nurmes"+OR+"pielinen"+OR+"ilomantsi"+OR+"lapinmetsamuseo"+OR+"verla"+OR+"KA"+OR+"musketti"+OR+"designmuseo"+OR+"elektra_ah"+OR+"kansa_ah"+OR+"paivalehdenmuseo_ah"+OR+"ta_ah"+OR+"tm_ah"+OR+"werstas"+OR+"masto"+OR+"musketti_rautatie"+OR+"musketti_helina"+OR+"siirtolaisuusmuseo_ah"+OR+"yo-museo_ah"+OR+"leevi"+OR+"kultamuseo_ah"+OR+"hkm"+OR+"tyrni"+OR+"SLS"+OR+"siiri"+OR+"musketti_hrm"+OR+"musketti_tmk"+OR+"sa-kuva"+OR+"fsd"+OR+"hanna"+OR+"vanaicat"+OR+"plari"+OR+"vaski"+OR+"musketti_hevosenkenka"+OR+"fng_nyblin"+OR+"fng_simberg"+OR+"fng_styp"+OR+"kirjava"+OR+"alli"+OR+"mikkelikm"+OR+"muistaja_hyvinkaa"+OR+"muistaja_kerava"+OR+"muistaja_mantsala"+OR+"muistaja_nurmijarvi"+OR+"kaakkuri"+OR+"joel"+OR+"laurus"+OR+"fennica"+OR+"viola"+OR+"arto"+OR+"vaari"+OR+"oma"+OR+"sarka"+OR+"aura"+OR+"juolukka"+OR+"lauda"+OR+"metcat"+OR+"colibri"+OR+"musketti_kym"+OR+"musketti_lprmuseot"+OR+"josku"+OR+"ekm"+OR+"doria_taiy"+OR+"arsca"+OR+"haltia"+OR+"hurma"+OR+"ksm"+OR+"kajakki"+OR+"theseus_centria"+OR+"theseus_haagahelia"+OR+"theseus_hamk"+OR+"theseus_humak"+OR+"theseus_jamk"+OR+"theseus_kamk"+OR+"theseus_karelia"+OR+"theseus_kyamk"+OR+"theseus_lapinamk"+OR+"theseus_laurea"+OR+"theseus_mamk"+OR+"theseus_metropolia"+OR+"theseus_oamk"+OR+"theseus_phkk"+OR+"theseus_samk"+OR+"theseus_seamk"+OR+"theseus_tamk"+OR+"theseus_tuamk"+OR+"albumitauki"+OR+"jultika"+OR+"oula"+OR+"alma"+OR+"spegeln-bildsamlingarna"+OR+"spegeln-cultura"+OR+"spegeln-konstvetenskap"+OR+"spegeln-sibeliusmuseet")</str>
+          <str name="start">0</str>
+          <str name="rows">20</str>
+          <str name="sort">score desc</str>
+          <str name="facet">true</str>
+          <str name="facet.mincount">1</str>
+          <str name="facet.limit">30</str>
+          <str name="facet.field">building</str>
+          <str name="facet.field">collection</str>
+          <str name="facet.field">format</str>
+          <str name="facet.field">main_date_str</str>
+          <str name="facet.field">topic_facet</str>
+          <str name="facet.field">author_facet</str>
+          <str name="facet.field">language</str>
+          <str name="facet.field">genre_facet</str>
+          <str name="facet.field">era_facet</str>
+          <str name="facet.field">geographic_facet</str>
+          <str name="facet.field">hierarchy_parent_title</str>
+          <str name="facet.field">first_indexed</str>
+          <str name="facet.field">search_daterange_mv</str>
+          <str name="facet.field">sector_str_mv</str>
+          <str name="facet.field">category_str_mv</str>
+          <str name="facet.field">original_lng_str_mv</str>
+          <str name="facet.field">subtitle_lng_str_mv</str>
+          <str name="facet.field">usage_rights_str_mv</str>
+          <str name="facet.field">major_genre_str_mv</str>
+        </lst>
+        <lst>
+          <str name="q">tutki ja kirjoita</str>
+          <str name="fq">-merged_child_boolean:true</str>
+          <str name="fq">-hidden_component_boolean:true</str>
+          <str name="fq">source_str_mv:("jykdok"+OR+"jyx"+OR+"janet"+OR+"helka"+OR+"kyyti"+OR+"oiva"+OR+"helmet"+OR+"MMA"+OR+"TMA"+OR+"OMA"+OR+"HMA"+OR+"VMA"+OR+"JoMA"+OR+"JyMA"+OR+"lusto"+OR+"metsastysmuseo"+OR+"muusa"+OR+"nurmes"+OR+"pielinen"+OR+"ilomantsi"+OR+"lapinmetsamuseo"+OR+"verla"+OR+"KA"+OR+"musketti"+OR+"designmuseo"+OR+"elektra_ah"+OR+"kansa_ah"+OR+"paivalehdenmuseo_ah"+OR+"ta_ah"+OR+"tm_ah"+OR+"werstas"+OR+"masto"+OR+"musketti_rautatie"+OR+"musketti_helina"+OR+"siirtolaisuusmuseo_ah"+OR+"yo-museo_ah"+OR+"leevi"+OR+"kultamuseo_ah"+OR+"hkm"+OR+"tyrni"+OR+"SLS"+OR+"siiri"+OR+"musketti_hrm"+OR+"musketti_tmk"+OR+"sa-kuva"+OR+"fsd"+OR+"hanna"+OR+"vanaicat"+OR+"plari"+OR+"vaski"+OR+"musketti_hevosenkenka"+OR+"fng_nyblin"+OR+"fng_simberg"+OR+"fng_styp"+OR+"kirjava"+OR+"alli"+OR+"mikkelikm"+OR+"muistaja_hyvinkaa"+OR+"muistaja_kerava"+OR+"muistaja_mantsala"+OR+"muistaja_nurmijarvi"+OR+"kaakkuri"+OR+"joel"+OR+"laurus"+OR+"fennica"+OR+"viola"+OR+"arto"+OR+"vaari"+OR+"oma"+OR+"sarka"+OR+"aura"+OR+"juolukka"+OR+"lauda"+OR+"metcat"+OR+"colibri"+OR+"musketti_kym"+OR+"musketti_lprmuseot"+OR+"josku"+OR+"ekm"+OR+"doria_taiy"+OR+"arsca"+OR+"haltia"+OR+"hurma"+OR+"ksm"+OR+"kajakki"+OR+"theseus_centria"+OR+"theseus_haagahelia"+OR+"theseus_hamk"+OR+"theseus_humak"+OR+"theseus_jamk"+OR+"theseus_kamk"+OR+"theseus_karelia"+OR+"theseus_kyamk"+OR+"theseus_lapinamk"+OR+"theseus_laurea"+OR+"theseus_mamk"+OR+"theseus_metropolia"+OR+"theseus_oamk"+OR+"theseus_phkk"+OR+"theseus_samk"+OR+"theseus_seamk"+OR+"theseus_tamk"+OR+"theseus_tuamk"+OR+"albumitauki"+OR+"jultika"+OR+"oula"+OR+"alma"+OR+"spegeln-bildsamlingarna"+OR+"spegeln-cultura"+OR+"spegeln-konstvetenskap"+OR+"spegeln-sibeliusmuseet")</str>
+          <str name="start">0</str>
+          <str name="rows">20</str>
+          <str name="sort">score desc</str>
+          <str name="facet">true</str>
+          <str name="facet.mincount">1</str>
+          <str name="facet.limit">30</str>
+          <str name="facet.field">building</str>
+          <str name="facet.field">collection</str>
+          <str name="facet.field">format</str>
+          <str name="facet.field">main_date_str</str>
+          <str name="facet.field">topic_facet</str>
+          <str name="facet.field">author_facet</str>
+          <str name="facet.field">language</str>
+          <str name="facet.field">genre_facet</str>
+          <str name="facet.field">era_facet</str>
+          <str name="facet.field">geographic_facet</str>
+          <str name="facet.field">hierarchy_parent_title</str>
+          <str name="facet.field">first_indexed</str>
+          <str name="facet.field">search_daterange_mv</str>
+          <str name="facet.field">sector_str_mv</str>
+          <str name="facet.field">category_str_mv</str>
+          <str name="facet.field">original_lng_str_mv</str>
+          <str name="facet.field">subtitle_lng_str_mv</str>
+          <str name="facet.field">usage_rights_str_mv</str>
+          <str name="facet.field">major_genre_str_mv</str>
+        </lst>
+      </arr>
+    </listener>
+
+    <!-- a firstSearcher event is fired whenever a new searcher is being
+         prepared but there is no current registered searcher to handle
+         requests or to gain autowarming data from. -->
+    <listener event="firstSearcher" class="solr.QuerySenderListener">
+      <arr name="queries">
+        <lst>
+          <str name="q">*:*</str>
+          <str name="fq">-merged_child_boolean:true</str>
+          <str name="fq">-hidden_component_boolean:true</str>
+          <str name="fq">source_str_mv:("jykdok"+OR+"jyx"+OR+"janet"+OR+"helka"+OR+"kyyti"+OR+"oiva"+OR+"helmet"+OR+"MMA"+OR+"TMA"+OR+"OMA"+OR+"HMA"+OR+"VMA"+OR+"JoMA"+OR+"JyMA"+OR+"lusto"+OR+"metsastysmuseo"+OR+"muusa"+OR+"nurmes"+OR+"pielinen"+OR+"ilomantsi"+OR+"lapinmetsamuseo"+OR+"verla"+OR+"KA"+OR+"musketti"+OR+"designmuseo"+OR+"elektra_ah"+OR+"kansa_ah"+OR+"paivalehdenmuseo_ah"+OR+"ta_ah"+OR+"tm_ah"+OR+"werstas"+OR+"masto"+OR+"musketti_rautatie"+OR+"musketti_helina"+OR+"siirtolaisuusmuseo_ah"+OR+"yo-museo_ah"+OR+"leevi"+OR+"kultamuseo_ah"+OR+"hkm"+OR+"tyrni"+OR+"SLS"+OR+"siiri"+OR+"musketti_hrm"+OR+"musketti_tmk"+OR+"sa-kuva"+OR+"fsd"+OR+"hanna"+OR+"vanaicat"+OR+"plari"+OR+"vaski"+OR+"musketti_hevosenkenka"+OR+"fng_nyblin"+OR+"fng_simberg"+OR+"fng_styp"+OR+"kirjava"+OR+"alli"+OR+"mikkelikm"+OR+"muistaja_hyvinkaa"+OR+"muistaja_kerava"+OR+"muistaja_mantsala"+OR+"muistaja_nurmijarvi"+OR+"kaakkuri"+OR+"joel"+OR+"laurus"+OR+"fennica"+OR+"viola"+OR+"arto"+OR+"vaari"+OR+"oma"+OR+"sarka"+OR+"aura"+OR+"juolukka"+OR+"lauda"+OR+"metcat"+OR+"colibri"+OR+"musketti_kym"+OR+"musketti_lprmuseot"+OR+"josku"+OR+"ekm"+OR+"doria_taiy"+OR+"arsca"+OR+"haltia"+OR+"hurma"+OR+"ksm"+OR+"kajakki"+OR+"theseus_centria"+OR+"theseus_haagahelia"+OR+"theseus_hamk"+OR+"theseus_humak"+OR+"theseus_jamk"+OR+"theseus_kamk"+OR+"theseus_karelia"+OR+"theseus_kyamk"+OR+"theseus_lapinamk"+OR+"theseus_laurea"+OR+"theseus_mamk"+OR+"theseus_metropolia"+OR+"theseus_oamk"+OR+"theseus_phkk"+OR+"theseus_samk"+OR+"theseus_seamk"+OR+"theseus_tamk"+OR+"theseus_tuamk"+OR+"albumitauki"+OR+"jultika"+OR+"oula"+OR+"alma"+OR+"spegeln-bildsamlingarna"+OR+"spegeln-cultura"+OR+"spegeln-konstvetenskap"+OR+"spegeln-sibeliusmuseet")</str>
+          <str name="start">0</str>
+          <str name="rows">20</str>
+          <str name="sort">score desc</str>
+          <str name="facet">true</str>
+          <str name="facet.mincount">1</str>
+          <str name="facet.limit">30</str>
+          <str name="facet.field">building</str>
+          <str name="facet.field">collection</str>
+          <str name="facet.field">format</str>
+          <str name="facet.field">main_date_str</str>
+          <str name="facet.field">topic_facet</str>
+          <str name="facet.field">author_facet</str>
+          <str name="facet.field">language</str>
+          <str name="facet.field">genre_facet</str>
+          <str name="facet.field">era_facet</str>
+          <str name="facet.field">geographic_facet</str>
+          <str name="facet.field">hierarchy_parent_title</str>
+          <str name="facet.field">first_indexed</str>
+          <str name="facet.field">search_daterange_mv</str>
+          <str name="facet.field">sector_str_mv</str>
+          <str name="facet.field">category_str_mv</str>
+          <str name="facet.field">original_lng_str_mv</str>
+          <str name="facet.field">subtitle_lng_str_mv</str>
+          <str name="facet.field">usage_rights_str_mv</str>
+          <str name="facet.field">major_genre_str_mv</str>
+        </lst>
+        <lst>
+          <str name="q">tutki ja kirjoita</str>
+          <str name="fq">-merged_child_boolean:true</str>
+          <str name="fq">-hidden_component_boolean:true</str>
+          <str name="fq">source_str_mv:("jykdok"+OR+"jyx"+OR+"janet"+OR+"helka"+OR+"kyyti"+OR+"oiva"+OR+"helmet"+OR+"MMA"+OR+"TMA"+OR+"OMA"+OR+"HMA"+OR+"VMA"+OR+"JoMA"+OR+"JyMA"+OR+"lusto"+OR+"metsastysmuseo"+OR+"muusa"+OR+"nurmes"+OR+"pielinen"+OR+"ilomantsi"+OR+"lapinmetsamuseo"+OR+"verla"+OR+"KA"+OR+"musketti"+OR+"designmuseo"+OR+"elektra_ah"+OR+"kansa_ah"+OR+"paivalehdenmuseo_ah"+OR+"ta_ah"+OR+"tm_ah"+OR+"werstas"+OR+"masto"+OR+"musketti_rautatie"+OR+"musketti_helina"+OR+"siirtolaisuusmuseo_ah"+OR+"yo-museo_ah"+OR+"leevi"+OR+"kultamuseo_ah"+OR+"hkm"+OR+"tyrni"+OR+"SLS"+OR+"siiri"+OR+"musketti_hrm"+OR+"musketti_tmk"+OR+"sa-kuva"+OR+"fsd"+OR+"hanna"+OR+"vanaicat"+OR+"plari"+OR+"vaski"+OR+"musketti_hevosenkenka"+OR+"fng_nyblin"+OR+"fng_simberg"+OR+"fng_styp"+OR+"kirjava"+OR+"alli"+OR+"mikkelikm"+OR+"muistaja_hyvinkaa"+OR+"muistaja_kerava"+OR+"muistaja_mantsala"+OR+"muistaja_nurmijarvi"+OR+"kaakkuri"+OR+"joel"+OR+"laurus"+OR+"fennica"+OR+"viola"+OR+"arto"+OR+"vaari"+OR+"oma"+OR+"sarka"+OR+"aura"+OR+"juolukka"+OR+"lauda"+OR+"metcat"+OR+"colibri"+OR+"musketti_kym"+OR+"musketti_lprmuseot"+OR+"josku"+OR+"ekm"+OR+"doria_taiy"+OR+"arsca"+OR+"haltia"+OR+"hurma"+OR+"ksm"+OR+"kajakki"+OR+"theseus_centria"+OR+"theseus_haagahelia"+OR+"theseus_hamk"+OR+"theseus_humak"+OR+"theseus_jamk"+OR+"theseus_kamk"+OR+"theseus_karelia"+OR+"theseus_kyamk"+OR+"theseus_lapinamk"+OR+"theseus_laurea"+OR+"theseus_mamk"+OR+"theseus_metropolia"+OR+"theseus_oamk"+OR+"theseus_phkk"+OR+"theseus_samk"+OR+"theseus_seamk"+OR+"theseus_tamk"+OR+"theseus_tuamk"+OR+"albumitauki"+OR+"jultika"+OR+"oula"+OR+"alma"+OR+"spegeln-bildsamlingarna"+OR+"spegeln-cultura"+OR+"spegeln-konstvetenskap"+OR+"spegeln-sibeliusmuseet")</str>
+          <str name="start">0</str>
+          <str name="rows">20</str>
+          <str name="sort">score desc</str>
+          <str name="facet">true</str>
+          <str name="facet.mincount">1</str>
+          <str name="facet.limit">30</str>
+          <str name="facet.field">building</str>
+          <str name="facet.field">collection</str>
+          <str name="facet.field">format</str>
+          <str name="facet.field">main_date_str</str>
+          <str name="facet.field">topic_facet</str>
+          <str name="facet.field">author_facet</str>
+          <str name="facet.field">language</str>
+          <str name="facet.field">genre_facet</str>
+          <str name="facet.field">era_facet</str>
+          <str name="facet.field">geographic_facet</str>
+          <str name="facet.field">hierarchy_parent_title</str>
+          <str name="facet.field">first_indexed</str>
+          <str name="facet.field">search_daterange_mv</str>
+          <str name="facet.field">sector_str_mv</str>
+          <str name="facet.field">category_str_mv</str>
+          <str name="facet.field">original_lng_str_mv</str>
+          <str name="facet.field">subtitle_lng_str_mv</str>
+          <str name="facet.field">usage_rights_str_mv</str>
+          <str name="facet.field">major_genre_str_mv</str>
+        </lst>
+      </arr>
+    </listener>
+
+    <!-- If a search request comes in and there is no current registered searcher,
+         then immediately register the still warming searcher and use it.  If
+         "false" then all requests will block until the first searcher is done
+         warming. -->
+    <useColdSearcher>false</useColdSearcher>
+
+    <!-- Maximum number of searchers that may be warming in the background
+      concurrently.  An error is returned if this limit is exceeded. Recommend
+      1-2 for read-only slaves, higher for masters w/o cache warming. -->
+    <maxWarmingSearchers>2</maxWarmingSearchers>
+
+  </query>
+
+  <requestHandler name="/get" class="solr.RealTimeGetHandler">
+    <lst name="defaults">
+      <str name="omitHeader">true</str>
+    </lst>
+  </requestHandler>
+
+  <requestHandler name="/replication" class="solr.ReplicationHandler" startup="lazy" />
+
+  <!--
+    Let the dispatch filter handler /select?qt=XXX
+    handleSelect=true will use consistent error handling for /select and /update
+    handleSelect=false will use solr1.1 style error formatting
+    -->
+  <requestDispatcher handleSelect="true" >
+    <!--Make sure your system has some authentication before enabling remote streaming!  -->
+    <requestParsers enableRemoteStreaming="false" multipartUploadLimitInKB="2048000" />
+
+    <!-- Set HTTP caching related parameters (for proxy caches and clients).
+
+         To get the behaviour of Solr 1.2 (ie: no caching related headers)
+         use the never304="true" option and do not specify a value for
+         <cacheControl>
+    -->
+    <!-- <httpCaching never304="true"> -->
+    <httpCaching lastModifiedFrom="openTime"
+                 etagSeed="Solr">
+       <!-- lastModFrom="openTime" is the default, the Last-Modified value
+            (and validation against If-Modified-Since requests) will all be
+            relative to when the current Searcher was opened.
+            You can change it to lastModFrom="dirLastMod" if you want the
+            value to exactly corrispond to when the physical index was last
+            modified.
+
+            etagSeed="..." is an option you can change to force the ETag
+            header (and validation against If-None-Match requests) to be
+            differnet even if the index has not changed (ie: when making
+            significant changes to your config file)
+
+            lastModifiedFrom and etagSeed are both ignored if you use the
+            never304="true" option.
+       -->
+       <!-- If you include a <cacheControl> directive, it will be used to
+            generate a Cache-Control header, as well as an Expires header
+            if the value contains "max-age="
+
+            By default, no Cache-Control header is generated.
+
+            You can use the <cacheControl> option even if you have set
+            never304="true"
+       -->
+       <!-- <cacheControl>max-age=30, public</cacheControl> -->
+    </httpCaching>
+  </requestDispatcher>
+
+
+  <!-- requestHandler plugins... incoming queries will be dispatched to the
+     correct handler based on the path or the qt (query type) param.
+     Names starting with a '/' are accessed with the a path equal to the
+     registered name.  Names without a leading '/' are accessed with:
+      http://host/app/select?qt=name
+     If no qt is defined, the requestHandler that declares default="true"
+     will be used.
+  -->
+  <requestHandler name="standard" class="solr.StandardRequestHandler" default="true">
+    <!-- default values for query parameters -->
+    <lst name="defaults">
+      <str name="echoParams">explicit</str>
+      <str name="spellcheck.extendedResults">true</str>
+      <str name="spellcheck.onlyMorePopular">true</str>
+      <str name="spellcheck.count">20</str>
+      <str name="spellcheck.collate">true</str>
+      <str name="spellcheck.maxCollations">10</str>
+      <str name="spellcheck.maxCollationTries">10</str>
+      <str name="spellcheck.collateParam.mm">100%</str>
+      <str name="spellcheck.collateExtendedResults">false</str>
+      <int name="hl.maxAnalyzedChars">-1</int>
+      <int name="hl.maxMultiValuedToExamine">100</int>
+      <bool name="preferLocalShards">true</bool>
+      <int name="timeAllowed">60000</int>
+      <str name="df">allfields</str>
+      <str name="q.op">AND</str>
+      <str name="mlt.fl">title,title_short,callnumber-label,topic,language,author,publishDate</str>
+      <str name="mlt.qf">
+        title^75
+        title_short^100
+        callnumber-label^400
+        topic^300
+        language^30
+        author^75
+        publishDate
+      </str>
+      <int name="mlt.mintf">1</int>
+      <int name="mlt.mindf">1</int>
+      <str name="mlt.boost">true</str>
+      <int name="mlt.count">5</int>
+    </lst>
+    <arr name="last-components">
+      <str>spellcheck</str>
+    </arr>
+  </requestHandler>
+
+  <!-- A request handler that returns indented JSON by default -->
+  <requestHandler name="/query" class="solr.SearchHandler">
+    <lst name="defaults">
+      <str name="echoParams">explicit</str>
+      <str name="wt">json</str>
+      <str name="indent">true</str>
+      <str name="spellcheck.extendedResults">true</str>
+      <str name="spellcheck.onlyMorePopular">true</str>
+      <str name="spellcheck.count">20</str>
+      <str name="spellcheck.collate">true</str>
+      <str name="spellcheck.maxCollations">10</str>
+      <str name="spellcheck.maxCollationTries">10</str>
+      <str name="spellcheck.collateParam.mm">100%</str>
+      <str name="spellcheck.collateExtendedResults">false</str>
+      <int name="hl.maxAnalyzedChars">-1</int>
+      <int name="hl.maxMultiValuedToExamine">100</int>
+      <bool name="preferLocalShards">true</bool>
+      <int name="timeAllowed">60000</int>
+      <str name="df">allfields</str>
+      <str name="q.op">AND</str>
+      <str name="mlt.fl">title,title_short,callnumber-label,topic,language,author,publishDate</str>
+      <str name="mlt.qf">
+        title^75
+        title_short^100
+        callnumber-label^400
+        topic^300
+        language^30
+        author^75
+        publishDate
+      </str>
+      <int name="mlt.mintf">1</int>
+      <int name="mlt.mindf">1</int>
+      <str name="mlt.boost">true</str>
+      <int name="mlt.count">5</int>
+    </lst>
+    <arr name="last-components">
+      <str>spellcheck</str>
+    </arr>
+  </requestHandler>
+  <!-- the following two handlers will be used for eligible dismax searches defined
+     in searchspecs.yaml. The edismax handler will be used most of the time, unless
+     a specific configuration tells VuFind to use traditional dismax instead. You
+     can use these handler definitions to set global Dismax settings (e.g. mm / bf).
+     If you need different settings for different types of searches (e.g. Title vs.
+     Author), you can also configure individual settings in the searchspecs.yaml
+     file.
+  -->
+  <requestHandler name="dismax" class="solr.SearchHandler">
+    <lst name="defaults">
+      <str name="defType">dismax</str>
+      <str name="echoParams">explicit</str>
+      <str name="spellcheck.extendedResults">true</str>
+      <str name="spellcheck.onlyMorePopular">true</str>
+      <str name="spellcheck.count">20</str>
+      <str name="spellcheck.collate">true</str>
+      <str name="spellcheck.maxCollations">10</str>
+      <str name="spellcheck.maxCollationTries">10</str>
+      <str name="spellcheck.collateParam.mm">100%</str>
+      <str name="spellcheck.collateExtendedResults">false</str>
+      <int name="hl.maxAnalyzedChars">-1</int>
+      <int name="hl.maxMultiValuedToExamine">100</int>
+      <bool name="preferLocalShards">true</bool>
+      <int name="timeAllowed">60000</int>
+      <str name="df">allfields</str>
+      <str name="q.op">AND</str>
+    </lst>
+    <arr name="last-components">
+      <str>spellcheck</str>
+    </arr>
+  </requestHandler>
+
+  <requestHandler name="edismax" class="solr.SearchHandler">
+    <lst name="defaults">
+      <str name="defType">edismax</str>
+      <!-- str name="fl">a*,b*,c*,d*,e*,first_indexed,format,fullrecord,g*,h*,i*,l*,o*,p*,r*,s*,t*,u*,*_date*,*_isn*,*_str*,*_txt*</str -->
+      <str name="echoParams">explicit</str>
+      <str name="spellcheck.extendedResults">true</str>
+      <str name="spellcheck.onlyMorePopular">true</str>
+      <str name="spellcheck.count">20</str>
+      <str name="spellcheck.collate">true</str>
+      <str name="spellcheck.maxCollations">10</str>
+      <str name="spellcheck.maxCollationTries">10</str>
+      <str name="spellcheck.collateParam.mm">100%</str>
+      <str name="spellcheck.collateExtendedResults">false</str>
+      <int name="hl.maxAnalyzedChars">-1</int>
+      <int name="hl.maxMultiValuedToExamine">100</int>
+      <bool name="preferLocalShards">true</bool>
+      <int name="timeAllowed">60000</int>
+      <str name="lowercaseOperators">false</str>
+      <str name="df">allfields</str>
+      <str name="q.op">AND</str>
+    </lst>
+    <arr name="last-components">
+      <str>spellcheck</str>
+    </arr>
+  </requestHandler>
+
+  <requestHandler name="morelikethis" class="solr.MoreLikeThisHandler">
+    <lst name="defaults">
+      <str name="mlt.fl">title,title_short,callnumber-label,topic,language,author,publishDate</str>
+      <str name="mlt.qf">
+        title^75
+        title_short^100
+        callnumber-label^400
+        topic^300
+        language^30
+        author^75
+        publishDate
+      </str>
+      <int name="mlt.mintf">1</int>
+      <int name="mlt.mindf">1</int>
+      <str name="mlt.boost">true</str>
+      <int name="mlt.count">5</int>
+      <int name="rows">5</int>
+    </lst>
+  </requestHandler>
+
+  <searchComponent name="spellcheck" class="solr.SpellCheckComponent">
+    <lst name="spellchecker">
+      <str name="name">basicSpell</str>
+      <str name="field">spelling</str>
+      <str name="queryAnalyzerFieldType">textSpell</str>
+      <str name="classname">solr.DirectSolrSpellChecker</str>
+      <str name="distanceMeasure">internal</str>
+      <float name="accuracy">0.7</float>
+      <int name="maxEdits">2</int>
+      <int name="minPrefix">1</int>
+      <int name="maxInspections">5</int>
+      <int name="minQueryLength">4</int>
+      <float name="maxQueryFrequency">0.01</float>
+      <float name="thresholdTokenFrequency">.0001</float>
+    </lst>
+    <lst name="spellchecker">
+      <str name="name">default</str>
+      <str name="field">spelling</str>
+      <str name="accuracy">0.75</str>
+      <str name="spellcheckIndexDir">./spellchecker</str>
+      <str name="queryAnalyzerFieldType">textSpell</str>
+      <str name="buildOnOptimize">false</str>
+    </lst>
+  </searchComponent>
+
+  <queryConverter name="queryConverter" class="org.apache.solr.spelling.SpellingQueryConverter"/>
+
+  <!-- Search component for extracting terms (useful for sitemap generation) -->
+  <searchComponent name="term" class="org.apache.solr.handler.component.TermsComponent">
+  </searchComponent>
+
+  <!--
+
+   Search components are registered to SolrCore and used by Search Handlers
+
+   By default, the following components are avaliable:
+
+   <searchComponent name="query"     class="org.apache.solr.handler.component.QueryComponent" />
+   <searchComponent name="facet"     class="org.apache.solr.handler.component.FacetComponent" />
+   <searchComponent name="mlt"       class="org.apache.solr.handler.component.MoreLikeThisComponent" />
+   <searchComponent name="highlight" class="org.apache.solr.handler.component.HighlightComponent" />
+   <searchComponent name="stats"     class="org.apache.solr.handler.component.StatsComponent" />
+   <searchComponent name="debug"     class="org.apache.solr.handler.component.DebugComponent" />
+
+   If you register a searchComponent to one of the standard names, that will be used instead.
+
+   -->
+
+  <requestHandler name="/search" class="org.apache.solr.handler.component.SearchHandler">
+    <lst name="defaults">
+      <str name="echoParams">explicit</str>
+    </lst>
+    <!--
+    By default, this will register the following components:
+
+    <arr name="components">
+      <str>query</str>
+      <str>facet</str>
+      <str>mlt</str>
+      <str>highlight</str>
+      <str>debug</str>
+    </arr>
+
+    To insert handlers before or after the 'standard' components, use:
+
+    <arr name="first-components">
+      <str>first</str>
+    </arr>
+
+    <arr name="last-components">
+      <str>last</str>
+    </arr>
+
+    -->
+    <arr name="last-components">
+      <str>spellcheck</str>
+      <str>elevator</str>
+    </arr>
+  </requestHandler>
+
+  <!-- Request handler to extract terms (useful for sitemap generation) -->
+  <requestHandler name="/term" class="org.apache.solr.handler.component.SearchHandler">
+    <arr name="components">
+      <str>term</str>
+    </arr>
+  </requestHandler>
+
+  <searchComponent name="elevator" class="org.apache.solr.handler.component.QueryElevationComponent" >
+    <!-- pick a fieldType to analyze queries -->
+    <str name="queryFieldType">string</str>
+    <str name="config-file">elevate.xml</str>
+  </searchComponent>
+
+  <requestHandler name="/elevate" class="org.apache.solr.handler.component.SearchHandler" startup="lazy">
+    <lst name="defaults">
+      <str name="echoParams">explicit</str>
+    </lst>
+    <arr name="last-components">
+      <str>elevator</str>
+    </arr>
+  </requestHandler>
+
+  <!-- Update Request Handler.
+
+       http://wiki.apache.org/solr/UpdateXmlMessages
+
+       The canonical Request Handler for Modifying the Index through
+       commands specified using XML, JSON, CSV, or JAVABIN
+
+       Note: Since solr1.1 requestHandlers requires a valid content
+       type header if posted in the body. For example, curl now
+       requires: -H 'Content-type:text/xml; charset=utf-8'
+
+       To override the request content type and force a specific
+       Content-type, use the request parameter:
+         ?update.contentType=text/csv
+
+       This handler will pick a response format to match the input
+       if the 'wt' parameter is not explicit
+    -->
+  <requestHandler name="/update" class="solr.UpdateRequestHandler">
+    <!-- See below for information on defining
+         updateRequestProcessorChains that can be used by name
+         on each Update Request
+      -->
+    <!--
+       <lst name="defaults">
+         <str name="update.chain">dedupe</str>
+       </lst>
+       -->
+  </requestHandler>
+
+  <!-- Field Analysis Request Handler
+
+       RequestHandler that provides much the same functionality as
+       analysis.jsp. Provides the ability to specify multiple field
+       types and field names in the same request and outputs
+       index-time and query-time analysis for each of them.
+
+       Request parameters are:
+       analysis.fieldname - field name whose analyzers are to be used
+
+       analysis.fieldtype - field type whose analyzers are to be used
+       analysis.fieldvalue - text for index-time analysis
+       q (or analysis.q) - text for query time analysis
+       analysis.showmatch (true|false) - When set to true and when
+           query analysis is performed, the produced tokens of the
+           field value analysis will be marked as "matched" for every
+           token that is produces by the query analysis
+   -->
+  <requestHandler name="/analysis/field"
+                  startup="lazy"
+                  class="solr.FieldAnalysisRequestHandler" />
+
+
+  <!-- Document Analysis Handler
+
+       http://wiki.apache.org/solr/AnalysisRequestHandler
+
+       An analysis handler that provides a breakdown of the analysis
+       process of provided documents. This handler expects a (single)
+       content stream with the following format:
+
+       <docs>
+         <doc>
+           <field name="id">1</field>
+           <field name="name">The Name</field>
+           <field name="text">The Text Value</field>
+         </doc>
+         <doc>...</doc>
+         <doc>...</doc>
+         ...
+       </docs>
+
+    Note: Each document must contain a field which serves as the
+    unique key. This key is used in the returned response to associate
+    an analysis breakdown to the analyzed document.
+
+    Like the FieldAnalysisRequestHandler, this handler also supports
+    query analysis by sending either an "analysis.query" or "q"
+    request parameter that holds the query text to be analyzed. It
+    also supports the "analysis.showmatch" parameter which when set to
+    true, all field tokens that match the query tokens will be marked
+    as a "match".
+  -->
+  <requestHandler name="/analysis/document"
+                  class="solr.DocumentAnalysisRequestHandler"
+                  startup="lazy" />
+
+  <!-- If you wish to hide files under ${solr.home}/conf, explicitly
+       register the ShowFileRequestHandler using:
+    -->
+  <!--
+     <requestHandler name="/admin/file"
+                     class="solr.admin.ShowFileRequestHandler" >
+       <lst name="invariants">
+         <str name="hidden">synonyms.txt</str>
+         <str name="hidden">anotherfile.txt</str>
+       </lst>
+     </requestHandler>
+    -->
+
+  <!-- ping/healthcheck -->
+  <requestHandler name="/admin/ping" class="solr.PingRequestHandler">
+    <lst name="invariants">
+      <str name="q">solrpingquery</str>
+    </lst>
+    <lst name="defaults">
+      <str name="echoParams">all</str>
+    </lst>
+    <!-- An optional feature of the PingRequestHandler is to configure the
+         handler with a "healthcheckFile" which can be used to enable/disable
+         the PingRequestHandler.
+         relative paths are resolved against the data dir
+      -->
+    <!-- <str name="healthcheckFile">server-enabled.txt</str> -->
+  </requestHandler>
+
+  <!-- Echo the request contents back to the client -->
+  <requestHandler name="/debug/dump"
+                  startup="lazy"
+                  class="solr.DumpRequestHandler">
+    <lst name="defaults">
+     <str name="echoParams">explicit</str> <!-- for all params (including the default etc) use: 'all' -->
+     <str name="echoHandler">true</str>
+    </lst>
+  </requestHandler>
+
+  <searchComponent class="solr.HighlightComponent" name="highlight">
+    <highlighting>
+      <!-- Configure the standard fragmenter -->
+      <!-- This could most likely be commented out in the "default" case -->
+      <fragmenter name="gap" class="org.apache.solr.highlight.GapFragmenter" default="true">
+        <lst name="defaults">
+          <int name="hl.fragsize">100</int>
+          <int name="f.title.hl.fragsize">50000</int>
+          <int name="f.title_full.hl.fragsize">50000</int>
+          <int name="f.title_sub.hl.fragsize">50000</int>
+          <int name="f.title_alt.hl.fragsize">50000</int>
+        </lst>
+      </fragmenter>
+
+      <!-- A regular-expression-based fragmenter (f.i., for sentence extraction) -->
+      <fragmenter name="regex" class="org.apache.solr.highlight.RegexFragmenter">
+        <lst name="defaults">
+          <!-- slightly smaller fragsizes work better because of slop -->
+          <int name="hl.fragsize">70</int>
+          <!-- allow 50% slop on fragment sizes -->
+          <float name="hl.regex.slop">0.5</float>
+          <!-- a basic sentence pattern -->
+          <str name="hl.regex.pattern">[-\w ,/\n\"']{20,200}</str>
+        </lst>
+      </fragmenter>
+
+      <!-- Configure the standard formatter -->
+      <formatter name="html" class="org.apache.solr.highlight.HtmlFormatter" default="true">
+        <lst name="defaults">
+          <str name="hl.simple.pre"><![CDATA[<em>]]></str>
+          <str name="hl.simple.post"><![CDATA[</em>]]></str>
+        </lst>
+      </formatter>
+    </highlighting>
+  </searchComponent>
+
+  <!-- queryResponseWriter plugins... query responses will be written using the
+    writer specified by the 'wt' request parameter matching the name of a registered
+    writer.
+    The "default" writer is the default and will be used if 'wt' is not specified
+    in the request. XMLResponseWriter will be used if nothing is specified here.
+    The json, python, and ruby writers are also available by default.
+
+    <queryResponseWriter name="xml" class="org.apache.solr.request.XMLResponseWriter" default="true"/>
+    <queryResponseWriter name="json" class="org.apache.solr.request.JSONResponseWriter"/>
+    <queryResponseWriter name="python" class="org.apache.solr.request.PythonResponseWriter"/>
+    <queryResponseWriter name="ruby" class="org.apache.solr.request.RubyResponseWriter"/>
+    <queryResponseWriter name="php" class="org.apache.solr.request.PHPResponseWriter"/>
+    <queryResponseWriter name="phps" class="org.apache.solr.request.PHPSerializedResponseWriter"/>
+
+    <queryResponseWriter name="custom" class="com.example.MyResponseWriter"/>
+  -->
+
+  <!-- XSLT response writer transforms the XML output by any xslt file found
+       in Solr's conf/xslt directory.  Changes to xslt files are checked for
+       every xsltCacheLifetimeSeconds.
+   -->
+  <queryResponseWriter name="xslt" class="org.apache.solr.response.XSLTResponseWriter">
+    <int name="xsltCacheLifetimeSeconds">5</int>
+  </queryResponseWriter>
+
+  <!-- config for the admin interface -->
+  <admin>
+    <defaultQuery>shakespeare</defaultQuery>
+
+    <!-- configure a healthcheck file for servers behind a loadbalancer
+    <healthcheck type="file">server-enabled</healthcheck>
+    -->
+  </admin>
+
+</config>

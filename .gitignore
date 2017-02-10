@@ -1,0 +1,5 @@
+downloads
+vendor
+vufind/lib/lucene-analyzers-icu-*.jar
+vufind/lib/icu4j-*.jar
+

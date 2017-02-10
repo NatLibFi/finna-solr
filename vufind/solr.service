@@ -1,0 +1,13 @@
+[Unit]
+Description=Solr
+After=syslog.target network.target remote-fs.target nss-lookup.target
+
+[Service]
+User=solr
+PIDFile=/data/solr/vendor/bin/solr-8983.pid
+ExecStart=/bin/bash -c "SOLR_INCLUDE=/data/solr/vufind/solr.in.finna.sh /data/solr/vendor/bin/solr start"
+ExecStop=/bin/bash -c "SOLR_INCLUDE=/data/solr/vufind/solr.in.finna.sh /data/solr/vendor/bin/solr stop"
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
