@@ -8,6 +8,7 @@ PIDFile=/data/solr/vendor/bin/solr-8983.pid
 ExecStart=/bin/bash -c "SOLR_INCLUDE=/data/solr/vufind/solr.in.finna.sh /data/solr/vendor/bin/solr start"
 ExecStop=/bin/bash -c "SOLR_INCLUDE=/data/solr/vufind/solr.in.finna.sh /data/solr/vendor/bin/solr stop"
 PrivateTmp=true
+LimitNOFILE=100000
 
 [Install]
 WantedBy=multi-user.target
