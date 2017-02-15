@@ -31,6 +31,21 @@ if [[ ! -e "$DIR/downloads/solr-$REQUIRED_VERSION.tgz" ]];
 then
     echo "Downloading Solr..."
     curl "http://www.nic.funet.fi/pub/mirrors/apache.org/lucene/solr/$REQUIRED_VERSION/solr-$REQUIRED_VERSION.tgz" > $DIR/downloads/solr-$REQUIRED_VERSION.tgz
+    size=$(du -m "$DIR/downloads/solr-$REQUIRED_VERSION.tgz" | cut -f 1)
+    if [[ $size -lt 100 ]];
+    then
+        # File too small, try archives
+        echo "Downloading Solr from Apache archives..."
+        curl "http://archive.apache.org/dist/lucene/solr/$REQUIRED_VERSION/solr-$REQUIRED_VERSION.tgz" > $DIR/downloads/solr-$REQUIRED_VERSION.tgz
+    fi
+    size=$(du -m "$DIR/downloads/solr-$REQUIRED_VERSION.tgz" | cut -f 1)
+    if [[ $size -lt 100 ]];
+    then
+        # File still too small
+        echo "Downloaded file too small"
+        rm $DIR/downloads/solr-$REQUIRED_VERSION.tgz
+        exit 1
+    fi
 fi
 
 # Download JTS
@@ -57,9 +72,14 @@ echo "Extracting JTS..."
 unzip $DIR/downloads/jts-$JTS_VERSION.zip "lib/jts-*.jar" "lib/jtsio-*.jar" -d $DIR/vendor/server/solr-webapp/webapp/WEB-INF
 
 # Set permissions
-echo "Updating permissions..."
-chown -R $SOLR_USER $DIR/vendor
-chown -R $SOLR_USER $DIR/vufind/logs
+if [[ `id -u $SOLR_USER 2>/dev/null || echo -1` -ge 0 ]];
+then
+    echo "Updating permissions..."
+    chown -R $SOLR_USER $DIR/vendor
+    chown -R $SOLR_USER $DIR/vufind/logs
+else
+    echo "WARNING: User '$SOLR_USER' not found, skipping permissions setup"
+fi
 
 # Copy libs
 echo "Copying ICU libraries..."
