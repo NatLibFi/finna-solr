@@ -76,7 +76,7 @@ if [[ `id -u $SOLR_USER 2>/dev/null || echo -1` -ge 0 ]];
 then
     echo "Updating permissions..."
     chown -R $SOLR_USER $DIR/vendor
-    chown -R $SOLR_USER $DIR/vufind/logs
+    chown -R $SOLR_USER $DIR/vufind
 else
     echo "WARNING: User '$SOLR_USER' not found, skipping permissions setup"
 fi
