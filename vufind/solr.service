@@ -1,6 +1,7 @@
 [Unit]
 Description=Solr
-After=syslog.target network.target remote-fs.target nss-lookup.target
+Wants=network-online.target
+After=syslog.target network.target network-online.target remote-fs.target nss-lookup.target zookeeper.service
 
 [Service]
 User=solr
