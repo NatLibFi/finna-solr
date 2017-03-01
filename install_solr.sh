@@ -3,8 +3,9 @@
 DIR=`dirname $0`
 
 SOLR_USER=solr
-JTS_URL="https://kent.dl.sourceforge.net/project/jts-topo-suite/jts/1.14/jts-1.14.zip"
-JTS_VERSION="1.14"
+JTS_VERSION="1.14.0"
+JTS_URL="http://central.maven.org/maven2/com/vividsolutions/jts-core/$JTS_VERSION/jts-core-$JTS_VERSION.jar"
+JTS_IO_URL="http://central.maven.org/maven2/com/vividsolutions/jts-io/$JTS_VERSION/jts-io-$JTS_VERSION.jar"
 
 # Check if the correct version is already installed
 read -r REQUIRED_VERSION<"$DIR/required_solr_version"
@@ -49,10 +50,17 @@ then
 fi
 
 # Download JTS
-if [[ ! -e "$DIR/downloads/jts-$JTS_VERSION.zip" ]];
+if [[ ! -e "$DIR/downloads/jts-core-$JTS_VERSION.jar" ]];
 then
-    echo "Downloading JTS..."
-    curl "$JTS_URL" > $DIR/downloads/jts-$JTS_VERSION.zip
+    echo "Downloading JTS Core..."
+    curl "$JTS_URL" > $DIR/downloads/jts-core-$JTS_VERSION.jar
+fi
+
+# Download JTS IO
+if [[ ! -e "$DIR/downloads/jts-io-$JTS_VERSION.jar" ]];
+then
+    echo "Downloading JTS IO..."
+    curl "$JTS_IO_URL" > $DIR/downloads/jts-io-$JTS_VERSION.jar
 fi
 
 # Remove any previous Solr version
@@ -67,9 +75,10 @@ echo "Extracting Solr..."
 mkdir $DIR/vendor
 tar xzf $DIR/downloads/solr-$REQUIRED_VERSION.tgz --strip-components=1 -C vendor
 
-# Extract JTS
-echo "Extracting JTS..."
-unzip $DIR/downloads/jts-$JTS_VERSION.zip "lib/jts-*.jar" "lib/jtsio-*.jar" -d $DIR/vendor/server/solr-webapp/webapp/WEB-INF
+# Copy JTS jars
+echo "Copying JTS..."
+cp $DIR/downloads/jts-core-$JTS_VERSION.jar $DIR/vendor/server/solr-webapp/webapp/WEB-INF/lib/
+cp $DIR/downloads/jts-io-$JTS_VERSION.jar $DIR/vendor/server/solr-webapp/webapp/WEB-INF/lib/
 
 # Set permissions
 if [[ `id -u $SOLR_USER 2>/dev/null || echo -1` -ge 0 ]];
