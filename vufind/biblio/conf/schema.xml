@@ -2,7 +2,6 @@
 <schema name="VuFind Bibliographic Index" version="1.6">
   <fieldType name="string" class="solr.StrField" sortMissingLast="true" omitNorms="true" positionIncrementGap="100"/>
   <fieldType name="text" class="solr.TextField" positionIncrementGap="100">
-    <similarity class="solr.ClassicSimilarityFactory"/>
     <analyzer type="index">
       <tokenizer class="solr.ICUTokenizerFactory"/>
       <filter class="solr.LowerCaseFilterFactory"/>
@@ -31,7 +30,6 @@
   </fieldType>
   <!-- Text Field without Stemming and Synonyms -->
   <fieldType name="textProper" class="solr.TextField" positionIncrementGap="100">
-    <similarity class="solr.ClassicSimilarityFactory"/>
     <analyzer type="index">
       <tokenizer class="solr.ICUTokenizerFactory"/>
       <filter class="solr.LowerCaseFilterFactory"/>
@@ -85,7 +83,6 @@
        prior to whitespace, force to lowercase, strip non-ISBN/ISSN characters,
        omit results that are empty after stripping. -->
   <fieldType name="isn" class="solr.TextField" positionIncrementGap="100">
-    <similarity class="solr.ClassicSimilarityFactory"/>
     <analyzer>
       <tokenizer class="solr.PatternTokenizerFactory" pattern="^(\S*)\s*.*$" group="1"/>
       <filter class="solr.LowerCaseFilterFactory"/>
@@ -95,7 +92,6 @@
   </fieldType>
   <!-- case-insensitive/whitespace-agnostic field type for callnumber searching -->
   <fieldType name="callnumberSearch" class="solr.TextField" sortMissingLast="true" omitNorms="true">
-    <similarity class="solr.ClassicSimilarityFactory"/>
     <analyzer>
       <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="(\s)" replacement=""/>
       <tokenizer class="solr.KeywordTokenizerFactory"/>
