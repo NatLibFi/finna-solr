@@ -63,7 +63,11 @@ This is the Finna VuFind configuration for Solr. Important bits:
 
 12. If running in solrcloud mode, use the following command to add a core configuration to Zookeeper:
 
-        vendor/server/scripts/cloud-scripts/zkcli.sh -zkhost localhost:9983 -cmd upconfig -d vufind/biblio/conf/ -n biblio3
+        SOLR_INCLUDE=vufind/solr.in.finna.sh vendor/bin/solr zk upconfig -n biblio4 -d vufind/biblio/conf
+
+    In production when using an external Zookeeper, its address is specified in solr.in.finna.sh. If you're running SolrCloud with the embedded Zookeeper (for development purposes), you'll need to specify Zookeeper address with the -z parameter (Zookeeper port is Solr's port + 1000):
+
+        SOLR_INCLUDE=vufind/solr.in.finna.sh vendor/bin/solr zk upconfig -z localhost:9983 -n biblio4 -d vufind/biblio/conf
 
     Then you can create a new collection that uses the configuration by calling the collections API:
 
