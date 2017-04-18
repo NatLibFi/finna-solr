@@ -61,7 +61,12 @@ This is the Finna VuFind configuration for Solr. Important bits:
 
 11. Check the logs at vufind/logs for any errors
 
-12. If running in solrcloud mode, use the following command to add a core configuration to Zookeeper:
+12. If running in solrcloud mode, use a chroot and make sure to create the root directory in zkCli:
+
+        zookeeper-x.y.z/bin/zkCli.sh -server 127.0.0.1:2181
+        create /solr []
+
+    Then you can use the following command to add a core configuration to Zookeeper:
 
         SOLR_INCLUDE=vufind/solr.in.finna.sh vendor/bin/solr zk upconfig -n biblio4 -d vufind/biblio/conf
 
