@@ -614,8 +614,8 @@
       <str name="spellcheck.maxCollationTries">10</str>
       <str name="spellcheck.collateParam.mm">100%</str>
       <str name="spellcheck.collateExtendedResults">false</str>
-      <int name="hl.maxAnalyzedChars">-1</int>
       <int name="hl.maxMultiValuedToExamine">100</int>
+      <str name="hl.method">unified</str>
       <bool name="preferLocalShards">true</bool>
       <int name="timeAllowed">60000</int>
       <str name="df">allfields</str>
@@ -654,8 +654,8 @@
       <str name="spellcheck.maxCollationTries">10</str>
       <str name="spellcheck.collateParam.mm">100%</str>
       <str name="spellcheck.collateExtendedResults">false</str>
-      <int name="hl.maxAnalyzedChars">-1</int>
       <int name="hl.maxMultiValuedToExamine">100</int>
+      <str name="hl.method">unified</str>
       <bool name="preferLocalShards">true</bool>
       <int name="timeAllowed">60000</int>
       <str name="df">allfields</str>
@@ -699,8 +699,8 @@
       <str name="spellcheck.maxCollationTries">10</str>
       <str name="spellcheck.collateParam.mm">100%</str>
       <str name="spellcheck.collateExtendedResults">false</str>
-      <int name="hl.maxAnalyzedChars">-1</int>
       <int name="hl.maxMultiValuedToExamine">100</int>
+      <str name="hl.method">unified</str>
       <bool name="preferLocalShards">true</bool>
       <int name="timeAllowed">60000</int>
       <str name="df">allfields</str>
@@ -724,8 +724,8 @@
       <str name="spellcheck.maxCollationTries">10</str>
       <str name="spellcheck.collateParam.mm">100%</str>
       <str name="spellcheck.collateExtendedResults">false</str>
-      <int name="hl.maxAnalyzedChars">-1</int>
       <int name="hl.maxMultiValuedToExamine">100</int>
+      <str name="hl.method">unified</str>
       <bool name="preferLocalShards">true</bool>
       <int name="timeAllowed">60000</int>
       <str name="lowercaseOperators">false</str>
