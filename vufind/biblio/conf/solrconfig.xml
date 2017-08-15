@@ -32,7 +32,7 @@
        that you fully re-index after changing this setting as it can
        affect both how text is indexed and queried.
     -->
-  <luceneMatchVersion>6.4.2</luceneMatchVersion>
+  <luceneMatchVersion>6.6.0</luceneMatchVersion>
 
   <!-- Use the classic schema factory -->
   <schemaFactory class="ClassicIndexSchemaFactory"/>
@@ -785,7 +785,7 @@
   <queryConverter name="queryConverter" class="org.apache.solr.spelling.SpellingQueryConverter"/>
 
   <!-- Search component for extracting terms (useful for sitemap generation) -->
-  <searchComponent name="term" class="org.apache.solr.handler.component.TermsComponent">
+  <searchComponent name="terms" class="solr.TermsComponent">
   </searchComponent>
 
   <!--
@@ -838,11 +838,11 @@
   </requestHandler>
 
   <!-- Request handler to extract terms (useful for sitemap generation) -->
-  <requestHandler name="/term" class="org.apache.solr.handler.component.SearchHandler">
-    <arr name="components">
-      <str>term</str>
-    </arr>
-  </requestHandler>
+  <requestHandler name="/terms" class="solr.SearchHandler" startup="lazy">
+     <arr name="components">
+      <str>terms</str>
+     </arr>
+   </requestHandler>
 
   <searchComponent name="elevator" class="org.apache.solr.handler.component.QueryElevationComponent" >
     <!-- pick a fieldType to analyze queries -->
