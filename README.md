@@ -68,15 +68,20 @@ This is the Finna VuFind configuration for Solr. Important bits:
 
     Then you can use the following command to add a core configuration to Zookeeper:
 
-        SOLR_INCLUDE=vufind/solr.in.finna.sh vendor/bin/solr zk upconfig -n biblio4 -d vufind/biblio/conf
+        SOLR_INCLUDE=vufind/solr.in.finna.sh vendor/bin/solr zk upconfig -n biblio3 -d vufind/biblio/conf
 
     In production when using an external Zookeeper, its address is specified in solr.in.finna.sh. If you're running SolrCloud with the embedded Zookeeper (for development purposes), you'll need to specify Zookeeper address with the -z parameter (Zookeeper port is Solr's port + 1000):
 
-        SOLR_INCLUDE=vufind/solr.in.finna.sh vendor/bin/solr zk upconfig -z localhost:9983 -n biblio4 -d vufind/biblio/conf
+        SOLR_INCLUDE=vufind/solr.in.finna.sh vendor/bin/solr zk upconfig -z localhost:9983 -n biblio3 -d vufind/biblio/conf
 
     Then you can create a new collection that uses the configuration by calling the collections API:
 
         curl 'http://localhost:8983/solr/admin/collections?action=CREATE&name=biblio3&numShards=1&replicationFactor=3&collection.configName=biblio3'
+
+    If you need to create a collection on just a single node of a SolrCloud, you can use the placement rules to
+    define the location, e.g.
+
+        curl 'http://localhost:8983/solr/admin/collections?action=CREATE&name=biblio3&numShards=1&replicationFactor=1&collection.configName=biblio3&rule=shard:*,host:domain.somewhere'
 
     Use an alias to point to the current index version in use. This way you can just point the alias to a new index version when it's ready to use:
 
@@ -84,7 +89,7 @@ This is the Finna VuFind configuration for Solr. Important bits:
 
     When a collection is no longer needed, remove it using the collections API:
 
-        curl 'http://localhost:8983/solr/admin/collections?action=DELETE&name=biblio2'
+        curl 'http://localhost:8983/solr/admin/collections?action=DELETE&name=biblio3'
 
 ## Update
 
