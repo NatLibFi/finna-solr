@@ -34,7 +34,7 @@
 # - Supplemental Punctuation: http://www.unicode.org/charts/PDF/U2E00.pdf
 # - Alphabetic Presentation Forms: http://www.unicode.org/charts/PDF/UFB00.pdf
 # - Halfwidth and Fullwidth Forms: http://www.unicode.org/charts/PDF/UFF00.pdf
-#  
+#
 # See: http://en.wikipedia.org/wiki/Latin_characters_in_Unicode
 #
 # The set of character conversions supported by this map is a superset of
@@ -3780,6 +3780,247 @@
 # ～  [FULLWIDTH TILDE]
 "\uFF5E" => "~"
 
+
+# ʰ   [Modifier Letter Small H]
+"\u02B0" => "h"
+
+# ʱ   [Modifier Letter Small H with hook]
+"\u02B1" => "h"
+
+# ʲ   [Modifier Letter Small J]
+"\u02B2" => "j"
+
+# ʳ   [Modifier Letter Small R]
+"\u02B3" => "r"
+
+# ʴ   [Modifier Letter Small Turned R]
+"\u02B4" => "r"
+
+# ʵ   [Modifier Letter Small Turned R with hook]
+"\u02B5" => "r"
+
+# ʶ   [Modifier Letter Small Capital Inverted R]
+"\u02B6" => "r"
+
+# ʷ   [Modifier Letter Small W]
+"\u02B7" => "w"
+
+# ʸ   [Modifier Letter Small Y]
+"\u02B8" => "y"
+
+# ʹ   [Modifier Letter Prime]
+"\u02B9" => "\\'"
+
+# ʺ   [Modifier Letter Double Prime]
+"\u02BA" => "\\""
+
+# ʻ   [Modifier Letter Turned Comma]
+"\u02BB" => ","
+
+# ʼ   [Modifier Letter Apostrophe]
+"\u02BC" => "\\'"
+
+# ʽ   [Modifier Letter Reversed Comma]
+"\u02BD" => ","
+
+# ʾ   [Modifier Letter Right Half Ring]
+"\u02BE" => ""
+
+# ʿ   [Modifier Letter Left Half Ring]
+"\u02BF" => ""
+
+# ˀ   [Modifier Letter Glottal Stop]
+"\u02C0" => ""
+
+# ˁ   [Modifier Letter Reversed Glottal Stop]
+"\u02C1" => ""
+
+# ˂   [Modifier Letter Left Arrowhead]
+"\u02C2" => ""
+
+# ˃   [Modifier Letter Right Arrowhead]
+"\u02C3" => ""
+
+# ˄   [Modifier Letter Up Arrowhead]
+"\u02C4" => ""
+
+# ˅   [Modifier Letter Down Arrowhead]
+"\u02C5" => ""
+
+# ˆ   [Modifier Letter Circumflex Accent]
+"\u02C6" => ""
+
+# ˇ   [Caron]
+"\u02C7" => ""
+
+# ˈ   [Modifier Letter Vertical Line]
+"\u02C8" => ""
+
+# ˉ   [Modifier Letter Macron]
+"\u02C9" => ""
+
+# ˊ   [Modifier Letter Acute Accent]
+"\u02CA" => ""
+
+# ˋ   [Modifier Letter Grave Accent]
+"\u02CB" => ""
+
+# ˌ   [Modifier Letter Low Vertical Line]
+"\u02CC" => ""
+
+# ˍ   [Modifier Letter Low Macron]
+"\u02CD" => ""
+
+# ˎ   [Modifier Letter Low Grave Accent]
+"\u02CE" => ""
+
+# ˏ   [Modifier Letter Low Acute Accent]
+"\u02CF" => ""
+
+# ː   [Modifier Letter Triangular Colon]
+"\u02D0" => ""
+
+# ˑ   [Modifier Letter Half Triangular Colon]
+"\u02D1" => ""
+
+# ˒   [Modifier Letter Centered Right Half Ring]
+"\u02D2" => ""
+
+# ˓   [Modifier Letter Centered Left Half Ring]
+"\u02D3" => ""
+
+# ˔   [Modifier Letter Up Tack]
+"\u02D4" => ""
+
+# ˕   [Modifier Letter Down Tack]
+"\u02D5" => ""
+
+# ˖   [Modifier Letter Plus Sign]
+"\u02D6" => ""
+
+# ˗   [Modifier Letter Minus Sign]
+"\u02D7" => ""
+
+# ˘   [Breve]
+"\u02D8" => ""
+
+# ˙   [Dot Above]
+"\u02D9" => ""
+
+# ˚   [Ring Above]
+"\u02DA" => ""
+
+# ˛   [Ogonek]
+"\u02DB" => ""
+
+# ˜   [Small Tilde]
+"\u02DC" => ""
+
+# ˝   [Double Acute Accent]
+"\u02DD" => ""
+
+# ˞   [Modifier Letter Rhotic Hook]
+"\u02DE" => ""
+
+# ˟   [Modifier Letter Cross Accent]
+"\u02DF" => ""
+
+# ˠ   [Modifier Letter Small Gamma]
+"\u02E0" => ""
+
+# ˡ   [Modifier Letter Small L]
+"\u02E1" => ""
+
+# ˢ   [Modifier Letter Small S]
+"\u02E2" => ""
+
+# ˣ   [Modifier Letter Small X]
+"\u02E3" => ""
+
+# ˤ   [Modifier Letter Small Reversed Glottal Stop]
+"\u02E4" => ""
+
+# ˥   [Modifier Letter Extra-High Tone Bar]
+"\u02E5" => ""
+
+# ˦   [Modifier Letter High Tone Bar]
+"\u02E6" => ""
+
+# ˧   [Modifier Letter Mid Tone Bar]
+"\u02E7" => ""
+
+# ˨   [Modifier Letter Low Tone Bar]
+"\u02E8" => ""
+
+# ˩   [Modifier Letter Extra-Low Tone Bar]
+"\u02E9" => ""
+
+# ˪   [Modifier Letter Yin Departing Tone Mark]
+"\u02EA" => ""
+
+# ˫   [Modifier Letter Yang Departing Tone Mark]
+"\u02EB" => ""
+
+# ˬ   [Modifier Letter Voicing]
+"\u02EC" => ""
+
+# ˭   [Modifier Letter Unaspirated]
+"\u02ED" => ""
+
+# ˮ   [Modifier Letter Double Apostrophe]
+"\u02EE" => ""
+
+# ˯   [Modifier Letter Low Down Arrowhead]
+"\u02EF" => ""
+
+# ˰   [Modifier Letter Low Up Arrowhead]
+"\u02F0" => ""
+
+# ˱   [Modifier Letter Low Left Arrowhead]
+"\u02F1" => ""
+
+# ˲   [Modifier Letter Low Right Arrowhead]
+"\u02F2" => ""
+
+# ˳   [Modifier Letter Low Ring]
+"\u02F3" => ""
+
+# ˴   [Modifier Letter Middle Grave Accent]
+"\u02F4" => ""
+
+# ˵   [Modifier Letter Middle Double Grave Accent]
+"\u02F5" => ""
+
+# ˶   [Modifier Letter Middle Double Acute Accent]
+"\u02F6" => ""
+
+# ˷   [Modifier Letter Low Tilde]
+"\u02F7" => ""
+
+# ˸   [Modifier Letter Raised Colon]
+"\u02F8" => ""
+
+# ˹   [Modifier Letter Begin High Tone]
+"\u02F9" => ""
+
+# ˺   [Modifier Letter End High Tone]
+"\u02FA" => ""
+
+# ˻   [Modifier Letter Begin Low Tone]
+"\u02FB" => ""
+
+# ˼   [Modifier Letter End Low Tone]
+"\u02FC" => ""
+
+# ˽   [Modifier Letter Shelf]
+"\u02FD" => ""
+
+# ˾   [Modifier Letter Open Shelf]
+"\u02FE" => ""
+
+# ˿   [Modifier Letter Low Left Arrow]
+"\u02FF" => ""
+
 ################################################################
 # Below is the Perl script used to generate the above mappings #
 # from ASCIIFoldingFilter.java:                                #
@@ -3789,11 +4030,11 @@
 #
 # use warnings;
 # use strict;
-# 
+#
 # my @source_chars = ();
 # my @source_char_descriptions = ();
 # my $target = '';
-# 
+#
 # while (<>) {
 #   if (/case\s+'(\\u[A-F0-9]+)':\s*\/\/\s*(.*)/i) {
 #     push @source_chars, $1;
