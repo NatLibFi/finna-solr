@@ -3781,6 +3781,10 @@
 "\uFF5E" => "~"
 
 
+################################################################
+# Spacing Modifier Letters                                     #
+################################################################
+
 # ʰ   [Modifier Letter Small H]
 "\u02B0" => "h"
 
@@ -4020,6 +4024,20 @@
 
 # ˿   [Modifier Letter Low Left Arrow]
 "\u02FF" => ""
+
+
+################################################################
+# Cyrillic Letters                                             #
+################################################################
+
+# Ъ   [CYRILLIC CAPITAL LETTER HARD SIGN]
+"\u042A" => ""
+
+# ъ   [CYRILLIC SMALL LETTER HARD SIGN]
+"\u044A" => ""
+
+# ᲆ   [CYRILLIC SMALL LETTER TALL HARD SIGN]
+"\u1C86" => ""
 
 ################################################################
 # Below is the Perl script used to generate the above mappings #
