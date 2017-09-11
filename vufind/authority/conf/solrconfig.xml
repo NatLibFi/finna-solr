@@ -40,8 +40,7 @@
   <!-- Used to specify an alternate directory to hold all index data
        other than the default ./data under the Solr home.
        If replication is in use, this should match the replication configuration. -->
-  <dataDir>${solr.solr.home:./solr}/authority</dataDir>
-
+  <!-- <dataDir>${solr.solr.home:./solr}/authority</dataDir> -->
 
   <indexConfig>
 
