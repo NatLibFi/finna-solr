@@ -83,9 +83,13 @@ This is the Finna VuFind configuration for Solr. Important bits:
 
         curl 'http://localhost:8983/solr/admin/collections?action=CREATE&name=biblio3&numShards=1&replicationFactor=1&collection.configName=biblio3&rule=shard:*,host:domain.somewhere'
 
+    If you want to have more than one shard per node, use the maxShardsPerNode parameter:
+
+        curl 'http://localhost:8983/solr/admin/collections?action=CREATE&name=biblio3&numShards=3&replicationFactor=3&collection.configName=biblio3&maxShardsPerNode=3'
+
     Use an alias to point to the current index version in use. This way you can just point the alias to a new index version when it's ready to use:
 
-        curl "http://localhost:8983/solr/admin/collections?action=CREATEALIAS&name=biblioprod&collections=biblio3"
+        curl 'http://localhost:8983/solr/admin/collections?action=CREATEALIAS&name=biblioprod&collections=biblio3'
 
     When a collection is no longer needed, remove it using the collections API:
 
