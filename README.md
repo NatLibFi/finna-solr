@@ -95,6 +95,10 @@ This is the Finna VuFind configuration for Solr. Important bits:
 
         curl 'http://localhost:8983/solr/admin/collections?action=DELETE&name=biblio3'
 
+    To check the SolrCloud status:
+
+        curl 'http://localhost:8983/solr/admin/collections?action=clusterstatus&wt=json' | json_reformat
+
 ## Update
 
 1. Pull the changes
