@@ -33,6 +33,7 @@ GC_TUNE=" \
 -XX:+UnlockExperimentalVMOptions \
 -XX:G1MaxNewSizePercent=5 \
 -XX:ParallelGCThreads=4 \
+-XX:+UseLargePages \
 -XX:+AggressiveOpts \
 "
 
