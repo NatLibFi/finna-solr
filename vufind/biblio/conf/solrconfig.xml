@@ -308,7 +308,8 @@
            and old cache.
          -->
     <filterCache
-      class="solr.FastLRUCache"
+      class="solr.LRUCache"
+      maxRamMB="1000"
       size="1024"
       initialSize="512"
       autowarmCount="512"/>
@@ -318,6 +319,7 @@
          of documents requested.  -->
     <queryResultCache
       class="solr.LRUCache"
+      maxRamMB="1000"
       size="16384"
       initialSize="4096"
       autowarmCount="1000"/>
@@ -332,6 +334,7 @@
        Since Lucene internal document ids are transient, this cache will not be autowarmed.  -->
     <documentCache
       class="solr.LRUCache"
+      maxRamMB="1000"
       size="16384"
       initialSize="16384"
       autowarmCount="0"/>
