@@ -234,7 +234,7 @@
          have some sort of hard autoCommit to limit the log size.
       -->
     <autoCommit>
-      <maxTime>180000</maxTime>
+      <maxTime>30000</maxTime>
       <openSearcher>false</openSearcher>
     </autoCommit>
 
