@@ -37,9 +37,11 @@ This is the Finna VuFind configuration for Solr. Important bits:
 3. Run ./install_solr.sh
 4. chown the files and directories to solr user
 5. Copy vufind/solr.in.finna.sh.sample to vufind/solr.in.finna.sh and edit as required
-6. Use the following command to start Solr manually:
+6. Use the following commands to start or stop Solr manually:
 
         SOLR_INCLUDE=vufind/solr.in.finna.sh vendor/bin/solr start
+
+        SOLR_INCLUDE=vufind/solr.in.finna.sh vendor/bin/solr stop
 
 7. To enable startup via system init and management with service command in init-based systems like RHEL 6.x, copy vufind/solr.finna-init-script to file /etc/init.d/solr, make it executable, change the paths in it and execute the following commands:
 
@@ -51,13 +53,17 @@ This is the Finna VuFind configuration for Solr. Important bits:
         systemctl daemon-reload
         systemctl enable solr
 
-9. In init-based systems, start Solr with command:
+9. In init-based systems, start and stop Solr with commands:
 
         service solr start
 
-10. In systemd-based systems, start Solr with command:
+        service solr stop
+
+10. In systemd-based systems, start and stop Solr with commands:
 
         systemctl start solr
+
+        systemctl stop solr
 
 11. Check the logs at vufind/logs for any errors
 
