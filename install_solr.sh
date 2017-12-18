@@ -93,12 +93,12 @@ fi
 # Copy libs
 echo "Copying ICU libraries..."
 
-if ls $DIR/vufind/lib/icu4j-*.jar > /dev/null;
+if ls $DIR/vufind/lib/icu4j-*.jar > /dev/null 2>&1;
 then
     echo "Removing old icu4j jar from $DIR/vufind/lib..."
     rm $DIR/vufind/lib/icu4j-*.jar
 fi
-if ls $DIR/vufind/lib/lucene-analyzers-icu-*.jar > /dev/null;
+if ls $DIR/vufind/lib/lucene-analyzers-icu-*.jar > /dev/null 2>&1;
 then
     echo "Removing old lucene-analyzers-icu jar from $DIR/vufind/lib..."
     rm $DIR/vufind/lib/lucene-analyzers-icu-*.jar
