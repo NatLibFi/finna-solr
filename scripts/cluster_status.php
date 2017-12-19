@@ -17,7 +17,11 @@ foreach ($state['cluster']['collections'] as $collectionName => $collection) {
     foreach ($collection['shards'] as $shardName => $shard) {
         echo "  Shard $shardName (" . $shard['state'] . "):\n";
         foreach ($shard['replicas'] as $coreNodeName => $replica) {
-            echo '    ' . substr($replica['state'] . '         ', 0, 10) . ' ' . $replica['core'] . " ($coreNodeName) at " . $replica['node_name'] . "\n";
+            $info = $coreNodeName;
+            if (!empty($replica['leader'])) {
+                $info .= ', leader';
+            }
+            echo '    ' . substr($replica['state'] . '         ', 0, 10) . ' ' . $replica['core'] . " ($info) at " . $replica['node_name'] . "\n";
         }
     }
     echo "\n";
