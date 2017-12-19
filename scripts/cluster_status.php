@@ -17,7 +17,7 @@ foreach ($state['cluster']['collections'] as $collectionName => $collection) {
     foreach ($collection['shards'] as $shardName => $shard) {
         echo "  Shard $shardName (" . $shard['state'] . "):\n";
         foreach ($shard['replicas'] as $coreNodeName => $replica) {
-            $info = $coreNodeName;
+            $info = "$coreNodeName, {$replica['type']}";
             if (!empty($replica['leader'])) {
                 $info .= ', leader';
             }
