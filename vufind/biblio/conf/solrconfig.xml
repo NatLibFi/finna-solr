@@ -32,7 +32,7 @@
        that you fully re-index after changing this setting as it can
        affect both how text is indexed and queried.
     -->
-  <luceneMatchVersion>6.6.1</luceneMatchVersion>
+  <luceneMatchVersion>7.1.0</luceneMatchVersion>
 
   <!-- Use the classic schema factory -->
   <schemaFactory class="ClassicIndexSchemaFactory"/>
@@ -234,8 +234,8 @@
          have some sort of hard autoCommit to limit the log size.
       -->
     <autoCommit>
-      <maxTime>30000</maxTime>
-      <openSearcher>false</openSearcher>
+      <maxTime>60000</maxTime>
+      <openSearcher>true</openSearcher>
     </autoCommit>
 
     <!-- softAutoCommit is like autoCommit except it causes a
@@ -391,142 +391,213 @@
          and there is a current searcher handling requests (aka registered). -->
     <!-- QuerySenderListener takes an array of NamedList and executes a
          local query request for each NamedList in sequence. -->
+    <!--
     <listener event="newSearcher" class="solr.QuerySenderListener">
       <arr name="queries">
         <lst>
-          <str name="q">*:*</str>
-          <str name="fq">-merged_child_boolean:true</str>
-          <str name="fq">-hidden_component_boolean:true</str>
-          <str name="fq">source_str_mv:("jykdok"+OR+"jyx"+OR+"janet"+OR+"helka"+OR+"kyyti"+OR+"oiva"+OR+"helmet"+OR+"MMA"+OR+"TMA"+OR+"OMA"+OR+"HMA"+OR+"VMA"+OR+"JoMA"+OR+"JyMA"+OR+"lusto"+OR+"metsastysmuseo"+OR+"muusa"+OR+"nurmes"+OR+"pielinen"+OR+"ilomantsi"+OR+"lapinmetsamuseo"+OR+"verla"+OR+"KA"+OR+"musketti"+OR+"designmuseo"+OR+"elektra_ah"+OR+"kansa_ah"+OR+"paivalehdenmuseo_ah"+OR+"ta_ah"+OR+"tm_ah"+OR+"werstas"+OR+"masto"+OR+"musketti_rautatie"+OR+"musketti_helina"+OR+"siirtolaisuusmuseo_ah"+OR+"yo-museo_ah"+OR+"leevi"+OR+"kultamuseo_ah"+OR+"hkm"+OR+"tyrni"+OR+"SLS"+OR+"siiri"+OR+"musketti_hrm"+OR+"musketti_tmk"+OR+"sa-kuva"+OR+"fsd"+OR+"hanna"+OR+"vanaicat"+OR+"plari"+OR+"vaski"+OR+"musketti_hevosenkenka"+OR+"fng_nyblin"+OR+"fng_simberg"+OR+"fng_styp"+OR+"kirjava"+OR+"alli"+OR+"mikkelikm"+OR+"muistaja_hyvinkaa"+OR+"muistaja_kerava"+OR+"muistaja_mantsala"+OR+"muistaja_nurmijarvi"+OR+"kaakkuri"+OR+"joel"+OR+"laurus"+OR+"fennica"+OR+"viola"+OR+"arto"+OR+"vaari"+OR+"oma"+OR+"sarka"+OR+"aura"+OR+"juolukka"+OR+"lauda"+OR+"metcat"+OR+"colibri"+OR+"musketti_kym"+OR+"musketti_lprmuseot"+OR+"josku"+OR+"ekm"+OR+"doria_taiy"+OR+"arsca"+OR+"haltia"+OR+"hurma"+OR+"ksm"+OR+"kajakki"+OR+"theseus_centria"+OR+"theseus_haagahelia"+OR+"theseus_hamk"+OR+"theseus_humak"+OR+"theseus_jamk"+OR+"theseus_kamk"+OR+"theseus_karelia"+OR+"theseus_kyamk"+OR+"theseus_lapinamk"+OR+"theseus_laurea"+OR+"theseus_mamk"+OR+"theseus_metropolia"+OR+"theseus_oamk"+OR+"theseus_phkk"+OR+"theseus_samk"+OR+"theseus_seamk"+OR+"theseus_tamk"+OR+"theseus_tuamk"+OR+"albumitauki"+OR+"jultika"+OR+"oula"+OR+"alma"+OR+"spegeln-bildsamlingarna"+OR+"spegeln-cultura"+OR+"spegeln-konstvetenskap"+OR+"spegeln-sibeliusmuseet")</str>
-          <str name="start">0</str>
-          <str name="rows">20</str>
-          <str name="sort">score desc</str>
+          <str name="fl">*,score</str>
+          <str name="spellcheck">false</str>
           <str name="facet">true</str>
-          <str name="facet.mincount">1</str>
           <str name="facet.limit">30</str>
-          <str name="facet.field">building</str>
-          <str name="facet.field">collection</str>
-          <str name="facet.field">format</str>
-          <str name="facet.field">main_date_str</str>
-          <str name="facet.field">topic_facet</str>
-          <str name="facet.field">author_facet</str>
-          <str name="facet.field">language</str>
-          <str name="facet.field">genre_facet</str>
-          <str name="facet.field">era_facet</str>
-          <str name="facet.field">geographic_facet</str>
-          <str name="facet.field">hierarchy_parent_title</str>
-          <str name="facet.field">first_indexed</str>
-          <str name="facet.field">search_daterange_mv</str>
-          <str name="facet.field">sector_str_mv</str>
-          <str name="facet.field">category_str_mv</str>
-          <str name="facet.field">original_lng_str_mv</str>
-          <str name="facet.field">subtitle_lng_str_mv</str>
-          <str name="facet.field">usage_rights_str_mv</str>
-          <str name="facet.field">major_genre_str_mv</str>
+          <str name="facet.field">{!ex=sector_str_mv_filter}sector_str_mv</str>
+          <str name="facet.field">{!ex=building_filter}building</str>
+          <str name="facet.field">{!ex=format_filter}format</str>
+          <str name="facet.field">{!ex=author_facet_filter}author_facet</str>
+          <str name="facet.field">{!ex=language_filter}language</str>
+          <str name="facet.field">{!ex=original_lng_str_mv_filter}original_lng_str_mv</str>
+          <str name="facet.field">{!ex=subtitle_lng_str_mv_filter}subtitle_lng_str_mv</str>
+          <str name="facet.field">{!ex=main_date_str_filter}main_date_str</str>
+          <str name="facet.field">{!ex=search_daterange_mv_filter}search_daterange_mv</str>
+          <str name="facet.field">{!ex=major_genre_str_mv_filter}major_genre_str_mv</str>
+          <str name="facet.field">{!ex=genre_facet_filter}genre_facet</str>
+          <str name="facet.field">{!ex=era_facet_filter}era_facet</str>
+          <str name="facet.field">{!ex=geographic_facet_filter}geographic_facet</str>
+          <str name="facet.field">{!ex=topic_facet_filter}topic_facet</str>
+          <str name="facet.field">{!ex=usage_rights_str_mv_filter}usage_rights_str_mv</str>
+          <str name="facet.field">{!ex=hierarchy_parent_title_filter}hierarchy_parent_title</str>
+          <str name="facet.field">{!ex=first_indexed_filter}first_indexed</str>
+          <str name="facet.field">{!ex=category_str_mv_filter}category_str_mv</str>
+          <str name="facet.field">{!ex=publishDateSort_filter}publishDateSort</str>
+          <str name="facet.field">{!ex=online_boolean_filter}online_boolean</str>
+          <str name="facet.field">{!ex=free_online_str_mv_filter}free_online_str_mv</str>
+          <str name="facet.sort">count</str>
+          <str name="f.usage_rights_str_mv.facet.sort">index</str>
+          <str name="f.building.facet.limit">-1</str>
+          <str name="f.format.facet.limit">-1</str>
+          <str name="f.sector_str_mv.facet.limit">-1</str>
+          <str name="f.category_str_mv.facet.limit">-1</str>
+          <str name="facet.mincount">1</str>
+          <str name="sort">main_date_str desc</str>
+          <str name="hl">false</str>
+          <str name="spellcheck.dictionary">basicSpell</str>
+          <str name="fq">-merged_child_boolean:true</str>
+          <str name="fq">source_str_mv:("eepos" OR "helka" OR "heili" OR "janet" OR "jykdok" OR "jyx" OR "keski" OR "kuopio" OR "leevi" OR "lukki" OR "piki" OR "rutakko" OR "vaski" OR "MMA" OR "TMA" OR "OMA" OR "HMA" OR "VMA" OR "JoMA" OR "JyMA" OR "lusto" OR "metsastysmuseo" OR "muusa" OR "nurmes" OR "pielinen" OR "ilomantsi" OR "lapinmetsamuseo" OR "verla" OR "KA" OR "musketti" OR "designmuseo" OR "elektra_ah" OR "kansa_ah" OR "paivalehdenmuseo_ah" OR "ta_ah" OR "tm_ah" OR "werstas" OR "masto" OR "musketti_rautatie" OR "musketti_helina" OR "siirtolaisuusmuseo_ah" OR "yo-museo_ah" OR "kultamuseo_ah" OR "hkm" OR "tyrni" OR "SLS" OR "siiri" OR "musketti_hrm" OR "musketti_tmk" OR "sa-kuva" OR "fsd" OR "hanna" OR "vanaicat" OR "plari" OR "musketti_hevosenkenka" OR "fng_nyblin" OR "fng_simberg" OR "fng_styp" OR "kirjava" OR "alli" OR "mikkelikm" OR "muistaja_hyvinkaa" OR "muistaja_kerava" OR "muistaja_mantsala" OR "muistaja_nurmijarvi" OR "kaakkuri" OR "joel" OR "laurus" OR "oma" OR "sarka" OR "aura" OR "juolukka" OR "lauda" OR "metcat" OR "colibri" OR "musketti_kym" OR "musketti_lprmuseot" OR "josku" OR "ekm" OR "arsca" OR "haltia" OR "hurma" OR "ksm" OR "kajakki" OR "theseus_centria" OR "theseus_haagahelia" OR "theseus_hamk" OR "theseus_humak" OR "theseus_jamk" OR "theseus_kamk" OR "theseus_karelia" OR "theseus_kyamk" OR "theseus_lapinamk" OR "theseus_laurea" OR "theseus_mamk" OR "theseus_metropolia" OR "theseus_oamk" OR "theseus_phkk" OR "theseus_samk" OR "theseus_seamk" OR "theseus_tamk" OR "theseus_arcada" OR "theseus_tuamk" OR "theseus_diak" OR "theseus_novia" OR "theseus_saimaa" OR "theseus_savonia" OR "theseus_vaasa" OR "albumitauki" OR "jultika" OR "tutdpub" OR "doria_taiy" OR "doria_ty" OR "spegeln-bildsamlingarna" OR "spegeln-cultura" OR "spegeln-konstvetenskap" OR "spegeln-sibeliusmuseet" OR "musketti_satmuseo" OR "oula" OR "alma" OR "aapeli" OR "diana" OR "tamcat" OR "tria" OR "wilma" OR "arken" OR "tutcat" OR "volter" OR "vaari" OR "fennica" OR "viola" OR "arto" OR "digi" OR "porstua" OR "Kotimaisten kielten keskus" OR "musketti_kello" OR "helmet" OR "raami" OR "kavi" OR "sotkamo" OR "musketti_lahti" OR "musketti_siida" OR "sim" OR "doria_mpkk" OR "taisto" OR "selma" OR "musketti_sum" OR "vantaa" OR "minnansalonki")</str>
+          <str name="fq">-hidden_component_boolean:true</str>
+          <str name="fq">((*:* NOT building:"0/x/") AND (*:* NOT building:"0/Konversio/") AND (*:* NOT original_id_str_mv:*))  AND  ((*:* NOT author_facet:"ebrary, Inc"))</str>
+          <str name="fq">-restricted_str:*</str>
+          <str name="rows">100</str>
+          <str name="start">0</str>
+          <str name="qf">title_txtP^8600 title^750 title_full_unstemmed^750 title_full^500 title_short^750 title_alt^200 title_new^100 series^50 series2^30 author^300 author2^50 author_additional^50 author_fuller^150 contents^10 topic_unstemmed^4200 topic^400 geographic^300 genre^300 allfields_unstemmed^4010 fulltext_unstemmed^4010 allfields fulltext description^10 isbn issn ismn_isn_mv collection_txt_mv classification_txt_mv</str>
+          <str name="qt">edismax</str>
+          <str name="mm">0%</str>
+          <str name="q">*:*</str>
         </lst>
         <lst>
-          <str name="q">tutki ja kirjoita</str>
-          <str name="fq">-merged_child_boolean:true</str>
-          <str name="fq">-hidden_component_boolean:true</str>
-          <str name="fq">source_str_mv:("jykdok"+OR+"jyx"+OR+"janet"+OR+"helka"+OR+"kyyti"+OR+"oiva"+OR+"helmet"+OR+"MMA"+OR+"TMA"+OR+"OMA"+OR+"HMA"+OR+"VMA"+OR+"JoMA"+OR+"JyMA"+OR+"lusto"+OR+"metsastysmuseo"+OR+"muusa"+OR+"nurmes"+OR+"pielinen"+OR+"ilomantsi"+OR+"lapinmetsamuseo"+OR+"verla"+OR+"KA"+OR+"musketti"+OR+"designmuseo"+OR+"elektra_ah"+OR+"kansa_ah"+OR+"paivalehdenmuseo_ah"+OR+"ta_ah"+OR+"tm_ah"+OR+"werstas"+OR+"masto"+OR+"musketti_rautatie"+OR+"musketti_helina"+OR+"siirtolaisuusmuseo_ah"+OR+"yo-museo_ah"+OR+"leevi"+OR+"kultamuseo_ah"+OR+"hkm"+OR+"tyrni"+OR+"SLS"+OR+"siiri"+OR+"musketti_hrm"+OR+"musketti_tmk"+OR+"sa-kuva"+OR+"fsd"+OR+"hanna"+OR+"vanaicat"+OR+"plari"+OR+"vaski"+OR+"musketti_hevosenkenka"+OR+"fng_nyblin"+OR+"fng_simberg"+OR+"fng_styp"+OR+"kirjava"+OR+"alli"+OR+"mikkelikm"+OR+"muistaja_hyvinkaa"+OR+"muistaja_kerava"+OR+"muistaja_mantsala"+OR+"muistaja_nurmijarvi"+OR+"kaakkuri"+OR+"joel"+OR+"laurus"+OR+"fennica"+OR+"viola"+OR+"arto"+OR+"vaari"+OR+"oma"+OR+"sarka"+OR+"aura"+OR+"juolukka"+OR+"lauda"+OR+"metcat"+OR+"colibri"+OR+"musketti_kym"+OR+"musketti_lprmuseot"+OR+"josku"+OR+"ekm"+OR+"doria_taiy"+OR+"arsca"+OR+"haltia"+OR+"hurma"+OR+"ksm"+OR+"kajakki"+OR+"theseus_centria"+OR+"theseus_haagahelia"+OR+"theseus_hamk"+OR+"theseus_humak"+OR+"theseus_jamk"+OR+"theseus_kamk"+OR+"theseus_karelia"+OR+"theseus_kyamk"+OR+"theseus_lapinamk"+OR+"theseus_laurea"+OR+"theseus_mamk"+OR+"theseus_metropolia"+OR+"theseus_oamk"+OR+"theseus_phkk"+OR+"theseus_samk"+OR+"theseus_seamk"+OR+"theseus_tamk"+OR+"theseus_tuamk"+OR+"albumitauki"+OR+"jultika"+OR+"oula"+OR+"alma"+OR+"spegeln-bildsamlingarna"+OR+"spegeln-cultura"+OR+"spegeln-konstvetenskap"+OR+"spegeln-sibeliusmuseet")</str>
-          <str name="start">0</str>
-          <str name="rows">20</str>
-          <str name="sort">score desc</str>
+          <str name="fl">*,score</str>
+          <str name="spellcheck">false</str>
           <str name="facet">true</str>
-          <str name="facet.mincount">1</str>
           <str name="facet.limit">30</str>
-          <str name="facet.field">building</str>
-          <str name="facet.field">collection</str>
-          <str name="facet.field">format</str>
-          <str name="facet.field">main_date_str</str>
-          <str name="facet.field">topic_facet</str>
-          <str name="facet.field">author_facet</str>
-          <str name="facet.field">language</str>
-          <str name="facet.field">genre_facet</str>
-          <str name="facet.field">era_facet</str>
-          <str name="facet.field">geographic_facet</str>
-          <str name="facet.field">hierarchy_parent_title</str>
-          <str name="facet.field">first_indexed</str>
-          <str name="facet.field">search_daterange_mv</str>
-          <str name="facet.field">sector_str_mv</str>
-          <str name="facet.field">category_str_mv</str>
-          <str name="facet.field">original_lng_str_mv</str>
-          <str name="facet.field">subtitle_lng_str_mv</str>
-          <str name="facet.field">usage_rights_str_mv</str>
-          <str name="facet.field">major_genre_str_mv</str>
+          <str name="facet.field">{!ex=sector_str_mv_filter}sector_str_mv</str>
+          <str name="facet.field">{!ex=building_filter}building</str>
+          <str name="facet.field">{!ex=format_filter}format</str>
+          <str name="facet.field">{!ex=author_facet_filter}author_facet</str>
+          <str name="facet.field">{!ex=language_filter}language</str>
+          <str name="facet.field">{!ex=original_lng_str_mv_filter}original_lng_str_mv</str>
+          <str name="facet.field">{!ex=subtitle_lng_str_mv_filter}subtitle_lng_str_mv</str>
+          <str name="facet.field">{!ex=main_date_str_filter}main_date_str</str>
+          <str name="facet.field">{!ex=search_daterange_mv_filter}search_daterange_mv</str>
+          <str name="facet.field">{!ex=major_genre_str_mv_filter}major_genre_str_mv</str>
+          <str name="facet.field">{!ex=genre_facet_filter}genre_facet</str>
+          <str name="facet.field">{!ex=era_facet_filter}era_facet</str>
+          <str name="facet.field">{!ex=geographic_facet_filter}geographic_facet</str>
+          <str name="facet.field">{!ex=topic_facet_filter}topic_facet</str>
+          <str name="facet.field">{!ex=usage_rights_str_mv_filter}usage_rights_str_mv</str>
+          <str name="facet.field">{!ex=hierarchy_parent_title_filter}hierarchy_parent_title</str>
+          <str name="facet.field">{!ex=first_indexed_filter}first_indexed</str>
+          <str name="facet.field">{!ex=category_str_mv_filter}category_str_mv</str>
+          <str name="facet.field">{!ex=publishDateSort_filter}publishDateSort</str>
+          <str name="facet.field">{!ex=online_boolean_filter}online_boolean</str>
+          <str name="facet.field">{!ex=free_online_str_mv_filter}free_online_str_mv</str>
+          <str name="facet.sort">count</str>
+          <str name="f.usage_rights_str_mv.facet.sort">index</str>
+          <str name="f.building.facet.limit">-1</str>
+          <str name="f.format.facet.limit">-1</str>
+          <str name="f.sector_str_mv.facet.limit">-1</str>
+          <str name="f.category_str_mv.facet.limit">-1</str>
+          <str name="facet.mincount">1</str>
+          <str name="sort">score desc</str>
+          <str name="hl">false</str>
+          <str name="fq">-merged_child_boolean:true</str>
+          <str name="fq">source_str_mv:("eepos" OR "helka" OR "heili" OR "janet" OR "jykdok" OR "jyx" OR "keski" OR "kuopio" OR "leevi" OR "lukki" OR "piki" OR "rutakko" OR "vaski" OR "MMA" OR "TMA" OR "OMA" OR "HMA" OR "VMA" OR "JoMA" OR "JyMA" OR "lusto" OR "metsastysmuseo" OR "muusa" OR "nurmes" OR "pielinen" OR "ilomantsi" OR "lapinmetsamuseo" OR "verla" OR "KA" OR "musketti" OR "designmuseo" OR "elektra_ah" OR "kansa_ah" OR "paivalehdenmuseo_ah" OR "ta_ah" OR "tm_ah" OR "werstas" OR "masto" OR "musketti_rautatie" OR "musketti_helina" OR "siirtolaisuusmuseo_ah" OR "yo-museo_ah" OR "kultamuseo_ah" OR "hkm" OR "tyrni" OR "SLS" OR "siiri" OR "musketti_hrm" OR "musketti_tmk" OR "sa-kuva" OR "fsd" OR "hanna" OR "vanaicat" OR "plari" OR "musketti_hevosenkenka" OR "fng_nyblin" OR "fng_simberg" OR "fng_styp" OR "kirjava" OR "alli" OR "mikkelikm" OR "muistaja_hyvinkaa" OR "muistaja_kerava" OR "muistaja_mantsala" OR "muistaja_nurmijarvi" OR "kaakkuri" OR "joel" OR "laurus" OR "oma" OR "sarka" OR "aura" OR "juolukka" OR "lauda" OR "metcat" OR "colibri" OR "musketti_kym" OR "musketti_lprmuseot" OR "josku" OR "ekm" OR "arsca" OR "haltia" OR "hurma" OR "ksm" OR "kajakki" OR "theseus_centria" OR "theseus_haagahelia" OR "theseus_hamk" OR "theseus_humak" OR "theseus_jamk" OR "theseus_kamk" OR "theseus_karelia" OR "theseus_kyamk" OR "theseus_lapinamk" OR "theseus_laurea" OR "theseus_mamk" OR "theseus_metropolia" OR "theseus_oamk" OR "theseus_phkk" OR "theseus_samk" OR "theseus_seamk" OR "theseus_tamk" OR "theseus_arcada" OR "theseus_tuamk" OR "theseus_diak" OR "theseus_novia" OR "theseus_saimaa" OR "theseus_savonia" OR "theseus_vaasa" OR "albumitauki" OR "jultika" OR "tutdpub" OR "doria_taiy" OR "doria_ty" OR "spegeln-bildsamlingarna" OR "spegeln-cultura" OR "spegeln-konstvetenskap" OR "spegeln-sibeliusmuseet" OR "musketti_satmuseo" OR "oula" OR "alma" OR "aapeli" OR "diana" OR "tamcat" OR "tria" OR "wilma" OR "arken" OR "tutcat" OR "volter" OR "vaari" OR "fennica" OR "viola" OR "arto" OR "digi" OR "porstua" OR "Kotimaisten kielten keskus" OR "musketti_kello" OR "helmet" OR "raami" OR "kavi" OR "sotkamo" OR "musketti_lahti" OR "musketti_siida" OR "sim" OR "doria_mpkk" OR "taisto" OR "selma" OR "musketti_sum" OR "vantaa" OR "minnansalonki")</str>
+          <str name="fq">-hidden_component_boolean:true</str>
+          <str name="fq">((*:* NOT building:"0/x/") AND (*:* NOT building:"0/Konversio/") AND (*:* NOT original_id_str_mv:*))  AND  ((*:* NOT author_facet:"ebrary, Inc"))</str>
+          <str name="fq">-restricted_str:*</str>
+          <str name="wt">json</str>
+          <str name="json.nl">arrarr</str>
+          <str name="rows">100</str>
+          <str name="start">0</str>
+          <str name="qf">title_txtP^8600 title^750 title_full_unstemmed^750 title_full^500 title_short^750 title_alt^200 title_new^100 series^50 series2^30 author^300 author2^50 author_additional^50 author_fuller^150 contents^10 topic_unstemmed^4200 topic^400 geographic^300 genre^300 allfields_unstemmed^4010 fulltext_unstemmed^4010 allfields fulltext description^10 isbn issn ismn_isn_mv collection_txt_mv classification_txt_mv</str>
+          <str name="qt">edismax</str>
+          <str name="mm">0%</str>
+          <str name="q">tutki ja kirjoita</str>
         </lst>
       </arr>
     </listener>
+    -->
 
     <!-- a firstSearcher event is fired whenever a new searcher is being
          prepared but there is no current registered searcher to handle
          requests or to gain autowarming data from. -->
+    <!--
     <listener event="firstSearcher" class="solr.QuerySenderListener">
       <arr name="queries">
         <lst>
-          <str name="q">*:*</str>
-          <str name="fq">-merged_child_boolean:true</str>
-          <str name="fq">-hidden_component_boolean:true</str>
-          <str name="fq">source_str_mv:("jykdok"+OR+"jyx"+OR+"janet"+OR+"helka"+OR+"kyyti"+OR+"oiva"+OR+"helmet"+OR+"MMA"+OR+"TMA"+OR+"OMA"+OR+"HMA"+OR+"VMA"+OR+"JoMA"+OR+"JyMA"+OR+"lusto"+OR+"metsastysmuseo"+OR+"muusa"+OR+"nurmes"+OR+"pielinen"+OR+"ilomantsi"+OR+"lapinmetsamuseo"+OR+"verla"+OR+"KA"+OR+"musketti"+OR+"designmuseo"+OR+"elektra_ah"+OR+"kansa_ah"+OR+"paivalehdenmuseo_ah"+OR+"ta_ah"+OR+"tm_ah"+OR+"werstas"+OR+"masto"+OR+"musketti_rautatie"+OR+"musketti_helina"+OR+"siirtolaisuusmuseo_ah"+OR+"yo-museo_ah"+OR+"leevi"+OR+"kultamuseo_ah"+OR+"hkm"+OR+"tyrni"+OR+"SLS"+OR+"siiri"+OR+"musketti_hrm"+OR+"musketti_tmk"+OR+"sa-kuva"+OR+"fsd"+OR+"hanna"+OR+"vanaicat"+OR+"plari"+OR+"vaski"+OR+"musketti_hevosenkenka"+OR+"fng_nyblin"+OR+"fng_simberg"+OR+"fng_styp"+OR+"kirjava"+OR+"alli"+OR+"mikkelikm"+OR+"muistaja_hyvinkaa"+OR+"muistaja_kerava"+OR+"muistaja_mantsala"+OR+"muistaja_nurmijarvi"+OR+"kaakkuri"+OR+"joel"+OR+"laurus"+OR+"fennica"+OR+"viola"+OR+"arto"+OR+"vaari"+OR+"oma"+OR+"sarka"+OR+"aura"+OR+"juolukka"+OR+"lauda"+OR+"metcat"+OR+"colibri"+OR+"musketti_kym"+OR+"musketti_lprmuseot"+OR+"josku"+OR+"ekm"+OR+"doria_taiy"+OR+"arsca"+OR+"haltia"+OR+"hurma"+OR+"ksm"+OR+"kajakki"+OR+"theseus_centria"+OR+"theseus_haagahelia"+OR+"theseus_hamk"+OR+"theseus_humak"+OR+"theseus_jamk"+OR+"theseus_kamk"+OR+"theseus_karelia"+OR+"theseus_kyamk"+OR+"theseus_lapinamk"+OR+"theseus_laurea"+OR+"theseus_mamk"+OR+"theseus_metropolia"+OR+"theseus_oamk"+OR+"theseus_phkk"+OR+"theseus_samk"+OR+"theseus_seamk"+OR+"theseus_tamk"+OR+"theseus_tuamk"+OR+"albumitauki"+OR+"jultika"+OR+"oula"+OR+"alma"+OR+"spegeln-bildsamlingarna"+OR+"spegeln-cultura"+OR+"spegeln-konstvetenskap"+OR+"spegeln-sibeliusmuseet")</str>
-          <str name="start">0</str>
-          <str name="rows">20</str>
-          <str name="sort">score desc</str>
+          <str name="fl">*,score</str>
+          <str name="spellcheck">false</str>
           <str name="facet">true</str>
-          <str name="facet.mincount">1</str>
           <str name="facet.limit">30</str>
-          <str name="facet.field">building</str>
-          <str name="facet.field">collection</str>
-          <str name="facet.field">format</str>
-          <str name="facet.field">main_date_str</str>
-          <str name="facet.field">topic_facet</str>
-          <str name="facet.field">author_facet</str>
-          <str name="facet.field">language</str>
-          <str name="facet.field">genre_facet</str>
-          <str name="facet.field">era_facet</str>
-          <str name="facet.field">geographic_facet</str>
-          <str name="facet.field">hierarchy_parent_title</str>
-          <str name="facet.field">first_indexed</str>
-          <str name="facet.field">search_daterange_mv</str>
-          <str name="facet.field">sector_str_mv</str>
-          <str name="facet.field">category_str_mv</str>
-          <str name="facet.field">original_lng_str_mv</str>
-          <str name="facet.field">subtitle_lng_str_mv</str>
-          <str name="facet.field">usage_rights_str_mv</str>
-          <str name="facet.field">major_genre_str_mv</str>
+          <str name="facet.field">{!ex=sector_str_mv_filter}sector_str_mv</str>
+          <str name="facet.field">{!ex=building_filter}building</str>
+          <str name="facet.field">{!ex=format_filter}format</str>
+          <str name="facet.field">{!ex=author_facet_filter}author_facet</str>
+          <str name="facet.field">{!ex=language_filter}language</str>
+          <str name="facet.field">{!ex=original_lng_str_mv_filter}original_lng_str_mv</str>
+          <str name="facet.field">{!ex=subtitle_lng_str_mv_filter}subtitle_lng_str_mv</str>
+          <str name="facet.field">{!ex=main_date_str_filter}main_date_str</str>
+          <str name="facet.field">{!ex=search_daterange_mv_filter}search_daterange_mv</str>
+          <str name="facet.field">{!ex=major_genre_str_mv_filter}major_genre_str_mv</str>
+          <str name="facet.field">{!ex=genre_facet_filter}genre_facet</str>
+          <str name="facet.field">{!ex=era_facet_filter}era_facet</str>
+          <str name="facet.field">{!ex=geographic_facet_filter}geographic_facet</str>
+          <str name="facet.field">{!ex=topic_facet_filter}topic_facet</str>
+          <str name="facet.field">{!ex=usage_rights_str_mv_filter}usage_rights_str_mv</str>
+          <str name="facet.field">{!ex=hierarchy_parent_title_filter}hierarchy_parent_title</str>
+          <str name="facet.field">{!ex=first_indexed_filter}first_indexed</str>
+          <str name="facet.field">{!ex=category_str_mv_filter}category_str_mv</str>
+          <str name="facet.field">{!ex=publishDateSort_filter}publishDateSort</str>
+          <str name="facet.field">{!ex=online_boolean_filter}online_boolean</str>
+          <str name="facet.field">{!ex=free_online_str_mv_filter}free_online_str_mv</str>
+          <str name="facet.sort">count</str>
+          <str name="f.usage_rights_str_mv.facet.sort">index</str>
+          <str name="f.building.facet.limit">-1</str>
+          <str name="f.format.facet.limit">-1</str>
+          <str name="f.sector_str_mv.facet.limit">-1</str>
+          <str name="f.category_str_mv.facet.limit">-1</str>
+          <str name="facet.mincount">1</str>
+          <str name="sort">main_date_str desc</str>
+          <str name="hl">false</str>
+          <str name="fq">-merged_child_boolean:true</str>
+          <str name="fq">source_str_mv:("eepos" OR "helka" OR "heili" OR "janet" OR "jykdok" OR "jyx" OR "keski" OR "kuopio" OR "leevi" OR "lukki" OR "piki" OR "rutakko" OR "vaski" OR "MMA" OR "TMA" OR "OMA" OR "HMA" OR "VMA" OR "JoMA" OR "JyMA" OR "lusto" OR "metsastysmuseo" OR "muusa" OR "nurmes" OR "pielinen" OR "ilomantsi" OR "lapinmetsamuseo" OR "verla" OR "KA" OR "musketti" OR "designmuseo" OR "elektra_ah" OR "kansa_ah" OR "paivalehdenmuseo_ah" OR "ta_ah" OR "tm_ah" OR "werstas" OR "masto" OR "musketti_rautatie" OR "musketti_helina" OR "siirtolaisuusmuseo_ah" OR "yo-museo_ah" OR "kultamuseo_ah" OR "hkm" OR "tyrni" OR "SLS" OR "siiri" OR "musketti_hrm" OR "musketti_tmk" OR "sa-kuva" OR "fsd" OR "hanna" OR "vanaicat" OR "plari" OR "musketti_hevosenkenka" OR "fng_nyblin" OR "fng_simberg" OR "fng_styp" OR "kirjava" OR "alli" OR "mikkelikm" OR "muistaja_hyvinkaa" OR "muistaja_kerava" OR "muistaja_mantsala" OR "muistaja_nurmijarvi" OR "kaakkuri" OR "joel" OR "laurus" OR "oma" OR "sarka" OR "aura" OR "juolukka" OR "lauda" OR "metcat" OR "colibri" OR "musketti_kym" OR "musketti_lprmuseot" OR "josku" OR "ekm" OR "arsca" OR "haltia" OR "hurma" OR "ksm" OR "kajakki" OR "theseus_centria" OR "theseus_haagahelia" OR "theseus_hamk" OR "theseus_humak" OR "theseus_jamk" OR "theseus_kamk" OR "theseus_karelia" OR "theseus_kyamk" OR "theseus_lapinamk" OR "theseus_laurea" OR "theseus_mamk" OR "theseus_metropolia" OR "theseus_oamk" OR "theseus_phkk" OR "theseus_samk" OR "theseus_seamk" OR "theseus_tamk" OR "theseus_arcada" OR "theseus_tuamk" OR "theseus_diak" OR "theseus_novia" OR "theseus_saimaa" OR "theseus_savonia" OR "theseus_vaasa" OR "albumitauki" OR "jultika" OR "tutdpub" OR "doria_taiy" OR "doria_ty" OR "spegeln-bildsamlingarna" OR "spegeln-cultura" OR "spegeln-konstvetenskap" OR "spegeln-sibeliusmuseet" OR "musketti_satmuseo" OR "oula" OR "alma" OR "aapeli" OR "diana" OR "tamcat" OR "tria" OR "wilma" OR "arken" OR "tutcat" OR "volter" OR "vaari" OR "fennica" OR "viola" OR "arto" OR "digi" OR "porstua" OR "Kotimaisten kielten keskus" OR "musketti_kello" OR "helmet" OR "raami" OR "kavi" OR "sotkamo" OR "musketti_lahti" OR "musketti_siida" OR "sim" OR "doria_mpkk" OR "taisto" OR "selma" OR "musketti_sum" OR "vantaa" OR "minnansalonki")</str>
+          <str name="fq">-hidden_component_boolean:true</str>
+          <str name="fq">((*:* NOT building:"0/x/") AND (*:* NOT building:"0/Konversio/") AND (*:* NOT original_id_str_mv:*))  AND  ((*:* NOT author_facet:"ebrary, Inc"))</str>
+          <str name="fq">-restricted_str:*</str>
+          <str name="rows">100</str>
+          <str name="start">0</str>
+          <str name="qf">title_txtP^8600 title^750 title_full_unstemmed^750 title_full^500 title_short^750 title_alt^200 title_new^100 series^50 series2^30 author^300 author2^50 author_additional^50 author_fuller^150 contents^10 topic_unstemmed^4200 topic^400 geographic^300 genre^300 allfields_unstemmed^4010 fulltext_unstemmed^4010 allfields fulltext description^10 isbn issn ismn_isn_mv collection_txt_mv classification_txt_mv</str>
+          <str name="qt">edismax</str>
+          <str name="mm">0%</str>
+          <str name="q">*:*</str>
         </lst>
         <lst>
-          <str name="q">tutki ja kirjoita</str>
-          <str name="fq">-merged_child_boolean:true</str>
-          <str name="fq">-hidden_component_boolean:true</str>
-          <str name="fq">source_str_mv:("jykdok"+OR+"jyx"+OR+"janet"+OR+"helka"+OR+"kyyti"+OR+"oiva"+OR+"helmet"+OR+"MMA"+OR+"TMA"+OR+"OMA"+OR+"HMA"+OR+"VMA"+OR+"JoMA"+OR+"JyMA"+OR+"lusto"+OR+"metsastysmuseo"+OR+"muusa"+OR+"nurmes"+OR+"pielinen"+OR+"ilomantsi"+OR+"lapinmetsamuseo"+OR+"verla"+OR+"KA"+OR+"musketti"+OR+"designmuseo"+OR+"elektra_ah"+OR+"kansa_ah"+OR+"paivalehdenmuseo_ah"+OR+"ta_ah"+OR+"tm_ah"+OR+"werstas"+OR+"masto"+OR+"musketti_rautatie"+OR+"musketti_helina"+OR+"siirtolaisuusmuseo_ah"+OR+"yo-museo_ah"+OR+"leevi"+OR+"kultamuseo_ah"+OR+"hkm"+OR+"tyrni"+OR+"SLS"+OR+"siiri"+OR+"musketti_hrm"+OR+"musketti_tmk"+OR+"sa-kuva"+OR+"fsd"+OR+"hanna"+OR+"vanaicat"+OR+"plari"+OR+"vaski"+OR+"musketti_hevosenkenka"+OR+"fng_nyblin"+OR+"fng_simberg"+OR+"fng_styp"+OR+"kirjava"+OR+"alli"+OR+"mikkelikm"+OR+"muistaja_hyvinkaa"+OR+"muistaja_kerava"+OR+"muistaja_mantsala"+OR+"muistaja_nurmijarvi"+OR+"kaakkuri"+OR+"joel"+OR+"laurus"+OR+"fennica"+OR+"viola"+OR+"arto"+OR+"vaari"+OR+"oma"+OR+"sarka"+OR+"aura"+OR+"juolukka"+OR+"lauda"+OR+"metcat"+OR+"colibri"+OR+"musketti_kym"+OR+"musketti_lprmuseot"+OR+"josku"+OR+"ekm"+OR+"doria_taiy"+OR+"arsca"+OR+"haltia"+OR+"hurma"+OR+"ksm"+OR+"kajakki"+OR+"theseus_centria"+OR+"theseus_haagahelia"+OR+"theseus_hamk"+OR+"theseus_humak"+OR+"theseus_jamk"+OR+"theseus_kamk"+OR+"theseus_karelia"+OR+"theseus_kyamk"+OR+"theseus_lapinamk"+OR+"theseus_laurea"+OR+"theseus_mamk"+OR+"theseus_metropolia"+OR+"theseus_oamk"+OR+"theseus_phkk"+OR+"theseus_samk"+OR+"theseus_seamk"+OR+"theseus_tamk"+OR+"theseus_tuamk"+OR+"albumitauki"+OR+"jultika"+OR+"oula"+OR+"alma"+OR+"spegeln-bildsamlingarna"+OR+"spegeln-cultura"+OR+"spegeln-konstvetenskap"+OR+"spegeln-sibeliusmuseet")</str>
-          <str name="start">0</str>
-          <str name="rows">20</str>
-          <str name="sort">score desc</str>
+          <str name="fl">*,score</str>
+          <str name="spellcheck">false</str>
           <str name="facet">true</str>
-          <str name="facet.mincount">1</str>
           <str name="facet.limit">30</str>
-          <str name="facet.field">building</str>
-          <str name="facet.field">collection</str>
-          <str name="facet.field">format</str>
-          <str name="facet.field">main_date_str</str>
-          <str name="facet.field">topic_facet</str>
-          <str name="facet.field">author_facet</str>
-          <str name="facet.field">language</str>
-          <str name="facet.field">genre_facet</str>
-          <str name="facet.field">era_facet</str>
-          <str name="facet.field">geographic_facet</str>
-          <str name="facet.field">hierarchy_parent_title</str>
-          <str name="facet.field">first_indexed</str>
-          <str name="facet.field">search_daterange_mv</str>
-          <str name="facet.field">sector_str_mv</str>
-          <str name="facet.field">category_str_mv</str>
-          <str name="facet.field">original_lng_str_mv</str>
-          <str name="facet.field">subtitle_lng_str_mv</str>
-          <str name="facet.field">usage_rights_str_mv</str>
-          <str name="facet.field">major_genre_str_mv</str>
+          <str name="facet.field">{!ex=sector_str_mv_filter}sector_str_mv</str>
+          <str name="facet.field">{!ex=building_filter}building</str>
+          <str name="facet.field">{!ex=format_filter}format</str>
+          <str name="facet.field">{!ex=author_facet_filter}author_facet</str>
+          <str name="facet.field">{!ex=language_filter}language</str>
+          <str name="facet.field">{!ex=original_lng_str_mv_filter}original_lng_str_mv</str>
+          <str name="facet.field">{!ex=subtitle_lng_str_mv_filter}subtitle_lng_str_mv</str>
+          <str name="facet.field">{!ex=main_date_str_filter}main_date_str</str>
+          <str name="facet.field">{!ex=search_daterange_mv_filter}search_daterange_mv</str>
+          <str name="facet.field">{!ex=major_genre_str_mv_filter}major_genre_str_mv</str>
+          <str name="facet.field">{!ex=genre_facet_filter}genre_facet</str>
+          <str name="facet.field">{!ex=era_facet_filter}era_facet</str>
+          <str name="facet.field">{!ex=geographic_facet_filter}geographic_facet</str>
+          <str name="facet.field">{!ex=topic_facet_filter}topic_facet</str>
+          <str name="facet.field">{!ex=usage_rights_str_mv_filter}usage_rights_str_mv</str>
+          <str name="facet.field">{!ex=hierarchy_parent_title_filter}hierarchy_parent_title</str>
+          <str name="facet.field">{!ex=first_indexed_filter}first_indexed</str>
+          <str name="facet.field">{!ex=category_str_mv_filter}category_str_mv</str>
+          <str name="facet.field">{!ex=publishDateSort_filter}publishDateSort</str>
+          <str name="facet.field">{!ex=online_boolean_filter}online_boolean</str>
+          <str name="facet.field">{!ex=free_online_str_mv_filter}free_online_str_mv</str>
+          <str name="facet.sort">count</str>
+          <str name="f.usage_rights_str_mv.facet.sort">index</str>
+          <str name="f.building.facet.limit">-1</str>
+          <str name="f.format.facet.limit">-1</str>
+          <str name="f.sector_str_mv.facet.limit">-1</str>
+          <str name="f.category_str_mv.facet.limit">-1</str>
+          <str name="facet.mincount">1</str>
+          <str name="sort">score desc</str>
+          <str name="hl">false</str>
+          <str name="fq">-merged_child_boolean:true</str>
+          <str name="fq">source_str_mv:("eepos" OR "helka" OR "heili" OR "janet" OR "jykdok" OR "jyx" OR "keski" OR "kuopio" OR "leevi" OR "lukki" OR "piki" OR "rutakko" OR "vaski" OR "MMA" OR "TMA" OR "OMA" OR "HMA" OR "VMA" OR "JoMA" OR "JyMA" OR "lusto" OR "metsastysmuseo" OR "muusa" OR "nurmes" OR "pielinen" OR "ilomantsi" OR "lapinmetsamuseo" OR "verla" OR "KA" OR "musketti" OR "designmuseo" OR "elektra_ah" OR "kansa_ah" OR "paivalehdenmuseo_ah" OR "ta_ah" OR "tm_ah" OR "werstas" OR "masto" OR "musketti_rautatie" OR "musketti_helina" OR "siirtolaisuusmuseo_ah" OR "yo-museo_ah" OR "kultamuseo_ah" OR "hkm" OR "tyrni" OR "SLS" OR "siiri" OR "musketti_hrm" OR "musketti_tmk" OR "sa-kuva" OR "fsd" OR "hanna" OR "vanaicat" OR "plari" OR "musketti_hevosenkenka" OR "fng_nyblin" OR "fng_simberg" OR "fng_styp" OR "kirjava" OR "alli" OR "mikkelikm" OR "muistaja_hyvinkaa" OR "muistaja_kerava" OR "muistaja_mantsala" OR "muistaja_nurmijarvi" OR "kaakkuri" OR "joel" OR "laurus" OR "oma" OR "sarka" OR "aura" OR "juolukka" OR "lauda" OR "metcat" OR "colibri" OR "musketti_kym" OR "musketti_lprmuseot" OR "josku" OR "ekm" OR "arsca" OR "haltia" OR "hurma" OR "ksm" OR "kajakki" OR "theseus_centria" OR "theseus_haagahelia" OR "theseus_hamk" OR "theseus_humak" OR "theseus_jamk" OR "theseus_kamk" OR "theseus_karelia" OR "theseus_kyamk" OR "theseus_lapinamk" OR "theseus_laurea" OR "theseus_mamk" OR "theseus_metropolia" OR "theseus_oamk" OR "theseus_phkk" OR "theseus_samk" OR "theseus_seamk" OR "theseus_tamk" OR "theseus_arcada" OR "theseus_tuamk" OR "theseus_diak" OR "theseus_novia" OR "theseus_saimaa" OR "theseus_savonia" OR "theseus_vaasa" OR "albumitauki" OR "jultika" OR "tutdpub" OR "doria_taiy" OR "doria_ty" OR "spegeln-bildsamlingarna" OR "spegeln-cultura" OR "spegeln-konstvetenskap" OR "spegeln-sibeliusmuseet" OR "musketti_satmuseo" OR "oula" OR "alma" OR "aapeli" OR "diana" OR "tamcat" OR "tria" OR "wilma" OR "arken" OR "tutcat" OR "volter" OR "vaari" OR "fennica" OR "viola" OR "arto" OR "digi" OR "porstua" OR "Kotimaisten kielten keskus" OR "musketti_kello" OR "helmet" OR "raami" OR "kavi" OR "sotkamo" OR "musketti_lahti" OR "musketti_siida" OR "sim" OR "doria_mpkk" OR "taisto" OR "selma" OR "musketti_sum" OR "vantaa" OR "minnansalonki")</str>
+          <str name="fq">-hidden_component_boolean:true</str>
+          <str name="fq">((*:* NOT building:"0/x/") AND (*:* NOT building:"0/Konversio/") AND (*:* NOT original_id_str_mv:*))  AND  ((*:* NOT author_facet:"ebrary, Inc"))</str>
+          <str name="fq">-restricted_str:*</str>
+          <str name="rows">100</str>
+          <str name="start">0</str>
+          <str name="qf">title_txtP^8600 title^750 title_full_unstemmed^750 title_full^500 title_short^750 title_alt^200 title_new^100 series^50 series2^30 author^300 author2^50 author_additional^50 author_fuller^150 contents^10 topic_unstemmed^4200 topic^400 geographic^300 genre^300 allfields_unstemmed^4010 fulltext_unstemmed^4010 allfields fulltext description^10 isbn issn ismn_isn_mv collection_txt_mv classification_txt_mv</str>
+          <str name="qt">edismax</str>
+          <str name="mm">0%</str>
+          <str name="q">tutki ja kirjoita</str>
         </lst>
       </arr>
     </listener>
+    -->
 
     <!-- If a search request comes in and there is no current registered searcher,
          then immediately register the still warming searcher and use it.  If
@@ -604,7 +675,7 @@
      If no qt is defined, the requestHandler that declares default="true"
      will be used.
   -->
-  <requestHandler name="standard" class="solr.StandardRequestHandler" default="true">
+  <requestHandler name="standard" class="solr.SearchHandler" default="true">
     <!-- default values for query parameters -->
     <lst name="defaults">
       <str name="echoParams">explicit</str>

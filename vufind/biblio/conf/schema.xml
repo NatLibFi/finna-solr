@@ -101,21 +101,20 @@
       <filter class="solr.ICUFoldingFilterFactory"/>
     </analyzer>
   </fieldType>
-  <fieldType name="date" class="solr.TrieDateField" sortMissingLast="true" omitNorms="true" precisionStep="6"/>
+  <fieldType name="date" class="solr.DatePointField" sortMissingLast="true" omitNorms="true"/>
   <fieldType name="random" class="solr.RandomSortField" indexed="true" />
   <fieldType name="binary" class="solr.BinaryField"/>
 
   <!-- Field types for e.g. museum data -->
   <fieldType name="location" class="solr.LatLonPointSpatialField" docValues="true"/>
   <fieldType name="boolean" class="solr.BoolField" sortMissingLast="true" omitNorms="true"/>
-  <fieldType name="tdouble" class="solr.TrieField" type="double" omitNorms="true" positionIncrementGap="0" indexed="true" stored="false" />
   <fieldType name="geo" class="solr.SpatialRecursivePrefixTreeFieldType" spatialContextFactory="JTS" geo="true" distErrPct="0.25" maxDistErr="1" autoIndex="true" />
   <fieldType name="long" class="solr.TrieLongField" precisionStep="0" positionIncrementGap="0"/>
   <!-- Date range -->
   <fieldType name="dateRange" class="solr.DateRangeField"/>
 
   <!-- Core Fields  -->
-  <field name="id" type="string" indexed="true" stored="true"/>
+  <field name="id" type="string" indexed="true" stored="true" docValues="true"/>
   <field name="fullrecord" type="string" indexed="false" stored="true"/>
   <field name="marc_error" type="string" indexed="false" stored="true" multiValued="true"/>
   <field name="allfields" type="text" indexed="true" stored="false" multiValued="true"/>
@@ -125,9 +124,9 @@
   <field name="spelling" type="textSpell" indexed="true" stored="true" multiValued="true"/>
   <field name="spellingShingle" type="textSpellShingle" indexed="true" stored="true" multiValued="true"/>
   <!-- Institutional Fields -->
-  <field name="institution" type="string" indexed="true" stored="true" multiValued="true"/>
-  <field name="collection" type="string" indexed="true" multiValued="true" docValues="true"/>
-  <field name="building" type="string" indexed="true" multiValued="true" docValues="true"/>
+  <field name="institution" type="string" indexed="true" stored="false" multiValued="true" docValues="true"/>
+  <field name="collection" type="string" indexed="true" stored="false" multiValued="true" docValues="true"/>
+  <field name="building" type="string" indexed="true" stored="false" multiValued="true" docValues="true"/>
   <!-- Generic Fields -->
   <field name="language" type="string" indexed="true" multiValued="true" docValues="true" storeOffsetsWithPositions="true"/>
   <field name="format" type="string" indexed="true" multiValued="true" docValues="true"/>
@@ -135,21 +134,21 @@
   <field name="author_variant" type="text" indexed="true" stored="true" multiValued="true" termVectors="true" storeOffsetsWithPositions="true"/>
   <field name="author_role" type="string" indexed="true" stored="true" multiValued="true"/>
   <field name="author_facet" type="string" indexed="true" multiValued="true" docValues="true"/>
-  <field name="author_sort" type="string" indexed="true" stored="true"/>
+  <field name="author_sort" type="string" indexed="true" stored="true" docValues="true"/>
   <field name="title" type="text" indexed="true" stored="true" storeOffsetsWithPositions="true"/>
-  <field name="title_sort" type="string" indexed="true" stored="true"/>
+  <field name="title_sort" type="string" indexed="true" stored="false" docValues="true"/>
   <field name="title_sub" type="text" indexed="true" stored="true"/>
   <field name="title_short" type="text" indexed="true" stored="true"/>
   <field name="title_full" type="text" indexed="true" stored="true" storeOffsetsWithPositions="true"/>
   <field name="title_full_unstemmed" type="textProper" indexed="true" stored="true"/>
   <field name="title_fullStr" type="string" indexed="true" stored="true"/>
   <field name="title_auth" type="text" indexed="true" stored="true" storeOffsetsWithPositions="true"/>
-  <field name="physical" type="string" indexed="true" stored="true" multiValued="true"/>
+  <field name="physical" type="string" indexed="true" stored="false" multiValued="true" docValues="true"/>
   <field name="publisher" type="textProper" indexed="true" stored="true" multiValued="true" storeOffsetsWithPositions="true"/>
-  <field name="publisherStr" type="string" indexed="true" stored="false" multiValued="true"/>
-  <field name="publishDate" type="string" indexed="true" stored="true" multiValued="true"/>
-  <field name="publishDateSort" type="string" indexed="true" stored="false"/>
-  <field name="edition" type="string" indexed="true" stored="true" storeOffsetsWithPositions="true"/>
+  <field name="publisherStr" type="string" indexed="true" stored="false" multiValued="true" docValues="true"/>
+  <field name="publishDate" type="string" indexed="true" stored="false" multiValued="true" docValues="true"/>
+  <field name="publishDateSort" type="string" indexed="true" stored="false" docValues="true"/>
+  <field name="edition" type="string" indexed="true" stored="false" docValues="true" storeOffsetsWithPositions="true"/>
   <field name="description" type="text" indexed="true" stored="true" storeOffsetsWithPositions="true"/>
   <field name="contents" type="text" indexed="true" stored="true" multiValued="true" storeOffsetsWithPositions="true"/>
   <field name="url" type="string" indexed="false" stored="true" multiValued="true"/>
@@ -159,19 +158,19 @@
   <field name="ctrlnum" type="string" indexed="true" stored="true" multiValued="true"/>
   <field name="isbn" type="isn" indexed="true" stored="true" multiValued="true" storeOffsetsWithPositions="true"/>
   <field name="issn" type="isn" indexed="true" stored="true" multiValued="true" storeOffsetsWithPositions="true"/>
-  <field name="oclc_num" type="string" indexed="true" stored="true" multiValued="true" />
-  <field name="callnumber-first" type="string" indexed="true" stored="true"/>
-  <field name="callnumber-subject" type="string" indexed="true" stored="true"/>
-  <field name="callnumber-label" type="string" indexed="true" stored="true"/>
-  <field name="callnumber-sort" type="string" indexed="true" stored="true"/>
-  <field name="callnumber-raw" type="string" indexed="true" stored="true" multiValued="true" />
+  <field name="oclc_num" type="string" indexed="true" stored="false" docValues="true" multiValued="true" />
+  <field name="callnumber-first" type="string" indexed="true" stored="false" docValues="true"/>
+  <field name="callnumber-subject" type="string" indexed="true" stored="false" docValues="true"/>
+  <field name="callnumber-label" type="string" indexed="true" stored="false" docValues="true"/>
+  <field name="callnumber-sort" type="string" indexed="true" stored="false" docValues="true"/>
+  <field name="callnumber-raw" type="string" indexed="true" stored="false" multiValued="true" />
   <field name="callnumber-search" type="callnumberSearch" indexed="true" stored="true" multiValued="true" />
-  <field name="dewey-hundreds" type="string" indexed="true" stored="true" multiValued="true"/>
-  <field name="dewey-tens" type="string" indexed="true" stored="true" multiValued="true"/>
-  <field name="dewey-ones" type="string" indexed="true" stored="true" multiValued="true"/>
-  <field name="dewey-full" type="string" indexed="true" stored="true" multiValued="true" storeOffsetsWithPositions="true"/>
-  <field name="dewey-sort" type="string" indexed="true" stored="true" />
-  <field name="dewey-raw" type="string" indexed="true" stored="true" multiValued="true" />
+  <field name="dewey-hundreds" type="string" indexed="true" stored="false" docValues="true" multiValued="true"/>
+  <field name="dewey-tens" type="string" indexed="true" stored="false" docValues="true" multiValued="true"/>
+  <field name="dewey-ones" type="string" indexed="true" stored="false" docValues="true" multiValued="true"/>
+  <field name="dewey-full" type="string" indexed="true" stored="false" docValues="true" multiValued="true" storeOffsetsWithPositions="true"/>
+  <field name="dewey-sort" type="string" indexed="true" stored="false" docValues="true" />
+  <field name="dewey-raw" type="string" indexed="true" stored="false" docValues="true" multiValued="true" />
   <field name="dewey-search" type="callnumberSearch" indexed="true" stored="true" multiValued="true" />
   <field name="author2" type="textProper" indexed="true" stored="true" multiValued="true" storeOffsetsWithPositions="true"/>
   <field name="author2_variant" type="text" indexed="true" stored="true" multiValued="true"  storeOffsetsWithPositions="true"/>
@@ -184,23 +183,23 @@
   <field name="title_alt" type="text" indexed="true" stored="true" multiValued="true" storeOffsetsWithPositions="true"/>
   <field name="title_old" type="text" indexed="true" stored="true" multiValued="true" storeOffsetsWithPositions="true"/>
   <field name="title_new" type="text" indexed="true" stored="true" multiValued="true" storeOffsetsWithPositions="true"/>
-  <field name="dateSpan" type="string" indexed="true" stored="true" multiValued="true"/>
+  <field name="dateSpan" type="string" indexed="true" stored="false" docValues="true" multiValued="true"/>
   <field name="series" type="text" indexed="true" stored="true" multiValued="true" storeOffsetsWithPositions="true"/>
   <field name="series2" type="text" indexed="true" stored="true" multiValued="true" storeOffsetsWithPositions="true"/>
   <field name="topic" type="text" indexed="true" stored="true" multiValued="true" storeOffsetsWithPositions="true"/>
   <field name="topic_unstemmed" type="textProper" indexed="true" stored="false" multiValued="true"/>
-  <field name="topic_facet" type="string" indexed="true" multiValued="true" docValues="true"/>
+  <field name="topic_facet" type="string" indexed="true" stored="false" multiValued="true" docValues="true"/>
   <field name="topic_browse" type="string" indexed="true" stored="false" multiValued="true"/>
   <field name="author_browse" type="string" indexed="true" stored="false" multiValued="true"/>
   <field name="genre" type="text" indexed="true" stored="true" multiValued="true" storeOffsetsWithPositions="true"/>
-  <field name="genre_facet" type="string" indexed="true" multiValued="true" docValues="true"/>
+  <field name="genre_facet" type="string" indexed="true" stored="false" multiValued="true" docValues="true"/>
   <field name="geographic" type="text" indexed="true" stored="true" multiValued="true" storeOffsetsWithPositions="true"/>
-  <field name="geographic_facet" type="string" indexed="true" multiValued="true" docValues="true"/>
+  <field name="geographic_facet" type="string" indexed="true" stored="false" multiValued="true" docValues="true"/>
   <field name="era" type="text" indexed="true" stored="true" multiValued="true" storeOffsetsWithPositions="true"/>
-  <field name="era_facet" type="string" indexed="true" multiValued="true" docValues="true"/>
-  <field name="illustrated" type="string" indexed="true" stored="true" multiValued="false"/>
+  <field name="era_facet" type="string" indexed="true" stored="false" multiValued="true" docValues="true"/>
+  <field name="illustrated" type="string" indexed="true" stored="false" docValues="true" multiValued="false"/>
   <!-- Used for geographic map display -->
-  <field name="long_lat" type="geo" indexed="true" stored="true" multiValued="true" />
+  <field name="long_lat" type="geo" indexed="true" stored="true" multiValued="true"/>
   <field name="long_lat_display" type="text" indexed="true" stored="true" multiValued="true"/>
   <field name="long_lat_label" type="string" indexed="false" stored="true" multiValued="true"/>
   <!-- Hierarchy Fields -->
@@ -223,14 +222,14 @@
   <field name="recordtype" type="string" indexed="false" stored="true"/>
   <!-- Tracking fields to keep track of oldest and most recent index times -->
   <field name="first_indexed" type="date" indexed="true" stored="true" docValues="true"/>
-  <field name="last_indexed" type="date" indexed="true" stored="true"/>
+  <field name="last_indexed" type="date" indexed="true" stored="true" docValues="true"/>
   <!-- Dynamic fields for customization without schema modification -->
   <dynamicField name="*_date" type="date" indexed="true" stored="true" docValues="true"/>
   <dynamicField name="*_date_mv" type="date" indexed="true" stored="true" multiValued="true" docValues="true"/>
   <dynamicField name="*_isn" type="isn" indexed="true" stored="true"/>
   <dynamicField name="*_isn_mv" type="isn" indexed="true" stored="true" multiValued="true"/>
-  <dynamicField name="*_str" type="string" indexed="true" stored="true" docValues="true"/>
-  <dynamicField name="*_str_mv" type="string" indexed="true" stored="true" multiValued="true" docValues="true"/>
+  <dynamicField name="*_str" type="string" indexed="true" stored="false" docValues="true"/>
+  <dynamicField name="*_str_mv" type="string" indexed="true" stored="false" multiValued="true" docValues="true"/>
   <dynamicField name="*_txt" type="text" indexed="true" stored="true" storeOffsetsWithPositions="true"/>
   <dynamicField name="*_txt_mv" type="text" indexed="true" stored="true" multiValued="true" storeOffsetsWithPositions="true"/>
   <dynamicField name="*_txtP" type="textProper" indexed="true" stored="true" storeOffsetsWithPositions="true"/>
@@ -238,24 +237,26 @@
   <dynamicField name="*_random" type="random" />
 
   <!-- Local dynamic fields for customization without schema modification -->
-  <dynamicField name="*_coords"  type="location"  indexed="true" stored="true" multiValued="false"/>
+  <!-- Make sure to keep stored="true" for now since the location type doesn't support retrieval of values from docValues -->
+  <dynamicField name="*_coords"  type="location"  indexed="true" stored="true" multiValued="false" docValues="true"/>
   <dynamicField name="*_daterange"  type="dateRange"  indexed="true"  stored="true" multiValued="false"/>
   <dynamicField name="*_daterange_mv"  type="dateRange"  indexed="true"  stored="true" multiValued="true"/>
-  <dynamicField name="*_boolean" type="boolean" indexed="true" stored="true" required="false" docValues="true"/>
+  <dynamicField name="*_boolean" type="boolean" indexed="true" stored="false" required="false" docValues="true"/>
 
   <!-- Fields for museum data (LIDO) and archive data (EAD) -->
   <field name="measurements" type="text" indexed="true" stored="true" multiValued="true" storeOffsetsWithPositions="true"/>
-  <field name="material" type="string" indexed="true" stored="true" multiValued="true"/>
-  <field name="identifier" type="string" indexed="true" stored="true" multiValued="true"/>
-  <field name="culture" type="string" indexed="true" stored="true" multiValued="true" storeOffsetsWithPositions="true"/>
-  <field name="rights" type="string" indexed="true" stored="true" multiValued="true"/>
+  <field name="material" type="string" indexed="true" stored="false" docValues="true" multiValued="true"/>
+  <field name="identifier" type="string" indexed="true" stored="false" docValues="true" multiValued="true"/>
+  <field name="culture" type="string" indexed="true" stored="false" docValues="true" multiValued="true" storeOffsetsWithPositions="true"/>
+  <field name="rights" type="string" indexed="true" stored="false" docValues="true" multiValued="true"/>
 
   <!-- Coordinates -->
-  <dynamicField name="*_coordinate"  type="tdouble" indexed="true"  stored="true"/>
-  <dynamicField name="*_geo"  type="geo"  indexed="true" stored="true"  multiValued="true" />
+  <!-- Make sure to keep stored="true" for now since the location type doesn't support retrieval of values from docValues -->
+  <dynamicField name="*_coordinate" type="location" indexed="true" stored="true"/>
+  <dynamicField name="*_geo" type="geo" indexed="true" stored="true" multiValued="true"/>
 
   <!-- Version for Solr -->
-  <field name="_version_" type="long" indexed="true" stored="true"/>
+  <field name="_version_" type="long" indexed="false" stored="false" docValues="true"/>
   <uniqueKey>id</uniqueKey>
 
   <!-- CopyFields for Spelling -->
