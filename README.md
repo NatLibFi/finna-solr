@@ -93,6 +93,14 @@ This is the Finna VuFind configuration for Solr. Important bits:
 
         curl 'http://localhost:8983/solr/admin/collections?action=CREATE&name=biblio3&numShards=3&replicationFactor=3&collection.configName=biblio3&maxShardsPerNode=3'
 
+    Add a replica to a collection:
+
+        curl 'http://localhost:8983/solr/admin/collections?action=ADDREPLICA&collection=biblio3&shard=shard1&node=domain.somewhere:8983_solr&type=nrt'
+
+    Remove a replica from a collection:
+
+        curl 'http://localhost:8983/solr/admin/collections?action=DELETEREPLICA&collection=biblio3&shard=shard1&replica=core_nodeX'
+
     Use an alias to point to the current index version in use. This way you can just point the alias to a new index version when it's ready to use:
 
         curl 'http://localhost:8983/solr/admin/collections?action=CREATEALIAS&name=biblioprod&collections=biblio3'
@@ -103,7 +111,13 @@ This is the Finna VuFind configuration for Solr. Important bits:
 
     To check the SolrCloud status:
 
+        scripts/cluster_status.php
+
+    or
+
         curl 'http://localhost:8983/solr/admin/collections?action=clusterstatus&wt=json' | json_reformat
+
+    Full docs for the collections API: https://lucene.apache.org/solr/guide/7_1/collections-api.html
 
 ## Update
 
