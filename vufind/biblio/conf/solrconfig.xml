@@ -681,7 +681,7 @@
       <str name="echoParams">explicit</str>
       <str name="spellcheck.extendedResults">true</str>
       <str name="spellcheck.onlyMorePopular">true</str>
-      <str name="spellcheck.count">20</str>
+      <str name="spellcheck.count">5</str>
       <str name="spellcheck.collate">true</str>
       <str name="spellcheck.maxCollations">10</str>
       <str name="spellcheck.maxCollationTries">10</str>
@@ -721,7 +721,7 @@
       <str name="indent">true</str>
       <str name="spellcheck.extendedResults">true</str>
       <str name="spellcheck.onlyMorePopular">true</str>
-      <str name="spellcheck.count">20</str>
+      <str name="spellcheck.count">5</str>
       <str name="spellcheck.collate">true</str>
       <str name="spellcheck.maxCollations">10</str>
       <str name="spellcheck.maxCollationTries">10</str>
@@ -838,7 +838,7 @@
       <str name="classname">solr.DirectSolrSpellChecker</str>
       <str name="distanceMeasure">internal</str>
       <float name="accuracy">0.7</float>
-      <int name="maxEdits">2</int>
+      <int name="maxEdits">1</int>
       <int name="minPrefix">1</int>
       <int name="maxInspections">5</int>
       <int name="minQueryLength">4</int>
