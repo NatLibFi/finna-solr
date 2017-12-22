@@ -33,6 +33,9 @@ foreach ($state['cluster']['collections'] as $collectionName => $collection) {
             if ('active' !== $replica['state']) {
                 $errors = true;
             }
+            if (!isset($replica['type'])) {
+                $replica['type'] = '???';
+            }
             $info = "$coreNodeName, {$replica['type']}";
             if (!empty($replica['leader'])) {
                 $info .= ', leader';
