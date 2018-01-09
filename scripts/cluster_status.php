@@ -22,10 +22,17 @@ if (empty($state)) {
 $errors = false;
 $results = '';
 $state = json_decode($state, true);
+
+if (!isset($state['cluster']['collections'])) {
+    echo "Could not find collections in the cluster status response:\n";
+    var_export($state);
+    exit(1);
+}
+
 foreach ($state['cluster']['collections'] as $collectionName => $collection) {
     $results .= "Collection $collectionName (Solr port $port):\n";
     foreach ($collection['shards'] as $shardName => $shard) {
-        if ('active' !== $shard['state']) {
+        if ('active' !== $shard['state'] && 'inactive' !== $shard['state']) {
             $errors = true;
         }
         $results .= "  Shard $shardName (" . $shard['state'] . "):\n";
