@@ -30,7 +30,9 @@ if (!isset($state['cluster']['collections'])) {
 }
 
 foreach ($state['cluster']['collections'] as $collectionName => $collection) {
-    $results .= "Collection $collectionName (Solr port $port):\n";
+    $aliases = !empty($collection['aliases'])
+        ? (', alias ' . implode(', ', $collection['aliases'])) : '';
+    $results .= "Collection $collectionName (Solr port $port$aliases):\n";
     foreach ($collection['shards'] as $shardName => $shard) {
         if ('active' !== $shard['state'] && 'inactive' !== $shard['state']) {
             $errors = true;
