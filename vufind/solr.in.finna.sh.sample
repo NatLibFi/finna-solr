@@ -84,7 +84,9 @@ LOG4J_PROPS=$SOLR_HOME/log4j.properties
 
 # Location where Solr should write logs to; should agree with the file appender
 # settings in server/resources/log4j.properties
-SOLR_LOGS_DIR=$SOLR_HOME/logs
+if [ -z "$SOLR_LOGS_DIR" ]; then
+  SOLR_LOGS_DIR=$SOLR_HOME/logs
+fi
 
 # Sets the port Solr binds to, default is 8983
 if [ -z "$SOLR_PORT" ]; then
