@@ -3118,10 +3118,10 @@
 "\uFF11" => "1"
 
 # ⒈  [DIGIT ONE FULL STOP]
-"\u2488" => "1."
+"\u2488" => "1"
 
 # ⑴  [PARENTHESIZED DIGIT ONE]
-"\u2474" => "(1)"
+"\u2474" => "1"
 
 # ²  [SUPERSCRIPT TWO]
 "\u00B2" => "2"
@@ -3148,10 +3148,10 @@
 "\uFF12" => "2"
 
 # ⒉  [DIGIT TWO FULL STOP]
-"\u2489" => "2."
+"\u2489" => "2"
 
 # ⑵  [PARENTHESIZED DIGIT TWO]
-"\u2475" => "(2)"
+"\u2475" => "2"
 
 # ³  [SUPERSCRIPT THREE]
 "\u00B3" => "3"
@@ -3178,10 +3178,10 @@
 "\uFF13" => "3"
 
 # ⒊  [DIGIT THREE FULL STOP]
-"\u248A" => "3."
+"\u248A" => "3"
 
 # ⑶  [PARENTHESIZED DIGIT THREE]
-"\u2476" => "(3)"
+"\u2476" => "3"
 
 # ⁴  [SUPERSCRIPT FOUR]
 "\u2074" => "4"
@@ -3208,10 +3208,10 @@
 "\uFF14" => "4"
 
 # ⒋  [DIGIT FOUR FULL STOP]
-"\u248B" => "4."
+"\u248B" => "4"
 
 # ⑷  [PARENTHESIZED DIGIT FOUR]
-"\u2477" => "(4)"
+"\u2477" => "4"
 
 # ⁵  [SUPERSCRIPT FIVE]
 "\u2075" => "5"
@@ -3241,7 +3241,7 @@
 "\u248C" => "5."
 
 # ⑸  [PARENTHESIZED DIGIT FIVE]
-"\u2478" => "(5)"
+"\u2478" => "5"
 
 # ⁶  [SUPERSCRIPT SIX]
 "\u2076" => "6"
@@ -3268,10 +3268,10 @@
 "\uFF16" => "6"
 
 # ⒍  [DIGIT SIX FULL STOP]
-"\u248D" => "6."
+"\u248D" => "6"
 
 # ⑹  [PARENTHESIZED DIGIT SIX]
-"\u2479" => "(6)"
+"\u2479" => "6"
 
 # ⁷  [SUPERSCRIPT SEVEN]
 "\u2077" => "7"
@@ -3298,10 +3298,10 @@
 "\uFF17" => "7"
 
 # ⒎  [DIGIT SEVEN FULL STOP]
-"\u248E" => "7."
+"\u248E" => "7"
 
 # ⑺  [PARENTHESIZED DIGIT SEVEN]
-"\u247A" => "(7)"
+"\u247A" => "7"
 
 # ⁸  [SUPERSCRIPT EIGHT]
 "\u2078" => "8"
@@ -3328,10 +3328,10 @@
 "\uFF18" => "8"
 
 # ⒏  [DIGIT EIGHT FULL STOP]
-"\u248F" => "8."
+"\u248F" => "8"
 
 # ⑻  [PARENTHESIZED DIGIT EIGHT]
-"\u247B" => "(8)"
+"\u247B" => "8"
 
 # ⁹  [SUPERSCRIPT NINE]
 "\u2079" => "9"
@@ -3358,10 +3358,10 @@
 "\uFF19" => "9"
 
 # ⒐  [DIGIT NINE FULL STOP]
-"\u2490" => "9."
+"\u2490" => "9"
 
 # ⑼  [PARENTHESIZED DIGIT NINE]
-"\u247C" => "(9)"
+"\u247C" => "9"
 
 # ⑩  [CIRCLED NUMBER TEN]
 "\u2469" => "10"
@@ -3379,10 +3379,10 @@
 "\u2793" => "10"
 
 # ⒑  [NUMBER TEN FULL STOP]
-"\u2491" => "10."
+"\u2491" => "10"
 
 # ⑽  [PARENTHESIZED NUMBER TEN]
-"\u247D" => "(10)"
+"\u247D" => "10"
 
 # ⑪  [CIRCLED NUMBER ELEVEN]
 "\u246A" => "11"
@@ -3391,10 +3391,10 @@
 "\u24EB" => "11"
 
 # ⒒  [NUMBER ELEVEN FULL STOP]
-"\u2492" => "11."
+"\u2492" => "11"
 
 # ⑾  [PARENTHESIZED NUMBER ELEVEN]
-"\u247E" => "(11)"
+"\u247E" => "11"
 
 # ⑫  [CIRCLED NUMBER TWELVE]
 "\u246B" => "12"
@@ -3403,10 +3403,10 @@
 "\u24EC" => "12"
 
 # ⒓  [NUMBER TWELVE FULL STOP]
-"\u2493" => "12."
+"\u2493" => "12"
 
 # ⑿  [PARENTHESIZED NUMBER TWELVE]
-"\u247F" => "(12)"
+"\u247F" => "12"
 
 # ⑬  [CIRCLED NUMBER THIRTEEN]
 "\u246C" => "13"
@@ -3415,10 +3415,10 @@
 "\u24ED" => "13"
 
 # ⒔  [NUMBER THIRTEEN FULL STOP]
-"\u2494" => "13."
+"\u2494" => "13"
 
 # ⒀  [PARENTHESIZED NUMBER THIRTEEN]
-"\u2480" => "(13)"
+"\u2480" => "13"
 
 # ⑭  [CIRCLED NUMBER FOURTEEN]
 "\u246D" => "14"
@@ -3427,10 +3427,10 @@
 "\u24EE" => "14"
 
 # ⒕  [NUMBER FOURTEEN FULL STOP]
-"\u2495" => "14."
+"\u2495" => "14"
 
 # ⒁  [PARENTHESIZED NUMBER FOURTEEN]
-"\u2481" => "(14)"
+"\u2481" => "14"
 
 # ⑮  [CIRCLED NUMBER FIFTEEN]
 "\u246E" => "15"
@@ -3439,10 +3439,10 @@
 "\u24EF" => "15"
 
 # ⒖  [NUMBER FIFTEEN FULL STOP]
-"\u2496" => "15."
+"\u2496" => "15"
 
 # ⒂  [PARENTHESIZED NUMBER FIFTEEN]
-"\u2482" => "(15)"
+"\u2482" => "15"
 
 # ⑯  [CIRCLED NUMBER SIXTEEN]
 "\u246F" => "16"
@@ -3451,10 +3451,10 @@
 "\u24F0" => "16"
 
 # ⒗  [NUMBER SIXTEEN FULL STOP]
-"\u2497" => "16."
+"\u2497" => "16"
 
 # ⒃  [PARENTHESIZED NUMBER SIXTEEN]
-"\u2483" => "(16)"
+"\u2483" => "16"
 
 # ⑰  [CIRCLED NUMBER SEVENTEEN]
 "\u2470" => "17"
@@ -3463,10 +3463,10 @@
 "\u24F1" => "17"
 
 # ⒘  [NUMBER SEVENTEEN FULL STOP]
-"\u2498" => "17."
+"\u2498" => "17"
 
 # ⒄  [PARENTHESIZED NUMBER SEVENTEEN]
-"\u2484" => "(17)"
+"\u2484" => "17"
 
 # ⑱  [CIRCLED NUMBER EIGHTEEN]
 "\u2471" => "18"
@@ -3475,10 +3475,10 @@
 "\u24F2" => "18"
 
 # ⒙  [NUMBER EIGHTEEN FULL STOP]
-"\u2499" => "18."
+"\u2499" => "18"
 
 # ⒅  [PARENTHESIZED NUMBER EIGHTEEN]
-"\u2485" => "(18)"
+"\u2485" => "18"
 
 # ⑲  [CIRCLED NUMBER NINETEEN]
 "\u2472" => "19"
@@ -3487,10 +3487,10 @@
 "\u24F3" => "19"
 
 # ⒚  [NUMBER NINETEEN FULL STOP]
-"\u249A" => "19."
+"\u249A" => "19"
 
 # ⒆  [PARENTHESIZED NUMBER NINETEEN]
-"\u2486" => "(19)"
+"\u2486" => "19"
 
 # ⑳  [CIRCLED NUMBER TWENTY]
 "\u2473" => "20"
@@ -3499,79 +3499,79 @@
 "\u24F4" => "20"
 
 # ⒛  [NUMBER TWENTY FULL STOP]
-"\u249B" => "20."
+"\u249B" => "20"
 
 # ⒇  [PARENTHESIZED NUMBER TWENTY]
-"\u2487" => "(20)"
+"\u2487" => "20"
 
 # «  [LEFT-POINTING DOUBLE ANGLE QUOTATION MARK]
-"\u00AB" => "\""
+"\u00AB" => ""
 
 # »  [RIGHT-POINTING DOUBLE ANGLE QUOTATION MARK]
-"\u00BB" => "\""
+"\u00BB" => ""
 
 # “  [LEFT DOUBLE QUOTATION MARK]
-"\u201C" => "\""
+"\u201C" => ""
 
 # ”  [RIGHT DOUBLE QUOTATION MARK]
-"\u201D" => "\""
+"\u201D" => ""
 
 # „  [DOUBLE LOW-9 QUOTATION MARK]
-"\u201E" => "\""
+"\u201E" => ""
 
 # ″  [DOUBLE PRIME]
-"\u2033" => "\""
+"\u2033" => ""
 
 # ‶  [REVERSED DOUBLE PRIME]
-"\u2036" => "\""
+"\u2036" => ""
 
 # ❝  [HEAVY DOUBLE TURNED COMMA QUOTATION MARK ORNAMENT]
-"\u275D" => "\""
+"\u275D" => ""
 
 # ❞  [HEAVY DOUBLE COMMA QUOTATION MARK ORNAMENT]
-"\u275E" => "\""
+"\u275E" => ""
 
 # ❮  [HEAVY LEFT-POINTING ANGLE QUOTATION MARK ORNAMENT]
-"\u276E" => "\""
+"\u276E" => ""
 
 # ❯  [HEAVY RIGHT-POINTING ANGLE QUOTATION MARK ORNAMENT]
-"\u276F" => "\""
+"\u276F" => ""
 
 # ＂  [FULLWIDTH QUOTATION MARK]
-"\uFF02" => "\""
+"\uFF02" => ""
 
 # ‘  [LEFT SINGLE QUOTATION MARK]
-"\u2018" => "\'"
+"\u2018" => ""
 
 # ’  [RIGHT SINGLE QUOTATION MARK]
-"\u2019" => "\'"
+"\u2019" => ""
 
 # ‚  [SINGLE LOW-9 QUOTATION MARK]
-"\u201A" => "\'"
+"\u201A" => ""
 
 # ‛  [SINGLE HIGH-REVERSED-9 QUOTATION MARK]
-"\u201B" => "\'"
+"\u201B" => ""
 
 # ′  [PRIME]
-"\u2032" => "\'"
+"\u2032" => ""
 
 # ‵  [REVERSED PRIME]
-"\u2035" => "\'"
+"\u2035" => ""
 
 # ‹  [SINGLE LEFT-POINTING ANGLE QUOTATION MARK]
-"\u2039" => "\'"
+"\u2039" => ""
 
 # ›  [SINGLE RIGHT-POINTING ANGLE QUOTATION MARK]
-"\u203A" => "\'"
+"\u203A" => ""
 
 # ❛  [HEAVY SINGLE TURNED COMMA QUOTATION MARK ORNAMENT]
-"\u275B" => "\'"
+"\u275B" => ""
 
 # ❜  [HEAVY SINGLE COMMA QUOTATION MARK ORNAMENT]
-"\u275C" => "\'"
+"\u275C" => ""
 
 # ＇  [FULLWIDTH APOSTROPHE]
-"\uFF07" => "\'"
+"\uFF07" => ""
 
 # ‐  [HYPHEN]
 "\u2010" => "-"
@@ -3813,19 +3813,19 @@
 "\u02B8" => "y"
 
 # ʹ   [Modifier Letter Prime]
-"\u02B9" => "\\'"
+"\u02B9" => ""
 
 # ʺ   [Modifier Letter Double Prime]
-"\u02BA" => "\\""
+"\u02BA" => ""
 
 # ʻ   [Modifier Letter Turned Comma]
-"\u02BB" => ","
+"\u02BB" => ""
 
 # ʼ   [Modifier Letter Apostrophe]
-"\u02BC" => "\\'"
+"\u02BC" => ""
 
 # ʽ   [Modifier Letter Reversed Comma]
-"\u02BD" => ","
+"\u02BD" => ""
 
 # ʾ   [Modifier Letter Right Half Ring]
 "\u02BE" => ""
