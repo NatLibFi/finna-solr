@@ -119,6 +119,12 @@ This is the Finna VuFind configuration for Solr. Important bits:
 
     Full docs for the collections API: https://lucene.apache.org/solr/guide/7_1/collections-api.html
 
+13. To run a second Solr instance:
+
+        scripts/create_instance_dir vufind8984
+
+        SOLR_HOME=`pwd`/vufind8984 SOLR_PORT=8984 SOLR_INCLUDE=vufind/solr.in.finna.sh vendor/bin/solr start
+
 ## Update
 
 1. Pull the changes
