@@ -1,0 +1,9 @@
+# Ø  [LATIN CAPITAL LETTER O WITH STROKE]
+"\u00D8" => "ö"
+
+# ø  [LATIN SMALL LETTER O WITH STROKE]
+"\u00F8" => "ö"
+
+"Ö" => "ö"
+"Ä" => "ä"
+"Å" => "å"
