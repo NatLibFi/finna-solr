@@ -1,4 +1,4 @@
-# NDL-VuFind-Solr
+# Finna Solr
 
 Solr for Finna (VuFind)
 
