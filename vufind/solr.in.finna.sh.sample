@@ -77,10 +77,10 @@ if [ -z "$SOLR_HOME" ]; then
   SOLR_HOME=/data/solr/vufind
 fi
 
-# Solr provides a default Log4J configuration properties file in server/resources
+# Solr provides a default Log4J configuration xml file in server/resources
 # however, you may want to customize the log settings and file appender location
-# so you can point the script to use a different log4j.properties file
-LOG4J_PROPS=$SOLR_HOME/log4j.properties
+# so you can point the script to use a different log4j2.xml file
+LOG4J_PROPS=$SOLR_HOME/log4j2.xml
 
 # Location where Solr should write logs to; should agree with the file appender
 # settings in server/resources/log4j.properties

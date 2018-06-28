@@ -32,7 +32,7 @@
        that you fully re-index after changing this setting as it can
        affect both how text is indexed and queried.
     -->
-  <luceneMatchVersion>6.6.1</luceneMatchVersion>
+  <luceneMatchVersion>7.4.0</luceneMatchVersion>
 
   <!-- Use the classic schema style by default for VuFind -->
   <schemaFactory class="ClassicIndexSchemaFactory"/>
@@ -356,7 +356,7 @@
      If no qt is defined, the requestHandler that declares default="true"
      will be used.
   -->
-  <requestHandler name="standard" class="solr.StandardRequestHandler" default="true">
+  <requestHandler name="standard" class="solr.SearchHandler" default="true">
     <!-- default values for query parameters may optionally be defined here
      <lst name="defaults">
        <int name="rows">10</int>
@@ -369,6 +369,7 @@
       <str name="q.op">AND</str>
       <str name="df">allfields</str>
       <bool name="preferLocalShards">true</bool>
+      <str name="shards.preference">replica.type=PULL</str>
       <int name="timeAllowed">60000</int>
     </lst>
   </requestHandler>
