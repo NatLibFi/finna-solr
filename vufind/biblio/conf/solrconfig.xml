@@ -689,7 +689,7 @@
       <str name="spellcheck.collateExtendedResults">false</str>
       <int name="hl.maxMultiValuedToExamine">100</int>
       <str name="hl.method">unified</str>
-      <str name="shards.preference">replica.type=PULL,replica.location=local</str>
+      <str name="shards.preference">replica.type:PULL,replica.location:local</str>
       <int name="timeAllowed">60000</int>
       <str name="df">allfields</str>
       <str name="q.op">AND</str>
@@ -729,7 +729,7 @@
       <str name="spellcheck.collateExtendedResults">false</str>
       <int name="hl.maxMultiValuedToExamine">100</int>
       <str name="hl.method">unified</str>
-      <str name="shards.preference">replica.type=PULL,replica.location=local</str>
+      <str name="shards.preference">replica.type:PULL,replica.location:local</str>
       <int name="timeAllowed">60000</int>
       <str name="df">allfields</str>
       <str name="q.op">AND</str>
@@ -774,7 +774,7 @@
       <str name="spellcheck.collateExtendedResults">false</str>
       <int name="hl.maxMultiValuedToExamine">100</int>
       <str name="hl.method">unified</str>
-      <str name="shards.preference">replica.type=PULL,replica.location=local</str>
+      <str name="shards.preference">replica.type:PULL,replica.location:local</str>
       <int name="timeAllowed">60000</int>
       <str name="df">allfields</str>
       <str name="q.op">AND</str>
@@ -799,7 +799,7 @@
       <str name="spellcheck.collateExtendedResults">false</str>
       <int name="hl.maxMultiValuedToExamine">100</int>
       <str name="hl.method">unified</str>
-      <str name="shards.preference">replica.type=PULL,replica.location=local</str>
+      <str name="shards.preference">replica.type:PULL,replica.location:local</str>
       <int name="timeAllowed">60000</int>
       <str name="lowercaseOperators">false</str>
       <str name="df">allfields</str>
