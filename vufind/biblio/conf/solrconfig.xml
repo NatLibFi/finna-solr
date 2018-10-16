@@ -309,10 +309,10 @@
          -->
     <filterCache
       class="solr.LRUCache"
-      maxRamMB="1000"
-      size="1024"
+      maxRamMB="512"
+      size="4096"
       initialSize="512"
-      autowarmCount="512"/>
+      autowarmCount="128"/>
 
    <!-- queryResultCache caches results of searches - ordered lists of
          document ids (DocList) based on a query, a sort, and the range
