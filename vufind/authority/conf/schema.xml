@@ -35,6 +35,7 @@
   <field name="fullrecord" type="string" indexed="false" stored="true"/>
   <field name="marc_error" type="string" indexed="false" stored="true" multiValued="true"/>
   <field name="allfields" type="text" indexed="true" stored="false" multiValued="true"/>
+  <field name="record_format" type="string" indexed="true" stored="true" docValues="true"/>
 
   <!-- Extra identifiers - where did authority record originate? -->
   <field name="source" type="string" indexed="true" stored="true" docValues="true"/>
