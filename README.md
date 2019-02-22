@@ -105,6 +105,10 @@ This is the Finna VuFind configuration for Solr. Important bits:
 
         curl 'http://localhost:8983/solr/admin/collections?action=CREATEALIAS&name=biblioprod&collections=biblio3'
 
+    If you need to reload a collection e.g. for new configuration to take effect, you can do it using the collections API:
+
+        curl 'http://localhost:8983/solr/admin/collections?action=RELOAD&name=biblio3'
+
     When a collection is no longer needed, remove it using the collections API:
 
         curl 'http://localhost:8983/solr/admin/collections?action=DELETE&name=biblio3'
