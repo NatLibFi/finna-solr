@@ -85,7 +85,6 @@
   <dynamicField name="*_geo"  type="geo"  indexed="true" stored="true"  multiValued="true" />
 
   <!-- Finna extended fields -->
-  <field name="record_format" type="string" indexed="true" stored="true" docValues="true"/>
   <field name="institution" type="string" indexed="true" stored="true" multiValued="true" docValues="true"/>
 
   <uniqueKey>id</uniqueKey>
