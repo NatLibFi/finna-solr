@@ -44,6 +44,47 @@
       <filter class="solr.RemoveDuplicatesTokenFilterFactory"/>
     </analyzer>
   </fieldType>
+  <!-- Left-anchored text proper -->
+  <fieldType name="textProper_l" class="solr.TextField" positionIncrementGap="1000">
+    <analyzer type="index">
+      <tokenizer class="solr.ICUTokenizerFactory"/>
+      <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="^(.*)$" replacement="aaaa $1" />
+      <charFilter class="solr.MappingCharFilterFactory" mapping="mapping-special_fi.txt"/>
+      <filter class="solr.ICUFoldingFilterFactory" filter="[^åäöÅÄÖ]"/>
+      <filter class="solr.WordDelimiterGraphFilterFactory" generateWordParts="1" generateNumberParts="1" catenateWords="1" catenateNumbers="1" catenateAll="0" splitOnCaseChange="0" protected="delim_protected.txt"/>
+      <filter class="solr.FlattenGraphFilterFactory"/> <!-- required on index analyzers after graph filters -->
+      <filter class="solr.RemoveDuplicatesTokenFilterFactory"/>
+    </analyzer>
+    <analyzer type="query">
+      <tokenizer class="solr.ICUTokenizerFactory"/>
+      <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="^(.*)$" replacement="aaaa $1" />
+      <charFilter class="solr.MappingCharFilterFactory" mapping="mapping-special_fi.txt"/>
+      <filter class="solr.ICUFoldingFilterFactory" filter="[^åäöÅÄÖ]"/>
+      <filter class="solr.WordDelimiterGraphFilterFactory" generateWordParts="1" generateNumberParts="1" catenateWords="0" catenateNumbers="0" catenateAll="0" splitOnCaseChange="0" protected="delim_protected.txt"/>
+      <filter class="solr.RemoveDuplicatesTokenFilterFactory"/>
+    </analyzer>
+  </fieldType>
+  <!-- Left- and right-anchored text proper -->
+  <fieldType name="textProper_lr" class="solr.TextField" positionIncrementGap="1000">
+    <analyzer type="index">
+      <tokenizer class="solr.ICUTokenizerFactory"/>
+      <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="^(.*)$" replacement="aaaa $1 zzzz" />
+      <charFilter class="solr.MappingCharFilterFactory" mapping="mapping-special_fi.txt"/>
+      <filter class="solr.ICUFoldingFilterFactory" filter="[^åäöÅÄÖ]"/>
+      <filter class="solr.WordDelimiterGraphFilterFactory" generateWordParts="1" generateNumberParts="1" catenateWords="1" catenateNumbers="1" catenateAll="0" splitOnCaseChange="0" protected="delim_protected.txt"/>
+      <filter class="solr.FlattenGraphFilterFactory"/> <!-- required on index analyzers after graph filters -->
+      <filter class="solr.RemoveDuplicatesTokenFilterFactory"/>
+    </analyzer>
+    <analyzer type="query">
+      <tokenizer class="solr.ICUTokenizerFactory"/>
+      <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="^(.*)$" replacement="aaaa $1 zzzz" />
+      <charFilter class="solr.MappingCharFilterFactory" mapping="mapping-special_fi.txt"/>
+      <filter class="solr.ICUFoldingFilterFactory" filter="[^åäöÅÄÖ]"/>
+      <filter class="solr.WordDelimiterGraphFilterFactory" generateWordParts="1" generateNumberParts="1" catenateWords="0" catenateNumbers="0" catenateAll="0" splitOnCaseChange="0" protected="delim_protected.txt"/>
+      <filter class="solr.RemoveDuplicatesTokenFilterFactory"/>
+    </analyzer>
+  </fieldType>
+
   <!-- Basic Text Field for use with Spell Correction -->
   <fieldType name="textSpell" class="solr.TextField" positionIncrementGap="100">
     <analyzer>
@@ -233,6 +274,10 @@
   <dynamicField name="*_daterange"  type="dateRange"  indexed="true"  stored="true" multiValued="false"/>
   <dynamicField name="*_daterange_mv"  type="dateRange"  indexed="true"  stored="true" multiValued="true"/>
   <dynamicField name="*_boolean" type="boolean" indexed="true" stored="false" required="false" docValues="true"/>
+  <dynamicField name="*_txtP_l" type="textProper_l" indexed="true" stored="true" storeOffsetsWithPositions="true"/>
+  <dynamicField name="*_txtP_l_mv" type="textProper_l" indexed="true" stored="false" multiValued="true" storeOffsetsWithPositions="true"/>
+  <dynamicField name="*_txtP_lr" type="textProper_lr" indexed="true" stored="true" storeOffsetsWithPositions="true"/>
+  <dynamicField name="*_txtP_lr_mv" type="textProper_lr" indexed="true" stored="false" multiValued="true" storeOffsetsWithPositions="true"/>
 
   <!-- Fields for museum data (LIDO) and archive data (EAD) -->
   <field name="measurements" type="text" indexed="true" stored="true" multiValued="true" storeOffsetsWithPositions="true"/>
@@ -287,4 +332,8 @@
   <copyField source="title"    dest="title_txtP"/>
   <!-- text versions of fields for search -->
   <copyField source="collection"    dest="collection_txt_mv"/>
+  <!-- Copy fields for anchored title searches -->
+  <copyField source="title"         dest="title_txtP_l"/>
+  <copyField source="title"         dest="title_txtP_lr"/>
+  <copyField source="title_short"   dest="title_short_txtP_lr"/>
 </schema>
