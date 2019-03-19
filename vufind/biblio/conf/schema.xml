@@ -44,10 +44,10 @@
       <filter class="solr.RemoveDuplicatesTokenFilterFactory"/>
     </analyzer>
   </fieldType>
-  <!-- Left-anchored text proper -->
+  <!-- Left-anchored text field -->
   <fieldType name="textProper_l" class="solr.TextField" positionIncrementGap="1000">
     <analyzer type="index">
-      <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="[\.\,:;/=&lt;&gt;\(\)\[\]\&amp;\|&quot;]+" replacement="" />
+      <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="[\.\,:;/=&lt;&gt;\(\)\[\]\&amp;\|&quot;\?!]+" replacement="" />
       <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="\s+" replacement=" " />
       <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="^\s*(.*?)\s*$" replacement="$1" />
       <tokenizer class="solr.PathHierarchyTokenizerFactory" delimiter=" "/>
@@ -55,7 +55,7 @@
       <filter class="solr.ICUFoldingFilterFactory" filter="[^åäöÅÄÖ]"/>
     </analyzer>
     <analyzer type="query">
-      <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="[\.\,:;/=&lt;&gt;\(\)\[\]\&amp;\|&quot;]+" replacement="" />
+      <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="[\.\,:;/=&lt;&gt;\(\)\[\]\&amp;\|&quot;\?!]+" replacement="" />
       <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="\s+" replacement=" " />
       <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="^\s*(.*?)\s*$" replacement="$1" />
       <tokenizer class="solr.KeywordTokenizerFactory"/>
@@ -63,11 +63,11 @@
       <filter class="solr.ICUFoldingFilterFactory" filter="[^åäöÅÄÖ]"/>
     </analyzer>
   </fieldType>
-  <!-- Left- and right-anchored text proper -->
+  <!-- Left- and right-anchored text field -->
   <fieldType name="textProper_lr" class="solr.TextField" positionIncrementGap="1000">
     <analyzer type="index">
       <tokenizer class="solr.KeywordTokenizerFactory"/>
-      <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="[\.\,:;/=&lt;&gt;\(\)\[\]\&amp;\|&quot;]+" replacement="" />
+      <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="[\.\,:;/=&lt;&gt;\(\)\[\]\&amp;\|&quot;\?!]+" replacement="" />
       <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="\s+" replacement=" " />
       <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="^\s*(.*?)\s*$" replacement="$1" />
       <charFilter class="solr.MappingCharFilterFactory" mapping="mapping-special_fi.txt"/>
@@ -75,7 +75,7 @@
     </analyzer>
     <analyzer type="query">
       <tokenizer class="solr.KeywordTokenizerFactory"/>
-      <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="[\.\,:;/=&lt;&gt;\(\)\[\]\&amp;\|&quot;]+" replacement="" />
+      <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="[\.\,:;/=&lt;&gt;\(\)\[\]\&amp;\|&quot;\?!]+" replacement="" />
       <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="\s+" replacement=" " />
       <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="^\s*(.*?)\s*$" replacement="$1" />
       <charFilter class="solr.MappingCharFilterFactory" mapping="mapping-special_fi.txt"/>
