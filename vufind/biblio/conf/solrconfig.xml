@@ -692,6 +692,7 @@
       <str name="shards.preference">replica.type:PULL,replica.location:local</str>
       <int name="timeAllowed">60000</int>
       <str name="df">allfields</str>
+      <str name="pf">title_txtP_l title_txtP_lr title_short_txtP_lr</str>
       <str name="q.op">AND</str>
       <str name="mlt.fl">title,title_short,callnumber-label,topic,language,author,publishDate</str>
       <str name="mlt.qf">
