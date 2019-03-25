@@ -22,19 +22,15 @@
 SOLR_JAVA_MEM="-Xms16G -Xmx16G"
 
 # Enable verbose GC logging
-GC_LOG_OPTS="-verbose:gc -XX:+PrintHeapAtGC -XX:+PrintGCDetails \
--XX:+PrintGCDateStamps -XX:+PrintGCTimeStamps -XX:+PrintTenuringDistribution -XX:+PrintGCApplicationStoppedTime"
+#GC_LOG_OPTS="-verbose:gc -Xlog:gc*"
 
 GC_TUNE=" \
 -XX:+UseG1GC \
 -XX:+ParallelRefProcEnabled \
 -XX:G1HeapRegionSize=16m \
 -XX:MaxGCPauseMillis=400 \
--XX:+UnlockExperimentalVMOptions \
--XX:G1MaxNewSizePercent=5 \
 -XX:ParallelGCThreads=4 \
 -XX:+UseLargePages \
--XX:+AggressiveOpts \
 "
 
 # Set the ZooKeeper connection string if using an external ZooKeeper ensemble
