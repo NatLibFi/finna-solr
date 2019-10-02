@@ -3,6 +3,7 @@
 
 $port = 8983;
 $quiet = false;
+$normalStates = ['active', 'inactive', 'construction'];
 array_shift($argv);
 foreach ($argv as $arg) {
     if ('-q' === $arg) {
@@ -34,12 +35,12 @@ foreach ($state['cluster']['collections'] as $collectionName => $collection) {
         ? (', alias ' . implode(', ', $collection['aliases'])) : '';
     $results .= "Collection $collectionName (Solr port $port$aliases):\n";
     foreach ($collection['shards'] as $shardName => $shard) {
-        if ('active' !== $shard['state'] && 'inactive' !== $shard['state']) {
+        if (!in_array($shard['state'], $normalStates)) {
             $errors = true;
         }
         $results .= "  Shard $shardName (" . $shard['state'] . "):\n";
         foreach ($shard['replicas'] as $coreNodeName => $replica) {
-            if ('active' !== $replica['state']) {
+            if (!in_array($replica['state'], $normalStates)) {
                 $errors = true;
             }
             if (!isset($replica['type'])) {
