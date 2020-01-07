@@ -47,6 +47,7 @@
   <!-- Left-anchored text field -->
   <fieldType name="textProper_l" class="solr.TextField" positionIncrementGap="1000">
     <analyzer type="index">
+      <!-- Strip out non-letter and non-numeric characters -->
       <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="[^\s\p{L}\p{N}]+" replacement=" " />
       <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="\s+" replacement=" " />
       <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="^\s*(.*?)\s*$" replacement="$1" />
@@ -55,6 +56,7 @@
       <filter class="solr.ICUFoldingFilterFactory" filter="[^åäöÅÄÖ]"/>
     </analyzer>
     <analyzer type="query">
+      <!-- Strip out non-letter and non-numeric characters -->
       <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="[^\s\p{L}\p{N}]+" replacement=" " />
       <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="\s+" replacement=" " />
       <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="^\s*(.*?)\s*$" replacement="$1" />
@@ -67,6 +69,7 @@
   <fieldType name="textProper_lr" class="solr.TextField" positionIncrementGap="1000">
     <analyzer type="index">
       <tokenizer class="solr.KeywordTokenizerFactory"/>
+      <!-- Strip out non-letter and non-numeric characters -->
       <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="[^\s\p{L}\p{N}]+" replacement=" " />
       <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="\s+" replacement=" " />
       <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="^\s*(.*?)\s*$" replacement="$1" />
@@ -75,6 +78,7 @@
     </analyzer>
     <analyzer type="query">
       <tokenizer class="solr.KeywordTokenizerFactory"/>
+      <!-- Strip out non-letter and non-numeric characters -->
       <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="[^\s\p{L}\p{N}]+" replacement=" " />
       <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="\s+" replacement=" " />
       <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="^\s*(.*?)\s*$" replacement="$1" />
