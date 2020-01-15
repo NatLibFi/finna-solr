@@ -309,7 +309,7 @@
          -->
     <filterCache
       class="solr.LRUCache"
-      maxRamMB="512"
+      maxRamMB="128"
       size="4096"
       initialSize="512"
       autowarmCount="128"/>
@@ -319,13 +319,14 @@
          of documents requested.  -->
     <queryResultCache
       class="solr.LRUCache"
-      maxRamMB="1000"
+      maxRamMB="128"
       size="16384"
       initialSize="4096"
       autowarmCount="1000"/>
 
     <fieldValueCache
       class="solr.LRUCache"
+      maxRamMB="128"
       size="1000"
       initialSize="0"
       autowarmCount="0"/>
@@ -334,8 +335,9 @@
        Since Lucene internal document ids are transient, this cache will not be autowarmed.  -->
     <documentCache
       class="solr.LRUCache"
-      size="16384"
-      initialSize="16384"
+      maxRamMB="128"
+      size="1024"
+      initialSize="1024"
       autowarmCount="0"/>
 
     <!-- If true, stored fields that are not requested will be loaded lazily.
