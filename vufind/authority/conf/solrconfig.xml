@@ -368,7 +368,7 @@
       <str name="echoParams">explicit</str>
       <str name="q.op">AND</str>
       <str name="df">allfields</str>
-      <str name="shards.preference">replica.type=PULL,replica.location=local</str>
+      <str name="shards.preference">replica.type:PULL,replica.location:local</str>
       <int name="timeAllowed">60000</int>
     </lst>
   </requestHandler>
