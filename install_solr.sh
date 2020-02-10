@@ -6,7 +6,7 @@ if [ -z "$SOLR_USER" ]; then
   SOLR_USER=solr
 fi
 JTS_VERSION="1.15.0"
-JTS_URL="http://central.maven.org/maven2/org/locationtech/jts/jts-core/$JTS_VERSION/jts-core-$JTS_VERSION.jar"
+JTS_URL="https://repo1.maven.org/maven2/org/locationtech/jts/jts-core/$JTS_VERSION/jts-core-$JTS_VERSION.jar"
 
 # Check if the correct version is already installed
 read -r REQUIRED_VERSION<"$DIR/required_solr_version"
