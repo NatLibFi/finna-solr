@@ -49,9 +49,9 @@
   <field name="scope_note" type="string" indexed="false" stored="true" multiValued="true" docValues="true"/>
 
   <!-- Keyword Fields for Searching -->
-  <field name="heading_keywords" type="text" indexed="true" stored="false" multiValued="true"/>
-  <field name="use_for_keywords" type="text" indexed="true" stored="false" multiValued="true"/>
-  <field name="see_also_keywords" type="text" indexed="true" stored="false" multiValued="true"/>
+  <field name="heading_keywords" type="text" indexed="true" stored="true" multiValued="true"/>
+  <field name="use_for_keywords" type="text" indexed="true" stored="true" multiValued="true"/>
+  <field name="see_also_keywords" type="text" indexed="true" stored="true" multiValued="true"/>
 
   <!-- RDA fields -->
   <field name="birth_date" type="string" indexed="true" stored="false" docValues="true"/>
