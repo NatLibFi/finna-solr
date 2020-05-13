@@ -32,9 +32,9 @@ if (!isset($state['cluster']['collections'])) {
 
 foreach ($state['cluster']['collections'] as $collectionName => $collection) {
     $aliases = !empty($collection['aliases'])
-        ? (', alias ' . implode(', ', $collection['aliases'])) : '';
+        ? ('; alias ' . implode(', ', $collection['aliases'])) : '';
     $config = !empty($collection['configName'])
-        ? (', config ' . $collection['configName']) : '';
+        ? ('; config ' . $collection['configName']) : '';
     $results .= "Collection $collectionName (Solr port $port$aliases$config):\n";
     foreach ($collection['shards'] as $shardName => $shard) {
         if (!in_array($shard['state'], $normalStates)) {
