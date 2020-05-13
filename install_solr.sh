@@ -23,21 +23,28 @@ then
     exit 0
 fi
 
+if [[ "$INSTALLED_VERSION" != "" ]];
+then
+    echo Upgrading Solr from version $INSTALLED_VERSION to $REQUIRED_VERSION...
+fi
+
 # Download package if necessary
 if [[ ! -e "$DIR/downloads" ]];
 then
     mkdir $DIR/downloads
 fi
 
+
+
 if [[ ! -e "$DIR/downloads/solr-$REQUIRED_VERSION.tgz" ]];
 then
-    echo "Downloading Solr..."
+    echo "Downloading Solr $REQUIRED_VERSION..."
     curl "http://www.nic.funet.fi/pub/mirrors/apache.org/lucene/solr/$REQUIRED_VERSION/solr-$REQUIRED_VERSION.tgz" > $DIR/downloads/solr-$REQUIRED_VERSION.tgz
     size=$(du -m "$DIR/downloads/solr-$REQUIRED_VERSION.tgz" | cut -f 1)
     if [[ $size -lt 100 ]];
     then
         # File too small, try archives
-        echo "Downloading Solr from Apache archives..."
+        echo "Downloading Solr $REQUIRED_VERSION from Apache archives..."
         curl "http://archive.apache.org/dist/lucene/solr/$REQUIRED_VERSION/solr-$REQUIRED_VERSION.tgz" > $DIR/downloads/solr-$REQUIRED_VERSION.tgz
     fi
     size=$(du -m "$DIR/downloads/solr-$REQUIRED_VERSION.tgz" | cut -f 1)
