@@ -308,7 +308,7 @@
            and old cache.
          -->
     <filterCache
-      class="solr.LRUCache"
+      class="solr.search.CaffeineCache"
       maxRamMB="128"
       size="4096"
       initialSize="512"
@@ -318,14 +318,14 @@
          document ids (DocList) based on a query, a sort, and the range
          of documents requested.  -->
     <queryResultCache
-      class="solr.LRUCache"
+      class="solr.search.CaffeineCache"
       maxRamMB="128"
       size="16384"
       initialSize="4096"
       autowarmCount="1000"/>
 
     <fieldValueCache
-      class="solr.LRUCache"
+      class="solr.search.CaffeineCache"
       maxRamMB="128"
       size="1000"
       initialSize="0"
@@ -334,7 +334,7 @@
   <!-- documentCache caches Lucene Document objects (the stored fields for each document).
        Since Lucene internal document ids are transient, this cache will not be autowarmed.  -->
     <documentCache
-      class="solr.LRUCache"
+      class="solr.search.CaffeineCache"
       maxRamMB="128"
       size="1024"
       initialSize="1024"
