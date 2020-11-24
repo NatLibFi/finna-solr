@@ -30,6 +30,9 @@ This is the Finna VuFind configuration for Solr. Important bits:
             unzip /tmp/dict-morphoid.zip
             rm /tmp/dict-morphoid.zip
 
+    - Any other OS: Install libvoikko using whatever means available (e.g. `brew install libvoikko` for macOS with Homebrew) and unzip https://www.puimula.org/htp/testing/voikko-snapshot-v5/dict-morphoid.zip to e.g. /etc/voikko directory.
+
+
 ### Solr
 
 1. Put the files somewhere
