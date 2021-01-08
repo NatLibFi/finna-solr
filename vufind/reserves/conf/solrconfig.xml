@@ -33,7 +33,7 @@
        that you fully re-index after changing this setting as it can
        affect both how text is indexed and queried.
     -->
-  <luceneMatchVersion>6.0.1</luceneMatchVersion>
+  <luceneMatchVersion>8.7.0</luceneMatchVersion>
 
   <!-- Use the classic schema factory -->
   <schemaFactory class="ClassicIndexSchemaFactory"/>
@@ -294,6 +294,26 @@
     -->
     <lst name="defaults">
       <str name="echoParam">explicit</str>
+      <str name="df">allfields</str>
+      <str name="q.op">AND</str>
+    </lst>
+  </requestHandler>
+
+  <requestHandler name="dismax" class="solr.SearchHandler">
+    <lst name="defaults">
+      <str name="defType">dismax</str>
+      <str name="echoParam">explicit</str>
+      <str name="df">allfields</str>
+      <str name="q.op">AND</str>
+    </lst>
+  </requestHandler>
+
+  <requestHandler name="edismax" class="solr.SearchHandler">
+    <lst name="defaults">
+      <str name="defType">edismax</str>
+      <str name="echoParam">explicit</str>
+      <str name="df">allfields</str>
+      <str name="q.op">AND</str>
     </lst>
   </requestHandler>
 
@@ -534,4 +554,3 @@
   </admin>
 
 </config>
-

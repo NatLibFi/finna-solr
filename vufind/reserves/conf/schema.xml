@@ -2,7 +2,7 @@
 <schema name="VuFind Course Reserves Index" version="1.6">
   <fieldtype name="string" class="solr.StrField" sortMissingLast="true" omitNorms="true"/>
   <fieldtype name="boolean" class="solr.BoolField" sortMissingLast="true" omitNorms="true"/>
-  <fieldtype name="date" class="solr.DateField" sortMissingLast="true" omitNorms="true"/>
+  <fieldtype name="date" class="solr.DatePointField" sortMissingLast="true" omitNorms="true"/>
   <fieldType name="text" class="solr.TextField" positionIncrementGap="100">
     <analyzer type="index">
       <tokenizer class="solr.ICUTokenizerFactory"/>
@@ -35,10 +35,7 @@
   <field name="_version_" type="long" indexed="true" stored="true"/>
   
 	<uniqueKey>id</uniqueKey>
-	<defaultSearchField>course</defaultSearchField>
 	<copyField source="course"     dest="course_str"/>
 	<copyField source="instructor" dest="instructor_str"/>
 	<copyField source="department" dest="department_str"/>
-	<!-- Default Boolean Operator -->
-	<solrQueryParser defaultOperator="AND"/>
 </schema>
