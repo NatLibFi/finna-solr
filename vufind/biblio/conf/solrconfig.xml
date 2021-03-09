@@ -32,7 +32,7 @@
        that you fully re-index after changing this setting as it can
        affect both how text is indexed and queried.
     -->
-  <luceneMatchVersion>8.7.0</luceneMatchVersion>
+  <luceneMatchVersion>8.8.1</luceneMatchVersion>
 
   <!-- Use the classic schema factory -->
   <schemaFactory class="ClassicIndexSchemaFactory"/>
@@ -691,6 +691,8 @@
       <str name="spellcheck.collateExtendedResults">false</str>
       <int name="hl.maxMultiValuedToExamine">100</int>
       <str name="hl.method">unified</str>
+      <!-- set frgAlignRatio due to https://mail-archives.apache.org/mod_mbox/lucene-solr-user/202103.mbox/%3CCWXP265MB11104EBA46321368CF70BAC6B49A9%40CWXP265MB1110.GBRP265.PROD.OUTLOOK.COM%3E -->
+      <float name="hl.fragAlignRatio">0.0</float>
       <str name="shards.preference">replica.type:PULL,replica.location:local</str>
       <int name="timeAllowed">60000</int>
       <str name="df">allfields</str>
@@ -731,6 +733,8 @@
       <str name="spellcheck.collateExtendedResults">false</str>
       <int name="hl.maxMultiValuedToExamine">100</int>
       <str name="hl.method">unified</str>
+      <!-- set frgAlignRatio due to https://mail-archives.apache.org/mod_mbox/lucene-solr-user/202103.mbox/%3CCWXP265MB11104EBA46321368CF70BAC6B49A9%40CWXP265MB1110.GBRP265.PROD.OUTLOOK.COM%3E -->
+      <float name="hl.fragAlignRatio">0.0</float>
       <str name="shards.preference">replica.type:PULL,replica.location:local</str>
       <int name="timeAllowed">60000</int>
       <str name="df">allfields</str>
@@ -776,6 +780,8 @@
       <str name="spellcheck.collateExtendedResults">false</str>
       <int name="hl.maxMultiValuedToExamine">100</int>
       <str name="hl.method">unified</str>
+      <!-- set frgAlignRatio due to https://mail-archives.apache.org/mod_mbox/lucene-solr-user/202103.mbox/%3CCWXP265MB11104EBA46321368CF70BAC6B49A9%40CWXP265MB1110.GBRP265.PROD.OUTLOOK.COM%3E -->
+      <float name="hl.fragAlignRatio">0.0</float>
       <str name="shards.preference">replica.type:PULL,replica.location:local</str>
       <int name="timeAllowed">60000</int>
       <str name="df">allfields</str>
@@ -801,6 +807,8 @@
       <str name="spellcheck.collateExtendedResults">false</str>
       <int name="hl.maxMultiValuedToExamine">100</int>
       <str name="hl.method">unified</str>
+      <!-- set frgAlignRatio due to https://mail-archives.apache.org/mod_mbox/lucene-solr-user/202103.mbox/%3CCWXP265MB11104EBA46321368CF70BAC6B49A9%40CWXP265MB1110.GBRP265.PROD.OUTLOOK.COM%3E -->
+      <float name="hl.fragAlignRatio">0.0</float>
       <str name="shards.preference">replica.type:PULL,replica.location:local</str>
       <int name="timeAllowed">60000</int>
       <str name="lowercaseOperators">false</str>

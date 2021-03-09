@@ -1,0 +1,19 @@
+# Ø  [LATIN CAPITAL LETTER O WITH STROKE]
+"\u00D8" => "ö"
+
+# ø  [LATIN SMALL LETTER O WITH STROKE]
+"\u00F8" => "ö"
+
+"Ö" => "ö"
+"Ä" => "ä"
+"Å" => "å"
+"'" => ""
+# Solr utr30 BasicFoldings maps these to apostrophe, let's get rid of them
+"\u2018" => ""
+"\u2019" => ""
+"\u201A" => ""
+"\u201B" => ""
+"\u2032" => ""
+"\u2035" => ""
+"\u2039" => ""
+"\u203A" => ""

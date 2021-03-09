@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <schema name="VuFind Bibliographic Index" version="1.6">
-  <fieldType name="string" class="solr.StrField" sortMissingLast="true" omitNorms="true" positionIncrementGap="100"/>
-  <fieldType name="text" class="solr.TextField" positionIncrementGap="100">
+  <fieldType name="string" class="solr.StrField" sortMissingLast="true" omitNorms="true" positionIncrementGap="100" uninvertible="false"/>
+  <fieldType name="text" class="solr.TextField" positionIncrementGap="100" uninvertible="false">
     <analyzer type="index">
       <tokenizer class="solr.ICUTokenizerFactory"/>
       <charFilter class="solr.MappingCharFilterFactory" mapping="mapping-special_fi.txt"/>
@@ -26,7 +26,7 @@
     </analyzer>
   </fieldType>
   <!-- Text Field without Stemming and Synonyms -->
-  <fieldType name="textProper" class="solr.TextField" positionIncrementGap="100">
+  <fieldType name="textProper" class="solr.TextField" positionIncrementGap="100" uninvertible="false">
     <analyzer type="index">
       <tokenizer class="solr.ICUTokenizerFactory"/>
       <charFilter class="solr.MappingCharFilterFactory" mapping="mapping-special_fi.txt"/>
@@ -45,7 +45,7 @@
     </analyzer>
   </fieldType>
   <!-- Left-anchored text field -->
-  <fieldType name="textProper_l" class="solr.TextField" positionIncrementGap="1000">
+  <fieldType name="textProper_l" class="solr.TextField" positionIncrementGap="1000" uninvertible="false">
     <analyzer type="index">
       <!-- Strip out non-letter and non-numeric characters -->
       <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="[^\s\p{L}\p{N}]+" replacement=" " />
@@ -66,7 +66,7 @@
     </analyzer>
   </fieldType>
   <!-- Left- and right-anchored text field -->
-  <fieldType name="textProper_lr" class="solr.TextField" positionIncrementGap="1000">
+  <fieldType name="textProper_lr" class="solr.TextField" positionIncrementGap="1000" uninvertible="false">
     <analyzer type="index">
       <tokenizer class="solr.KeywordTokenizerFactory"/>
       <!-- Strip out non-letter and non-numeric characters -->
@@ -88,7 +88,7 @@
   </fieldType>
 
   <!-- Basic Text Field for use with Spell Correction -->
-  <fieldType name="textSpell" class="solr.TextField" positionIncrementGap="100">
+  <fieldType name="textSpell" class="solr.TextField" positionIncrementGap="100" uninvertible="false">
     <analyzer>
       <tokenizer class="solr.ICUTokenizerFactory"/>
       <charFilter class="solr.MappingCharFilterFactory" mapping="mapping-special_fi.txt"/>
@@ -99,7 +99,7 @@
     </analyzer>
   </fieldType>
   <!-- More advanced spell checking field. -->
-  <fieldType name="textSpellShingle" class="solr.TextField" positionIncrementGap="100">
+  <fieldType name="textSpellShingle" class="solr.TextField" positionIncrementGap="100" uninvertible="false">
     <analyzer type="index">
       <tokenizer class="solr.ICUTokenizerFactory"/>
       <charFilter class="solr.MappingCharFilterFactory" mapping="mapping-special_fi.txt"/>
@@ -118,7 +118,7 @@
   <!-- Text Field for Normalized ISBN/ISSN Numbers - take first chunk of text
        prior to whitespace, force to lowercase, strip non-ISBN/ISSN characters,
        omit results that are empty after stripping. -->
-  <fieldType name="isn" class="solr.TextField" positionIncrementGap="100">
+  <fieldType name="isn" class="solr.TextField" positionIncrementGap="100" uninvertible="false">
     <analyzer>
       <tokenizer class="solr.PatternTokenizerFactory" pattern="^(\S*)\s*.*$" group="1"/>
       <filter class="solr.LowerCaseFilterFactory"/>
@@ -127,24 +127,36 @@
     </analyzer>
   </fieldType>
   <!-- case-insensitive/whitespace-agnostic field type for callnumber searching -->
-  <fieldType name="callnumberSearch" class="solr.TextField" sortMissingLast="true" omitNorms="true">
+  <fieldType name="callnumberSearch" class="solr.TextField" sortMissingLast="true" omitNorms="true" uninvertible="false">
     <analyzer>
       <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="(\s)" replacement=""/>
       <tokenizer class="solr.KeywordTokenizerFactory"/>
       <filter class="solr.ICUFoldingFilterFactory"/>
     </analyzer>
   </fieldType>
-  <fieldType name="date" class="solr.DatePointField" sortMissingLast="true" omitNorms="true"/>
-  <fieldType name="random" class="solr.RandomSortField" indexed="true" />
-  <fieldType name="binary" class="solr.BinaryField"/>
+  <!-- Field for SolrPrefix autocomplete -->
+  <fieldType name="text_autocomplete" class="solr.TextField" positionIncrementGap="100" omitNorms="true">
+    <analyzer type="index">
+      <tokenizer class="solr.WhitespaceTokenizerFactory"/>
+      <filter class="solr.ICUFoldingFilterFactory"/>
+      <filter class="solr.EdgeNGramFilterFactory" minGramSize="1" maxGramSize="25" />
+    </analyzer>
+    <analyzer type="query">
+      <tokenizer class="solr.WhitespaceTokenizerFactory"/>
+      <filter class="solr.ICUFoldingFilterFactory"/>
+    </analyzer>
+  </fieldType>
+  <fieldType name="date" class="solr.DatePointField" sortMissingLast="true" omitNorms="true" uninvertible="false"/>
+  <fieldType name="random" class="solr.RandomSortField" indexed="true" uninvertible="false"/>
+  <fieldType name="boolean" class="solr.BoolField" sortMissingLast="true" omitNorms="true" docValues="true" uninvertible="false"/>
+  <!-- add geo field to handle geographic search and display capabilities -->
+  <fieldType name="geo" class="solr.SpatialRecursivePrefixTreeFieldType" spatialContextFactory="JTS" geo="true" distErrPct="0.25" maxDistErr="1" autoIndex="true" uninvertible="false" />
 
   <!-- Field types for e.g. museum data -->
-  <fieldType name="location" class="solr.LatLonPointSpatialField" docValues="true"/>
-  <fieldType name="boolean" class="solr.BoolField" sortMissingLast="true" omitNorms="true" docValues="true"/>
-  <fieldType name="geo" class="solr.SpatialRecursivePrefixTreeFieldType" spatialContextFactory="JTS" geo="true" distErrPct="0.25" maxDistErr="1" autoIndex="true" />
-  <fieldType name="long" class="solr.LongPointField" positionIncrementGap="0" docValues="true"/>
+  <fieldType name="location" class="solr.LatLonPointSpatialField" docValues="true" uninvertible="false"/>
+  <fieldType name="long" class="solr.LongPointField" positionIncrementGap="0" docValues="true" uninvertible="false"/>
   <!-- Date range -->
-  <fieldType name="dateRange" class="solr.DateRangeField"/>
+  <fieldType name="dateRange" class="solr.DateRangeField" uninvertible="false"/>
 
   <!-- Core Fields  -->
   <field name="id" type="string" indexed="true" stored="true" docValues="true"/>
@@ -269,13 +281,16 @@
   <dynamicField name="*_txtP" type="textProper" indexed="true" stored="true" storeOffsetsWithPositions="true"/>
   <dynamicField name="*_txtP_mv" type="textProper" indexed="true" stored="true" multiValued="true" storeOffsetsWithPositions="true"/>
   <dynamicField name="*_random" type="random" />
+  <dynamicField name="*_boolean" type="boolean" indexed="true" stored="false" required="false" docValues="true"/>
+  <dynamicField name="*_geo" type="geo" indexed="true" stored="true" multiValued="false" />
+  <dynamicField name="*_geo_mv" type="geo" indexed="true" stored="true" multiValued="true" />
+  <dynamicField name="*_autocomplete" type="text_autocomplete" indexed="true" stored="true" multiValued="false"/>
 
   <!-- Local dynamic fields for customization without schema modification -->
   <!-- Make sure to keep stored="true" for now since the location type doesn't support retrieval of values from docValues -->
   <dynamicField name="*_coords"  type="location"  indexed="true" stored="true" multiValued="false" docValues="true"/>
   <dynamicField name="*_daterange"  type="dateRange"  indexed="true"  stored="true" multiValued="false"/>
   <dynamicField name="*_daterange_mv"  type="dateRange"  indexed="true"  stored="true" multiValued="true"/>
-  <dynamicField name="*_boolean" type="boolean" indexed="true" stored="false" required="false" docValues="true"/>
   <dynamicField name="*_txtP_l" type="textProper_l" indexed="true" stored="false" storeOffsetsWithPositions="true"/>
   <dynamicField name="*_txtP_l_mv" type="textProper_l" indexed="true" stored="false" multiValued="true" storeOffsetsWithPositions="true"/>
   <dynamicField name="*_txtP_lr" type="textProper_lr" indexed="true" stored="false" storeOffsetsWithPositions="true"/>
@@ -291,7 +306,6 @@
   <!-- Coordinates -->
   <!-- Make sure to keep stored="true" for now since the location type doesn't support retrieval of values from docValues -->
   <dynamicField name="*_coordinate" type="location" indexed="true" stored="true"/>
-  <dynamicField name="*_geo" type="geo" indexed="true" stored="true" multiValued="true"/>
 
   <!-- Version for Solr -->
   <field name="_version_" type="long" indexed="false" stored="false" docValues="true"/>

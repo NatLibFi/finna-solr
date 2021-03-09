@@ -33,7 +33,7 @@
        that you fully re-index after changing this setting as it can
        affect both how text is indexed and queried.
     -->
-  <luceneMatchVersion>8.7.0</luceneMatchVersion>
+  <luceneMatchVersion>8.8.1</luceneMatchVersion>
 
   <!-- Use the classic schema factory -->
   <schemaFactory class="ClassicIndexSchemaFactory"/>
@@ -284,7 +284,7 @@
      The "standard" request handler is the default and will be used if qt
      is not specified in the request.
   -->
-  <requestHandler name="standard" class="solr.StandardRequestHandler" default="true">
+  <requestHandler name="standard" class="solr.SearchHandler" default="true">
     <!-- default values for query parameters may optionally be defined here
      <lst name="defaults">
        <int name="rows">10</int>
