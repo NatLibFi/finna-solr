@@ -693,7 +693,7 @@
       <str name="hl.method">unified</str>
       <!-- set frgAlignRatio due to https://mail-archives.apache.org/mod_mbox/lucene-solr-user/202103.mbox/%3CCWXP265MB11104EBA46321368CF70BAC6B49A9%40CWXP265MB1110.GBRP265.PROD.OUTLOOK.COM%3E -->
       <float name="hl.fragAlignRatio">0.0</float>
-      <str name="shards.preference">replica.type:PULL,replica.location:local</str>
+      <str name="shards.preference">replica.type:PULL</str>
       <int name="timeAllowed">60000</int>
       <str name="df">allfields</str>
       <str name="q.op">AND</str>
@@ -735,7 +735,7 @@
       <str name="hl.method">unified</str>
       <!-- set frgAlignRatio due to https://mail-archives.apache.org/mod_mbox/lucene-solr-user/202103.mbox/%3CCWXP265MB11104EBA46321368CF70BAC6B49A9%40CWXP265MB1110.GBRP265.PROD.OUTLOOK.COM%3E -->
       <float name="hl.fragAlignRatio">0.0</float>
-      <str name="shards.preference">replica.type:PULL,replica.location:local</str>
+      <str name="shards.preference">replica.type:PULL</str>
       <int name="timeAllowed">60000</int>
       <str name="df">allfields</str>
       <str name="q.op">AND</str>
@@ -782,7 +782,7 @@
       <str name="hl.method">unified</str>
       <!-- set frgAlignRatio due to https://mail-archives.apache.org/mod_mbox/lucene-solr-user/202103.mbox/%3CCWXP265MB11104EBA46321368CF70BAC6B49A9%40CWXP265MB1110.GBRP265.PROD.OUTLOOK.COM%3E -->
       <float name="hl.fragAlignRatio">0.0</float>
-      <str name="shards.preference">replica.type:PULL,replica.location:local</str>
+      <str name="shards.preference">replica.type:PULL</str>
       <int name="timeAllowed">60000</int>
       <str name="df">allfields</str>
       <str name="q.op">AND</str>
@@ -809,7 +809,7 @@
       <str name="hl.method">unified</str>
       <!-- set frgAlignRatio due to https://mail-archives.apache.org/mod_mbox/lucene-solr-user/202103.mbox/%3CCWXP265MB11104EBA46321368CF70BAC6B49A9%40CWXP265MB1110.GBRP265.PROD.OUTLOOK.COM%3E -->
       <float name="hl.fragAlignRatio">0.0</float>
-      <str name="shards.preference">replica.type:PULL,replica.location:local</str>
+      <str name="shards.preference">replica.type:PULL</str>
       <int name="timeAllowed">60000</int>
       <str name="lowercaseOperators">false</str>
       <str name="df">allfields</str>
