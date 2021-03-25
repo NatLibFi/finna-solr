@@ -292,6 +292,7 @@
   <dynamicField name="*_coords"  type="location"  indexed="true" stored="true" multiValued="false" docValues="true"/>
   <dynamicField name="*_daterange"  type="dateRange"  indexed="true"  stored="true" multiValued="false"/>
   <dynamicField name="*_daterange_mv"  type="dateRange"  indexed="true"  stored="true" multiValued="true"/>
+  <dynamicField name="*_txt_s_mv" type="text" indexed="true" stored="false" multiValued="true"/>
   <dynamicField name="*_txtP_l" type="textProper_l" indexed="true" stored="false" storeOffsetsWithPositions="true"/>
   <dynamicField name="*_txtP_l_mv" type="textProper_l" indexed="true" stored="false" multiValued="true" storeOffsetsWithPositions="true"/>
   <dynamicField name="*_txtP_lr" type="textProper_lr" indexed="true" stored="false" storeOffsetsWithPositions="true"/>
