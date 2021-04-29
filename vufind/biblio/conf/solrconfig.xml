@@ -697,6 +697,7 @@
       <int name="timeAllowed">60000</int>
       <str name="df">allfields</str>
       <str name="q.op">AND</str>
+      <str name="sow">true</str>
       <str name="mlt.fl">title,title_short,callnumber-label,topic,language,author,publishDate</str>
       <str name="mlt.qf">
         title^75
@@ -739,6 +740,7 @@
       <int name="timeAllowed">60000</int>
       <str name="df">allfields</str>
       <str name="q.op">AND</str>
+      <str name="sow">true</str>
       <str name="mlt.fl">title,title_short,callnumber-label,topic,language,author,publishDate</str>
       <str name="mlt.qf">
         title^75
@@ -786,6 +788,7 @@
       <int name="timeAllowed">60000</int>
       <str name="df">allfields</str>
       <str name="q.op">AND</str>
+      <str name="sow">true</str>
     </lst>
     <arr name="last-components">
       <str>spellcheck</str>
@@ -814,6 +817,7 @@
       <str name="lowercaseOperators">false</str>
       <str name="df">allfields</str>
       <str name="q.op">AND</str>
+      <str name="sow">true</str>
     </lst>
     <arr name="last-components">
       <str>spellcheck</str>

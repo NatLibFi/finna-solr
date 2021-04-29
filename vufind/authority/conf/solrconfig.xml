@@ -370,6 +370,7 @@
     <lst name="defaults">
       <str name="echoParams">explicit</str>
       <str name="q.op">AND</str>
+      <str name="sow">true</str>
       <str name="df">allfields</str>
       <str name="shards.preference">replica.type:PULL,replica.location:local</str>
       <int name="timeAllowed">60000</int>
@@ -389,6 +390,7 @@
       <str name="defType">dismax</str>
       <str name="echoParams">explicit</str>
       <str name="q.op">AND</str>
+      <str name="sow">true</str>
       <str name="df">allfields</str>
       <str name="shards.preference">replica.type:PULL,replica.location:local</str>
       <int name="timeAllowed">60000</int>
@@ -401,6 +403,7 @@
       <str name="echoParams">explicit</str>
       <str name="lowercaseOperators">false</str>
       <str name="q.op">AND</str>
+      <str name="sow">true</str>
       <str name="df">allfields</str>
       <str name="shards.preference">replica.type:PULL,replica.location:local</str>
       <int name="timeAllowed">60000</int>
