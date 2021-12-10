@@ -181,12 +181,6 @@
       queryResultCache. -->
     <queryResultMaxDocsCached>200</queryResultMaxDocsCached>
 
-    <!-- This entry enables an int hash representation for filters (DocSets)
-         when the number of items in the set is less than maxSize.  For smaller
-         sets, this representation is more memory efficient, more efficient to
-         iterate over, and faster to take intersections.  -->
-    <HashDocSet maxSize="3000" loadFactor="0.75"/>
-
     <!-- a newSearcher event is fired whenever a new searcher is being prepared
          and there is a current searcher handling requests (aka registered). -->
     <!-- QuerySenderListener takes an array of NamedList and executes a
@@ -230,7 +224,7 @@
     </lst>
   </requestHandler>
 
-  <requestHandler name="/replication" class="solr.ReplicationHandler" startup="lazy" /> 
+  <requestHandler name="/replication" class="solr.ReplicationHandler" startup="lazy" />
 
   <!--
     Let the dispatch filter handler /select?qt=XXX
@@ -383,27 +377,27 @@
       </arr>
     </requestHandler>
 
-	  <!-- Update Request Handler.  
-	       
+	  <!-- Update Request Handler.
+
 	       http://wiki.apache.org/solr/UpdateXmlMessages
-	
+
 	       The canonical Request Handler for Modifying the Index through
 	       commands specified using XML, JSON, CSV, or JAVABIN
-	
+
 	       Note: Since solr1.1 requestHandlers requires a valid content
 	       type header if posted in the body. For example, curl now
 	       requires: -H 'Content-type:text/xml; charset=utf-8'
-	       
-	       To override the request content type and force a specific 
-	       Content-type, use the request parameter: 
+
+	       To override the request content type and force a specific
+	       Content-type, use the request parameter:
 	         ?update.contentType=text/csv
-	       
+
 	       This handler will pick a response format to match the input
 	       if the 'wt' parameter is not explicit
 	    -->
 	  <requestHandler name="/update" class="solr.UpdateRequestHandler">
-	    <!-- See below for information on defining 
-	         updateRequestProcessorChains that can be used by name 
+	    <!-- See below for information on defining
+	         updateRequestProcessorChains that can be used by name
 	         on each Update Request
 	      -->
 	    <!--
@@ -414,15 +408,15 @@
 	  </requestHandler>
 
     <!-- Field Analysis Request Handler
-     
+
      RequestHandler that provides much the same functionality as
      analysis.jsp. Provides the ability to specify multiple field
      types and field names in the same request and outputs
      index-time and query-time analysis for each of them.
-     
+
      Request parameters are:
      analysis.fieldname - field name whose analyzers are to be used
-     
+
      analysis.fieldtype - field type whose analyzers are to be used
      analysis.fieldvalue - text for index-time analysis
      q (or analysis.q) - text for query time analysis
@@ -434,16 +428,16 @@
     <requestHandler name="/analysis/field"
     startup="lazy"
     class="solr.FieldAnalysisRequestHandler" />
-    
-    
+
+
     <!-- Document Analysis Handler
-     
+
      http://wiki.apache.org/solr/AnalysisRequestHandler
-     
+
      An analysis handler that provides a breakdown of the analysis
      process of provided documents. This handler expects a (single)
      content stream with the following format:
-     
+
      <docs>
      <doc>
      <field name="id">1</field>
@@ -454,11 +448,11 @@
      <doc>...</doc>
      ...
      </docs>
-     
+
      Note: Each document must contain a field which serves as the
      unique key. This key is used in the returned response to associate
      an analysis breakdown to the analyzed document.
-     
+
      Like the FieldAnalysisRequestHandler, this handler also supports
      query analysis by sending either an "analysis.query" or "q"
      request parameter that holds the query text to be analyzed. It
@@ -469,7 +463,7 @@
     <requestHandler name="/analysis/document"
     class="solr.DocumentAnalysisRequestHandler"
     startup="lazy" />
-    
+
     <!-- ping/healthcheck -->
     <requestHandler name="/admin/ping" class="PingRequestHandler">
       <lst name="defaults">
