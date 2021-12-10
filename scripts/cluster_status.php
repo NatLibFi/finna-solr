@@ -4,6 +4,7 @@
 $port = 8983;
 $quiet = false;
 $normalStates = ['active', 'inactive', 'construction'];
+$flagFile = sys_get_temp_dir() . '/cluster_status_bad';
 array_shift($argv);
 foreach ($argv as $arg) {
     if ('-q' === $arg) {
@@ -16,7 +17,9 @@ foreach ($argv as $arg) {
 $state = `curl -s "http://localhost:$port/solr/admin/collections?action=clusterstatus&wt=json"`;
 
 if (empty($state)) {
-    echo "Could not get Solr status, port $port\n";
+    echo "PROBLEM: Could not get Solr status, port $port\n";
+    // Flag error status so that we know to report when things are back to normal:
+    file_put_contents($flagFile, '1');
     exit(1);
 }
 
@@ -25,8 +28,10 @@ $results = '';
 $state = json_decode($state, true);
 
 if (!isset($state['cluster']['collections'])) {
-    echo "Could not find collections in the cluster status response:\n";
+    echo "PROBLEM: Could not find collections in the cluster status response:\n";
     var_export($state);
+    // Flag error status so that we know to report when things are back to normal:
+    file_put_contents($flagFile, '1');
     exit(1);
 }
 
@@ -58,9 +63,15 @@ foreach ($state['cluster']['collections'] as $collectionName => $collection) {
     $results .= "\n";
 }
 
-if (!$quiet || $errors) {
+if (!$quiet || $errors || file_exists($flagFile)) {
     if ($errors) {
         echo "WARNING: Solr cluster degraded:\n\n";
+        // Flag error status so that we know to report when things are back to normal:
+        file_put_contents($flagFile, '1');
+    } elseif (file_exists($flagFile)) {
+        echo "RECOVERY: Solr cluster status:\n\n";
+        // Reset flag:
+        unlink($flagFile);
     }
     echo $results;
 }
