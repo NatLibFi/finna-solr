@@ -38,8 +38,8 @@ fi
 
 if [[ ! -e "$DIR/downloads/solr-$REQUIRED_VERSION.tgz" ]];
 then
-    echo "Downloading Solr $REQUIRED_VERSION from Funet mirror..."
-    curl "http://www.nic.funet.fi/pub/mirrors/apache.org/lucene/solr/$REQUIRED_VERSION/solr-$REQUIRED_VERSION.tgz" > $DIR/downloads/solr-$REQUIRED_VERSION.tgz
+    echo "Downloading Solr $REQUIRED_VERSION from  https://dlcdn.apache.org/lucene/solr/ ..."
+    curl "https://dlcdn.apache.org/lucene/solr/$REQUIRED_VERSION/solr-$REQUIRED_VERSION.tgz" > $DIR/downloads/solr-$REQUIRED_VERSION.tgz
 
     size=$(du -m "$DIR/downloads/solr-$REQUIRED_VERSION.tgz" | cut -f 1)
     if [[ $size -lt 100 ]];
@@ -47,14 +47,6 @@ then
         # File too small, try Solr archives
         echo "Downloading Solr $REQUIRED_VERSION from Apache Solr archives..."
         curl "http://archive.apache.org/dist/solr/$REQUIRED_VERSION/solr-$REQUIRED_VERSION.tgz" > $DIR/downloads/solr-$REQUIRED_VERSION.tgz
-    fi
-
-    size=$(du -m "$DIR/downloads/solr-$REQUIRED_VERSION.tgz" | cut -f 1)
-    if [[ $size -lt 100 ]];
-    then
-        # File still too small, try Lucene archives
-        echo "Downloading Solr $REQUIRED_VERSION from Apache Lucene archives..."
-        curl "http://archive.apache.org/dist/lucene/solr/$REQUIRED_VERSION/solr-$REQUIRED_VERSION.tgz" > $DIR/downloads/solr-$REQUIRED_VERSION.tgz
     fi
 
     size=$(du -m "$DIR/downloads/solr-$REQUIRED_VERSION.tgz" | cut -f 1)
