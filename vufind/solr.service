@@ -10,6 +10,7 @@ ExecStart=/bin/bash -c "SOLR_INCLUDE=/data/solr/vufind/solr.in.finna.sh /data/so
 ExecStop=/bin/bash -c "SOLR_INCLUDE=/data/solr/vufind/solr.in.finna.sh /data/solr/vendor/bin/solr stop"
 PrivateTmp=true
 LimitNOFILE=100000
+LimitNPROC=65000
 Restart=on-failure
 
 [Install]
