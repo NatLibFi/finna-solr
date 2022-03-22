@@ -150,7 +150,7 @@
   <fieldType name="random" class="solr.RandomSortField" indexed="true" uninvertible="false"/>
   <fieldType name="boolean" class="solr.BoolField" sortMissingLast="true" omitNorms="true" docValues="true" uninvertible="false"/>
   <!-- add geo field to handle geographic search and display capabilities -->
-  <fieldType name="geo" class="solr.SpatialRecursivePrefixTreeFieldType" spatialContextFactory="JTS" geo="true" distErrPct="0.25" maxDistErr="1" autoIndex="true" uninvertible="false" />
+  <fieldType name="geo" class="solr.SpatialRecursivePrefixTreeFieldType" spatialContextFactory="JTS" geo="true" distErrPct="0.25" maxDistErr="1" autoIndex="true" uninvertible="false" validationRule="repairBuffer0" />
 
   <!-- Field types for e.g. museum data -->
   <fieldType name="location" class="solr.LatLonPointSpatialField" docValues="true" uninvertible="false"/>
