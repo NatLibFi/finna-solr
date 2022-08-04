@@ -8,7 +8,7 @@
       <filter class="solr.ICUFoldingFilterFactory" filter="[^åäöÅÄÖ]"/>
       <filter class="solr.WordDelimiterGraphFilterFactory" generateWordParts="1" generateNumberParts="1" catenateWords="1" catenateNumbers="1" catenateAll="0" splitOnCaseChange="0" protected="delim_protected.txt"/>
       <filter class="solr.FlattenGraphFilterFactory"/> <!-- required on index analyzers after graph filters -->
-      <filter class="fi.nationallibrary.ndl.solrvoikko2.VoikkoFilterFactory" expandCompounds="true" allAnalysis="true" cacheSize="10000" statsInterval="0"/>
+      <filter class="fi.nationallibrary.solr.raudikko.analysis.RaudikkoTokenFilterFactory" analyzeAll="true" expandCompounds="true" cacheSize="10000"/>
       <filter class="solr.KeywordMarkerFilterFactory" protected="protwords.txt"/>
       <filter class="solr.EnglishMinimalStemFilterFactory"/>
       <filter class="solr.RemoveDuplicatesTokenFilterFactory"/>
@@ -19,7 +19,7 @@
       <filter class="solr.ICUFoldingFilterFactory" filter="[^åäöÅÄÖ]"/>
       <filter class="solr.WordDelimiterGraphFilterFactory" generateWordParts="1" generateNumberParts="1" catenateWords="0" catenateNumbers="0" catenateAll="0" splitOnCaseChange="0" protected="delim_protected.txt"/>
       <filter class="solr.SynonymGraphFilterFactory" synonyms="synonyms.txt" ignoreCase="true" expand="true"/>
-      <filter class="fi.nationallibrary.ndl.solrvoikko2.VoikkoFilterFactory" expandCompounds="true" allAnalysis="true"/>
+      <filter class="fi.nationallibrary.solr.raudikko.analysis.RaudikkoTokenFilterFactory" analyzeAll="true" expandCompounds="true"/>
       <filter class="solr.KeywordMarkerFilterFactory" protected="protwords.txt"/>
       <filter class="solr.EnglishMinimalStemFilterFactory"/>
       <filter class="solr.RemoveDuplicatesTokenFilterFactory"/>

@@ -12,28 +12,9 @@ This is the Finna VuFind configuration for Solr. Important bits:
 - The following libraries are copied to vufind/lib (having them in solrconfig.xml doesn't play nice with dynamic collection management in SolrCloud):
   - vendor/contrib/analysis-extras/lib/icu4j-*.jar
   - vendor/contrib/analysis-extras/lucene-libs/lucene-analyzers-icu-*.jar
-- Voikko is used for Finnish language processing
+- Raudikko (a pure Java implementation of Voikko) is included for Finnish language processing
 
 ## Installation
-
-### Prerequisites
-
-1. Install libvoikko and the dictionary
-    - For CentOS 6 see the first three steps at https://github.com/NatLibFi/SolrPlugins/wiki/Voikko-plugin
-    - For CentOS 7:
-
-            yum install libvoikko
-            cd /tmp
-            wget http://www.puimula.org/htp/testing/voikko-snapshot/dict-morphoid.zip
-            mkdir /etc/voikko
-            cd /etc/voikko
-            unzip /tmp/dict-morphoid.zip
-            rm /tmp/dict-morphoid.zip
-
-    - Any other OS: Install libvoikko using whatever means available (e.g. `brew install libvoikko` for macOS with Homebrew) and unzip https://www.puimula.org/htp/testing/voikko-snapshot-v5/dict-morphoid.zip to e.g. /etc/voikko directory.
-
-
-### Solr
 
 1. Put the files somewhere
 2. Add user solr
