@@ -51,51 +51,53 @@ This is the Finna VuFind configuration for Solr. Important bits:
 
 11. Check the logs at vufind/logs for any errors
 
-12. If running in solrcloud mode, use a chroot and make sure to create the root directory in zkCli:
+12. If running in SolrCloud mode, use a chroot (with external Zookeeper ensemble, not required in development with embedded Zookeeper) and make sure to create the root directory in zkCli:
 
         zookeeper-x.y.z/bin/zkCli.sh -server 127.0.0.1:2181
         create /solr []
 
-    Then you can use the following command to add a core configuration to Zookeeper:
+13. Use the following command to add a collection configuration to Zookeeper so that Solr can find it:
 
-        SOLR_INCLUDE=vufind/solr.in.finna.sh vendor/bin/solr zk upconfig -n biblio3 -d vufind/biblio/conf
+    In production when using an external Zookeeper, its address is specified in solr.in.finna.sh, so there is no need to specify it for the command:
 
-    In production when using an external Zookeeper, its address is specified in solr.in.finna.sh. If you're running SolrCloud with the embedded Zookeeper (for development purposes), you'll need to specify Zookeeper address with the -z parameter (Zookeeper port is Solr's port + 1000):
+        SOLR_INCLUDE=vufind/solr.in.finna.sh vendor/bin/solr zk upconfig -n biblio1 -d vufind/biblio/conf
 
-        SOLR_INCLUDE=vufind/solr.in.finna.sh vendor/bin/solr zk upconfig -z localhost:9983 -n biblio3 -d vufind/biblio/conf
+    If you're running SolrCloud with the embedded Zookeeper (for development purposes), you'll need to specify Zookeeper address with the -z parameter (Zookeeper port is Solr's port + 1000):
 
-    Then you can create a new collection that uses the configuration by calling the collections API:
+        SOLR_INCLUDE=vufind/solr.in.finna.sh vendor/bin/solr zk upconfig -z localhost:9983 -n biblio1 -d vufind/biblio/conf
 
-        curl 'http://localhost:8983/solr/admin/collections?action=CREATE&name=biblio3&numShards=1&replicationFactor=3&collection.configName=biblio3'
+14. Now you can create a new collection that uses the configuration by calling the collections API:
+
+        curl 'http://localhost:8983/solr/admin/collections?action=CREATE&name=biblio1&numShards=1&replicationFactor=3&collection.configName=biblio1'
 
     If you need to create a collection on just a single node of a SolrCloud, you can use the placement rules to
     define the location, e.g.
 
-        curl 'http://localhost:8983/solr/admin/collections?action=CREATE&name=biblio3&numShards=1&replicationFactor=1&collection.configName=biblio3&rule=shard:*,host:domain.somewhere'
+        curl 'http://localhost:8983/solr/admin/collections?action=CREATE&name=biblio1&numShards=1&replicationFactor=1&collection.configName=biblio1&rule=shard:*,host:domain.somewhere'
 
     If you want to have more than one shard per node, use the maxShardsPerNode parameter:
 
-        curl 'http://localhost:8983/solr/admin/collections?action=CREATE&name=biblio3&numShards=3&replicationFactor=3&collection.configName=biblio3&maxShardsPerNode=3'
+        curl 'http://localhost:8983/solr/admin/collections?action=CREATE&name=biblio1&numShards=3&replicationFactor=3&collection.configName=biblio1&maxShardsPerNode=3'
 
     Add a replica to a collection:
 
-        curl 'http://localhost:8983/solr/admin/collections?action=ADDREPLICA&collection=biblio3&shard=shard1&node=domain.somewhere:8983_solr&type=nrt'
+        curl 'http://localhost:8983/solr/admin/collections?action=ADDREPLICA&collection=biblio1&shard=shard1&node=domain.somewhere:8983_solr&type=nrt'
 
     Remove a replica from a collection:
 
-        curl 'http://localhost:8983/solr/admin/collections?action=DELETEREPLICA&collection=biblio3&shard=shard1&replica=core_nodeX'
+        curl 'http://localhost:8983/solr/admin/collections?action=DELETEREPLICA&collection=biblio1&shard=shard1&replica=core_nodeX'
 
     Use an alias to point to the current index version in use. This way you can just point the alias to a new index version when it's ready to use:
 
-        curl 'http://localhost:8983/solr/admin/collections?action=CREATEALIAS&name=biblioprod&collections=biblio3'
+        curl 'http://localhost:8983/solr/admin/collections?action=CREATEALIAS&name=biblioprod&collections=biblio1'
 
     If you need to reload a collection e.g. for new configuration to take effect, you can do it using the collections API:
 
-        curl 'http://localhost:8983/solr/admin/collections?action=RELOAD&name=biblio3'
+        curl 'http://localhost:8983/solr/admin/collections?action=RELOAD&name=biblio1'
 
     When a collection is no longer needed, remove it using the collections API:
 
-        curl 'http://localhost:8983/solr/admin/collections?action=DELETE&name=biblio3'
+        curl 'http://localhost:8983/solr/admin/collections?action=DELETE&name=biblio1'
 
     To check the SolrCloud status:
 
@@ -105,9 +107,9 @@ This is the Finna VuFind configuration for Solr. Important bits:
 
         curl 'http://localhost:8983/solr/admin/collections?action=clusterstatus&wt=json' | json_reformat
 
-    Full docs for the collections API: https://lucene.apache.org/solr/guide/7_1/collections-api.html
+    Full docs for the collections API:https://solr.apache.org/guide/8_11/collections-api.html
 
-13. To run a second Solr instance:
+15. To run a second Solr instance:
 
         scripts/create_instance_dir vufind8984
 
