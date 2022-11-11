@@ -357,4 +357,6 @@
   <copyField source="title_short"   dest="title_short_txtP_lr"/>
   <copyField source="title_alt"     dest="title_alt_txtP_l_mv"/>
   <copyField source="title_alt"     dest="title_alt_txtP_lr_mv"/>
+  <!-- Copy field for anchored holdings location search -->
+  <copyField source="holdings_txtP_mv" dest="holdings_txtP_lr_mv"/>
 </schema>
