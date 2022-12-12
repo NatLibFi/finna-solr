@@ -319,9 +319,11 @@
 
   <!-- documentCache caches Lucene Document objects (the stored fields for each document).
        Since Lucene internal document ids are transient, this cache will not be autowarmed.  -->
+  <!-- N.B. DO NOT USE maxRamMB for the document cache. Solr does not estimate the size of a
+       document properly, and since the setting overrides size, the cache can grow
+       uncontrollably. -->
     <documentCache
       class="solr.CaffeineCache"
-      maxRamMB="128"
       size="1024"
       initialSize="1024"
       autowarmCount="0"/>
