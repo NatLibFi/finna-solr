@@ -257,6 +257,7 @@
   <field name="hierarchy_sequence" type="string" indexed="true" stored="true" multiValued="true"/>
   <field name="is_hierarchy_id" type="string" indexed="true" stored="true" multiValued="false"/>
   <field name="is_hierarchy_title" type="string" indexed="true" stored="true" multiValued="false"/>
+  <field name="title_in_hierarchy" type="string" indexed="true" stored="true" multiValued="true" />
   <field name="hierarchy_browse" type="string" indexed="true" stored="false" multiValued="true" docValues="true"/>
   <!-- Container fields (i.e. for describing journal containing an article) -->
   <field name="container_title" type="text" indexed="true" stored="true" storeOffsetsWithPositions="true"/>
