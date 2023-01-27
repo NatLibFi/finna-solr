@@ -5,7 +5,7 @@ DIR=`dirname $0`
 if [ -z "$SOLR_USER" ]; then
   SOLR_USER=solr
 fi
-JTS_VERSION="1.15.0"
+JTS_VERSION="1.19.0"
 JTS_URL="https://repo1.maven.org/maven2/org/locationtech/jts/jts-core/$JTS_VERSION/jts-core-$JTS_VERSION.jar"
 
 # Check if the correct version is already installed
@@ -38,8 +38,8 @@ fi
 
 if [[ ! -e "$DIR/downloads/solr-$REQUIRED_VERSION.tgz" ]];
 then
-    echo "Downloading Solr $REQUIRED_VERSION from  https://dlcdn.apache.org/lucene/solr/ ..."
-    curl "https://dlcdn.apache.org/lucene/solr/$REQUIRED_VERSION/solr-$REQUIRED_VERSION.tgz" > $DIR/downloads/solr-$REQUIRED_VERSION.tgz
+    echo "Downloading Solr $REQUIRED_VERSION from  https://dlcdn.apache.org/solr/solr/ ..."
+    curl "https://dlcdn.apache.org/solr/solr/$REQUIRED_VERSION/solr-$REQUIRED_VERSION.tgz" > $DIR/downloads/solr-$REQUIRED_VERSION.tgz
 
     size=$(du -m "$DIR/downloads/solr-$REQUIRED_VERSION.tgz" | cut -f 1)
     if [[ $size -lt 100 ]];
@@ -100,13 +100,13 @@ then
     echo "Removing old icu4j jar from $DIR/vufind/lib..."
     rm $DIR/vufind/lib/icu4j-*.jar
 fi
-if ls $DIR/vufind/lib/lucene-analyzers-icu-*.jar > /dev/null 2>&1;
+if ls $DIR/vufind/lib/lucene-analy*-icu-*.jar > /dev/null 2>&1;
 then
-    echo "Removing old lucene-analyzers-icu jar from $DIR/vufind/lib..."
-    rm $DIR/vufind/lib/lucene-analyzers-icu-*.jar
+    echo "Removing old lucene-analy*-icu jar from $DIR/vufind/lib..."
+    rm $DIR/vufind/lib/lucene-analy*-icu-*.jar
 fi
-cp $DIR/vendor/contrib/analysis-extras/lib/icu4j-*.jar $DIR/vufind/lib/
-cp $DIR/vendor/contrib/analysis-extras/lucene-libs/lucene-analyzers-icu-*.jar $DIR/vufind/lib/
+cp $DIR/vendor/modules/analysis-extras/lib/icu4j-*.jar $DIR/vufind/lib/
+cp $DIR/vendor/modules/analysis-extras/lib/lucene-analysis-icu-*.jar $DIR/vufind/lib/
 
 echo $REQUIRED_VERSION > $DIR/vendor/installed_solr_version
 
