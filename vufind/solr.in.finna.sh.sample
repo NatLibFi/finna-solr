@@ -106,3 +106,7 @@ fi
 
 # Uncomment to enable SolrCloud mode
 SOLR_MODE=solrcloud
+
+# The bundled plugins in the "modules" folder can easily be enabled as a comma-separated list in SOLR_MODULES variable
+# SOLR_MODULES=extraction,lt
+SOLR_MODULES=analysis-extras

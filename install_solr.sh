@@ -93,7 +93,7 @@ else
 fi
 
 # Copy libs
-echo "Copying ICU libraries..."
+echo "Removing any copied ICU libraries no longer required..."
 
 if ls $DIR/vufind/lib/icu4j-*.jar > /dev/null 2>&1;
 then
@@ -105,8 +105,6 @@ then
     echo "Removing old lucene-analy*-icu jar from $DIR/vufind/lib..."
     rm $DIR/vufind/lib/lucene-analy*-icu-*.jar
 fi
-cp $DIR/vendor/modules/analysis-extras/lib/icu4j-*.jar $DIR/vufind/lib/
-cp $DIR/vendor/modules/analysis-extras/lib/lucene-analysis-icu-*.jar $DIR/vufind/lib/
 
 echo $REQUIRED_VERSION > $DIR/vendor/installed_solr_version
 
