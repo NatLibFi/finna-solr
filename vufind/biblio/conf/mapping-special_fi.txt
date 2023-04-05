@@ -4,10 +4,13 @@
 # ø  [LATIN SMALL LETTER O WITH STROKE]
 "\u00F8" => "ö"
 
+# & => and for searches like "God & Nature"
+"&" => "(zzzetzzz)"
+
 "Ö" => "ö"
 "Ä" => "ä"
 "Å" => "å"
-"'" => ""
+
 # Solr utr30 BasicFoldings maps these to apostrophe, let's get rid of them
 "\u2018" => ""
 "\u2019" => ""

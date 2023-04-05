@@ -3,8 +3,9 @@
   <fieldType name="string" class="solr.StrField" sortMissingLast="true" omitNorms="true" positionIncrementGap="100" uninvertible="false"/>
   <fieldType name="text" class="solr.TextField" positionIncrementGap="100" uninvertible="false">
     <analyzer type="index">
-      <tokenizer class="solr.ICUTokenizerFactory"/>
       <charFilter class="solr.MappingCharFilterFactory" mapping="mapping-special_fi.txt"/>
+      <tokenizer class="solr.ICUTokenizerFactory"/>
+      <filter class="solr.ElisionFilterFactory" ignoreCase="true"/>
       <filter class="solr.ICUFoldingFilterFactory" filter="[^åäöÅÄÖ]"/>
       <filter class="solr.WordDelimiterGraphFilterFactory" generateWordParts="1" generateNumberParts="1" catenateWords="1" catenateNumbers="1" catenateAll="0" preserveOriginal="1" splitOnCaseChange="0" protected="delim_protected.txt"/>
       <filter class="solr.FlattenGraphFilterFactory"/> <!-- required on index analyzers after graph filters -->
@@ -14,8 +15,9 @@
       <filter class="solr.RemoveDuplicatesTokenFilterFactory"/>
     </analyzer>
     <analyzer type="query">
-      <tokenizer class="solr.ICUTokenizerFactory"/>
       <charFilter class="solr.MappingCharFilterFactory" mapping="mapping-special_fi.txt"/>
+      <tokenizer class="solr.ICUTokenizerFactory"/>
+      <filter class="solr.ElisionFilterFactory" ignoreCase="true"/>
       <filter class="solr.ICUFoldingFilterFactory" filter="[^åäöÅÄÖ]"/>
       <filter class="solr.SynonymGraphFilterFactory" synonyms="synonyms.txt" ignoreCase="true" expand="true"/>
       <filter class="solr.WordDelimiterGraphFilterFactory" generateWordParts="1" generateNumberParts="1" catenateWords="0" catenateNumbers="0" catenateAll="0" preserveOriginal="1" splitOnCaseChange="0" protected="delim_protected.txt"/>
@@ -28,16 +30,17 @@
   <!-- Text Field without Stemming and Synonyms -->
   <fieldType name="textProper" class="solr.TextField" positionIncrementGap="100" uninvertible="false">
     <analyzer type="index">
-      <tokenizer class="solr.ICUTokenizerFactory"/>
       <charFilter class="solr.MappingCharFilterFactory" mapping="mapping-special_fi.txt"/>
+      <tokenizer class="solr.ICUTokenizerFactory"/>
+      <filter class="solr.ElisionFilterFactory" ignoreCase="true"/>
       <filter class="solr.ICUFoldingFilterFactory" filter="[^åäöÅÄÖ]"/>
       <filter class="solr.WordDelimiterGraphFilterFactory" generateWordParts="1" generateNumberParts="1" catenateWords="1" catenateNumbers="1" catenateAll="0" preserveOriginal="1" protected="delim_protected.txt"/>
       <filter class="solr.FlattenGraphFilterFactory"/> <!-- required on index analyzers after graph filters -->
-      <filter class="solr.ICUFoldingFilterFactory" filter="[^åäöÅÄÖ]"/>
       <filter class="solr.RemoveDuplicatesTokenFilterFactory"/>
     </analyzer>
     <analyzer type="query">
       <tokenizer class="solr.ICUTokenizerFactory"/>
+      <filter class="solr.ElisionFilterFactory" ignoreCase="true"/>
       <charFilter class="solr.MappingCharFilterFactory" mapping="mapping-special_fi.txt"/>
       <filter class="solr.ICUFoldingFilterFactory" filter="[^åäöÅÄÖ]"/>
       <filter class="solr.WordDelimiterGraphFilterFactory" generateWordParts="1" generateNumberParts="1" catenateWords="0" catenateNumbers="0" catenateAll="0" preserveOriginal="1" protected="delim_protected.txt"/>
@@ -47,42 +50,62 @@
   <!-- Left-anchored text field -->
   <fieldType name="textProper_l" class="solr.TextField" positionIncrementGap="1000" uninvertible="false">
     <analyzer type="index">
+      <!-- Filter elisions -->
+      <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="^([Ll]|[Mm]|[Tt]|[QU|Qu|qu]|[Nn]|[Ss]|[Jj]|[Dd]|[Cc]|[JUSQU|Jusqu|jusqu]|[QUOIQU|Quoiqu|quoiqu]|[LORSQU|Lorsqu|lorsqu]|[PUISQU|Puisqu|puisqu])'" replacement="" />
+
       <!-- Strip out non-letter and non-numeric characters -->
+      <charFilter class="solr.MappingCharFilterFactory" mapping="mapping-special_fi.txt"/>
       <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="[^\s\p{L}\p{N}]+" replacement=" " />
       <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="\s+" replacement=" " />
       <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="^\s*(.*?)\s*$" replacement="$1" />
+
       <tokenizer class="solr.PathHierarchyTokenizerFactory" delimiter=" "/>
-      <charFilter class="solr.MappingCharFilterFactory" mapping="mapping-special_fi.txt"/>
+      <filter class="solr.ElisionFilterFactory" ignoreCase="true"/>
       <filter class="solr.ICUFoldingFilterFactory" filter="[^åäöÅÄÖ]"/>
     </analyzer>
     <analyzer type="query">
-      <!-- Strip out non-letter and non-numeric characters -->
+      <!-- Filter elisions -->
+      <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="^([Ll]|[Mm]|[Tt]|[QU|Qu|qu]|[Nn]|[Ss]|[Jj]|[Dd]|[Cc]|[JUSQU|Jusqu|jusqu]|[QUOIQU|Quoiqu|quoiqu]|[LORSQU|Lorsqu|lorsqu]|[PUISQU|Puisqu|puisqu])'" replacement="" />
+
+      <!-- Strip out non-letter and non-numeric characters apart from apostrophe -->
+      <charFilter class="solr.MappingCharFilterFactory" mapping="mapping-special_fi.txt"/>
       <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="[^\s\p{L}\p{N}]+" replacement=" " />
       <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="\s+" replacement=" " />
       <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="^\s*(.*?)\s*$" replacement="$1" />
+
       <tokenizer class="solr.KeywordTokenizerFactory"/>
-      <charFilter class="solr.MappingCharFilterFactory" mapping="mapping-special_fi.txt"/>
+      <filter class="solr.ElisionFilterFactory" ignoreCase="true"/>
       <filter class="solr.ICUFoldingFilterFactory" filter="[^åäöÅÄÖ]"/>
     </analyzer>
   </fieldType>
   <!-- Left- and right-anchored text field -->
   <fieldType name="textProper_lr" class="solr.TextField" positionIncrementGap="1000" uninvertible="false">
     <analyzer type="index">
-      <tokenizer class="solr.KeywordTokenizerFactory"/>
+      <!-- Filter elisions -->
+      <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="^([Ll]|[Mm]|[Tt]|[QU|Qu|qu]|[Nn]|[Ss]|[Jj]|[Dd]|[Cc]|[JUSQU|Jusqu|jusqu]|[QUOIQU|Quoiqu|quoiqu]|[LORSQU|Lorsqu|lorsqu]|[PUISQU|Puisqu|puisqu])'" replacement="" />
+
       <!-- Strip out non-letter and non-numeric characters -->
+      <charFilter class="solr.MappingCharFilterFactory" mapping="mapping-special_fi.txt"/>
       <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="[^\s\p{L}\p{N}]+" replacement=" " />
       <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="\s+" replacement=" " />
       <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="^\s*(.*?)\s*$" replacement="$1" />
-      <charFilter class="solr.MappingCharFilterFactory" mapping="mapping-special_fi.txt"/>
+
+      <tokenizer class="solr.KeywordTokenizerFactory"/>
+      <filter class="solr.ElisionFilterFactory" ignoreCase="true"/>
       <filter class="solr.ICUFoldingFilterFactory" filter="[^åäöÅÄÖ]"/>
     </analyzer>
     <analyzer type="query">
-      <tokenizer class="solr.KeywordTokenizerFactory"/>
+      <!-- Filter elisions -->
+      <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="^([Ll]|[Mm]|[Tt]|[QU|Qu|qu]|[Nn]|[Ss]|[Jj]|[Dd]|[Cc]|[JUSQU|Jusqu|jusqu]|[QUOIQU|Quoiqu|quoiqu]|[LORSQU|Lorsqu|lorsqu]|[PUISQU|Puisqu|puisqu])'" replacement="" />
+
       <!-- Strip out non-letter and non-numeric characters -->
+      <charFilter class="solr.MappingCharFilterFactory" mapping="mapping-special_fi.txt"/>
       <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="[^\s\p{L}\p{N}]+" replacement=" " />
       <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="\s+" replacement=" " />
       <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="^\s*(.*?)\s*$" replacement="$1" />
-      <charFilter class="solr.MappingCharFilterFactory" mapping="mapping-special_fi.txt"/>
+
+      <tokenizer class="solr.KeywordTokenizerFactory"/>
+      <filter class="solr.ElisionFilterFactory" ignoreCase="true"/>
       <filter class="solr.ICUFoldingFilterFactory" filter="[^åäöÅÄÖ]"/>
     </analyzer>
   </fieldType>
@@ -90,8 +113,8 @@
   <!-- Basic Text Field for use with Spell Correction -->
   <fieldType name="textSpell" class="solr.TextField" positionIncrementGap="100" uninvertible="false">
     <analyzer>
-      <tokenizer class="solr.ICUTokenizerFactory"/>
       <charFilter class="solr.MappingCharFilterFactory" mapping="mapping-special_fi.txt"/>
+      <tokenizer class="solr.ICUTokenizerFactory"/>
       <filter class="solr.ICUFoldingFilterFactory" filter="[^åäöÅÄÖ]"/>
       <filter class="solr.WordDelimiterGraphFilterFactory" generateWordParts="1" generateNumberParts="1" catenateWords="0" catenateNumbers="0" catenateAll="0" protected="delim_protected.txt"/>
       <filter class="solr.FlattenGraphFilterFactory"/> <!-- required on index analyzers after graph filters -->
@@ -101,15 +124,15 @@
   <!-- More advanced spell checking field. -->
   <fieldType name="textSpellShingle" class="solr.TextField" positionIncrementGap="100" uninvertible="false">
     <analyzer type="index">
-      <tokenizer class="solr.ICUTokenizerFactory"/>
       <charFilter class="solr.MappingCharFilterFactory" mapping="mapping-special_fi.txt"/>
+      <tokenizer class="solr.ICUTokenizerFactory"/>
       <filter class="solr.ICUFoldingFilterFactory" filter="[^åäöÅÄÖ]"/>
       <filter class="solr.ShingleFilterFactory" maxShingleSize="2" outputUnigrams="false"/>
       <filter class="solr.RemoveDuplicatesTokenFilterFactory"/>
     </analyzer>
     <analyzer type="query">
-      <tokenizer class="solr.ICUTokenizerFactory"/>
       <charFilter class="solr.MappingCharFilterFactory" mapping="mapping-special_fi.txt"/>
+      <tokenizer class="solr.ICUTokenizerFactory"/>
       <filter class="solr.ICUFoldingFilterFactory" filter="[^åäöÅÄÖ]"/>
       <filter class="solr.ShingleFilterFactory" maxShingleSize="2" outputUnigrams="false"/>
       <filter class="solr.RemoveDuplicatesTokenFilterFactory"/>
