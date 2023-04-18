@@ -46,7 +46,7 @@ then
     then
         # File too small, try Solr archives
         echo "Downloading Solr $REQUIRED_VERSION from Apache Solr archives..."
-        curl "http://archive.apache.org/dist/solr/$REQUIRED_VERSION/solr-$REQUIRED_VERSION.tgz" > $DIR/downloads/solr-$REQUIRED_VERSION.tgz
+        curl "https://archive.apache.org/dist/solr/solr/$REQUIRED_VERSION/solr-$REQUIRED_VERSION.tgz" > $DIR/downloads/solr-$REQUIRED_VERSION.tgz
     fi
 
     size=$(du -m "$DIR/downloads/solr-$REQUIRED_VERSION.tgz" | cut -f 1)
