@@ -110,3 +110,7 @@ SOLR_MODE=solrcloud
 # The bundled plugins in the "modules" folder can easily be enabled as a comma-separated list in SOLR_MODULES variable
 # SOLR_MODULES=extraction,lt
 SOLR_MODULES=analysis-extras
+
+# Uncomment the following line to disable Java Security Manager if required to avoid
+# permission errors e.g. in a development environment:
+#SOLR_SECURITY_MANAGER_ENABLED=false
