@@ -308,7 +308,7 @@
       maxRamMB="128"
       size="16384"
       initialSize="4096"
-      autowarmCount="1000"/>
+      autowarmCount="0"/>
 
     <fieldValueCache
       class="solr.CaffeineCache"
