@@ -112,8 +112,8 @@
          maxTime - oldest uncommited update (in ms) is this long ago
     -->
      <autoCommit>
-       <maxTime>180000</maxTime>
-       <openSearcher>false</openSearcher>
+       <maxTime>300000</maxTime>
+       <openSearcher>true</openSearcher>
      </autoCommit>
 
     <!-- The RunExecutableListener executes an external command.
