@@ -217,10 +217,10 @@
            searcher to be opened to make those changes visible.
 
          If the updateLog is enabled, then it's highly recommended to
-         have some sort of hard autoCommit to limit the log size.
+         have some sort of hard autoCommit to limit the log sze.
       -->
     <autoCommit>
-      <maxTime>120000</maxTime>
+      <maxTime>300000</maxTime>
       <openSearcher>true</openSearcher>
     </autoCommit>
 
