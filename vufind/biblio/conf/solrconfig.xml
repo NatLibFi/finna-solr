@@ -220,7 +220,7 @@
          have some sort of hard autoCommit to limit the log sze.
       -->
     <autoCommit>
-      <maxTime>300000</maxTime>
+      <maxTime>180000</maxTime>
       <openSearcher>true</openSearcher>
     </autoCommit>
 
