@@ -230,7 +230,7 @@
   <field name="oclc_num" type="string" indexed="true" stored="false" docValues="true" multiValued="true" />
   <field name="callnumber-first" type="string" indexed="true" stored="false" docValues="true"/>
   <field name="callnumber-subject" type="string" indexed="true" stored="false" docValues="true"/>
-  <field name="callnumber-label" type="string" indexed="true" stored="false" docValues="true"/>
+  <field name="callnumber-label" type="string" indexed="true" stored="false" docValues="true" multiValued="true"/>
   <field name="callnumber-sort" type="string" indexed="true" stored="false" docValues="true"/>
   <field name="callnumber-raw" type="string" indexed="true" stored="false" multiValued="true" />
   <field name="callnumber-search" type="callnumberSearch" indexed="true" stored="true" multiValued="true" />
