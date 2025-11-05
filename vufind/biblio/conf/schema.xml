@@ -275,7 +275,7 @@
   <!-- Hierarchy Fields -->
   <field name="hierarchytype" type="string" indexed="true" stored="true" multiValued="false"/>
   <field name="hierarchy_top_id" type="string" indexed="true" stored="true" multiValued="true"/>
-  <field name="hierarchy_top_title" type="string" indexed="true" stored="true" multiValued="true"/>
+  <field name="hierarchy_top_title" type="string" indexed="true" stored="true" multiValued="true" docValues="true"/>
   <field name="hierarchy_parent_id" type="string" indexed="true" stored="true" multiValued="true"/>
   <field name="hierarchy_parent_title" type="string" indexed="true" stored="true" multiValued="true" docValues="true"/>
   <field name="hierarchy_sequence" type="string" indexed="true" stored="true" multiValued="true"/>
