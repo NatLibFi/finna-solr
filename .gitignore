@@ -2,4 +2,8 @@ downloads
 vendor
 vufind/lib/lucene-analyzers-icu-*.jar
 vufind/lib/icu4j-*.jar
-
+vufind/*shard*
+vufind/logs/*.log*
+vufind/zoo_data
+vufind/solr.in.finna.sh
+.vscode
