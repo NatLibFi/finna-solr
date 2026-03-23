@@ -59,6 +59,22 @@
       <DefaultRolloverStrategy max="10"/>
     </RollingFile>
 
+    <RollingFile
+        name="RequestFile"
+        fileName="${sys:solr.log.dir}/solr_requests.log"
+        filePattern="${sys:solr.log.dir}/solr_requests.log.%i" >
+      <PatternLayout>
+        <Pattern>
+          %d{yyyy-MM-dd HH:mm:ss.SSS} %-5p (%t) [%X{collection} %X{shard} %X{replica} %X{core}] %c{1.} %m%n
+        </Pattern>
+      </PatternLayout>
+      <Policies>
+        <OnStartupTriggeringPolicy />
+        <SizeBasedTriggeringPolicy size="1024 MB"/>
+      </Policies>
+      <DefaultRolloverStrategy max="10"/>
+    </RollingFile>
+
   </Appenders>
   <Loggers>
     <Logger name="org.apache.hadoop" level="warn"/>
@@ -66,6 +82,10 @@
     <Logger name="org.apache.zookeeper" level="warn"/>
     <Logger name="org.apache.solr.core.SolrCore.SlowRequest" level="info" additivity="false">
       <AppenderRef ref="SlowFile"/>
+    </Logger>
+    <!-- Add a separate log for requests and disable additivity to prevent root logger from handling it -->
+    <Logger name="org.apache.solr.core.SolrCore.Request" level="info" additivity="false">
+      <AppenderRef ref="RequestFile"/>
     </Logger>
 
     <Root level="info">
