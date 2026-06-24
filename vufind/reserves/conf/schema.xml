@@ -1,9 +1,9 @@
 <?xml version="1.0" ?>
-<schema name="VuFind Course Reserves Index" version="1.6">
+<schema name="VuFind Course Reserves Index" version="1.7">
   <fieldtype name="string" class="solr.StrField" sortMissingLast="true" omitNorms="true"/>
   <fieldtype name="boolean" class="solr.BoolField" sortMissingLast="true" omitNorms="true"/>
   <fieldtype name="date" class="solr.DatePointField" sortMissingLast="true" omitNorms="true"/>
-  <fieldType name="text" class="solr.TextField" positionIncrementGap="100" uninvertible="false">
+  <fieldType name="text" class="solr.TextField" positionIncrementGap="100">
     <analyzer type="index">
       <tokenizer class="solr.ICUTokenizerFactory"/>
       <charFilter class="solr.MappingCharFilterFactory" mapping="mapping-special_fi.txt"/>
@@ -27,7 +27,7 @@
       <filter class="solr.RemoveDuplicatesTokenFilterFactory"/>
     </analyzer>
   </fieldType>
-  <fieldType name="long" class="solr.LongPointField" positionIncrementGap="0" docValues="true" uninvertible="false"/>
+  <fieldType name="long" class="solr.LongPointField" positionIncrementGap="0"/>
 
   <field name="id" type="string" indexed="true" stored="true"/>
   <field name="bib_id" type="string" indexed="true" stored="true" multiValued="true"/>
